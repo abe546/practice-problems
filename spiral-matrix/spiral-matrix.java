@@ -1,35 +1,34 @@
-class Solution {
-    public List<Integer> spiralOrder(int[][] matrix) {
-        LinkedList<Integer> list = new LinkedList();
-​
-        if(matrix.length == 2 && matrix[0].length ==1)
-        {
-            list.add(matrix[0][0]);
-            list.add(matrix[1][0]);
-            return list;
-        }
-        
-        if(matrix.length == 0)
-        {
-            return Collections.EMPTY_LIST;
-        }
-​
-       
-​
-            for (int i = 0; i < 1; i++) {
-                for (int j = 0; j < matrix[0].length; j++) {
-                    list.add(matrix[i][j]);
+            for(int i = right; i >= left; i--)
+            {
+                if(entry > matrix[0].length * matrix.length)
+                {
+                    break;
                 }
-      
+                
+                answer.add(matrix[down][i]);
+                entry++;
 ​
-            //Rotate the entire matrix system 90 degrees to the left
-​
-            int[][] tmpArray = rotateArray90DegreesToTheLeft(matrix);
-​
-            list.addAll(spiralOrder(tmpArray));
+            }
+            down--;
+            
+            //Go UP
+            for(int i = down; i >= up; i--)
+            {
+                if(entry > matrix[0].length * matrix.length)
+                {
+                    break;
+                }
+                
+                answer.add(matrix[i][left]);
+                entry++;
+            }
+            
+            left++;
         }
-​
-         return list;
+  
+        
+        return answer; 
+        
     }
     
     public int[][] rotateArray90DegreesToTheLeft(int[][] matrix) {
@@ -47,4 +46,3 @@ class Solution {
         return tmpArray;
     }
 }
-           
