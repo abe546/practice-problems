@@ -1,24 +1,29 @@
 class Solution {
     public int scoreOfParentheses(String S) {
-        return validParens(S, 0, 0);
-    }
-    
-    public int validParens(String input, int i, int depth)
-    {   int answer = 0; 
-        char prev = '0';
-       for (char cur : input.toCharArray()) {
-             
-           if(cur == '(')
+        int answer = 0; 
+        
+        char previous = '0';
+        int in = 0; 
+        for(char item : S.toCharArray())
+        {
+            if(item == '(')
             {
-                depth+=1;    
-            }else if(cur == ')')
-           {
-               depth-=1;
-           }
-            if (prev == '(' && cur == ')')
-                answer += Math.pow(2,depth);
-            prev = cur;
+                in++;
+            }else if(item == ')')
+            {
+                in--;
+            }
+            
+            if(item == ')' && previous == '(')
+            {
+                answer+= Math.pow(2, in);
+            }
+            
+            previous = item;
         }
+        
         return answer;
     }
+    
+  
 }
