@@ -15,9 +15,7 @@ class Solution {
             {
                 seen.put(item, 1); 
             }
-            
-            System.out.println("ITEM : "+item);
-            System.out.println(seen.get(item));
+          
             
             max = Math.max(seen.get(item), max); 
       
