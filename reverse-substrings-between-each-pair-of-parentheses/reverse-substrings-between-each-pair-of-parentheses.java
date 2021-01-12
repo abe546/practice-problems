@@ -8,7 +8,7 @@ class Solution {
         reverseStringBetweenParens(s, reverseString, 0, first, last);
         
      
-        return reverseString.reverse().toString();
+        return reverseString.toString();
     }
     
     public int reverseStringBetweenParens(String input, StringBuilder reverseString, int index, int first, int last)
@@ -35,7 +35,7 @@ class Solution {
             }
         }
         
-        reverseString.append(stringBuilder.reverse().toString()); 
+        reverseString.append(stringBuilder.toString()); 
         
         return input.length(); 
     
