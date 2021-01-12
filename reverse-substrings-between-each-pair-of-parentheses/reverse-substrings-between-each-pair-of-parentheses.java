@@ -38,6 +38,3 @@ class Solution {
         reverseString.append(stringBuilder.toString()); 
         
         return input.length(); 
-    
-    }
-}
