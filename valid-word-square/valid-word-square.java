@@ -24,3 +24,14 @@ class Solution {
        // System.out.println("LIST : "+list); 
         
         return true; 
+    }
+    
+    public void combinations(List<String> words, int index)
+    {
+        for(int i = index; i < words.size(); i++)
+        {
+            String word1 = words.get(i); 
+            words.set(i, words.get(index));
+            words.set(index, word1);
+            
+            combinations(words, index+1);
