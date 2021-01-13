@@ -36,16 +36,14 @@ class Solution {
                     {
                         safeNodes.add(item); 
                         
-                        if(j == graph[i].length -1)
-                {
+                   if(j == graph[i].length -1)
+                   {
                     safeNodes.add(i); 
-                }
+                    }
                         
                         continue;
                     }
-                    
-                   
-                    
+                
                     break;
                 }
            
@@ -57,3 +55,45 @@ class Solution {
                 
             }
            
+        }
+       
+        List<Integer> answer = new LinkedList(); 
+        
+        answer.addAll(safeNodes);
+        
+        Collections.sort(answer); 
+        
+           return answer; 
+    }
+    
+    public boolean isThisSafe(int node, int parent, int[][] graph)
+    {
+        if(seen.contains(node))
+        {
+          
+            return false; 
+        }
+        
+        seen.add(node); 
+        
+        for(int item : graph[node])
+        {
+            if(!safeNodes.contains(item))
+            {
+                if(isThisSafe(item, node, graph))
+                {
+                    continue;
+                }
+              
+                return false; 
+            }
+        }
+        
+        safeNodes.add(node); 
+     
+        
+        return true; 
+    }
+    
+ 
+}
