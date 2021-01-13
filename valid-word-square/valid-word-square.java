@@ -1,5 +1,9 @@
 class Solution {
+        List<List<String>> list = new LinkedList(); 
+​
     public boolean validWordSquare(List<String> words) {
+        //combinations(words, 0);
+        
         for(int j = 0; j < words.size(); j++){
         for(int i = 0; i < words.get(j).length(); i++)
         {
@@ -17,6 +21,6 @@ class Solution {
         }
         }
         
+       // System.out.println("LIST : "+list); 
+        
         return true; 
-    }
-}
