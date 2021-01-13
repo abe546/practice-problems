@@ -1,21 +1,42 @@
 class Solution {
+    int[][] memory;
     public int minFallingPathSum(int[][] A) {
-        int N = A.length;
-        for (int r = N-2; r >= 0; --r) {
-            for (int c = 0; c < N; ++c) {
-                // best = min(A[r+1][c-1], A[r+1][c], A[r+1][c+1])
-                int best = A[r+1][c];
-                if (c > 0)
-                    best = Math.min(best, A[r+1][c-1]);
-                if (c+1 < N)
-                    best = Math.min(best, A[r+1][c+1]);
-                A[r][c] += best;
+        
+        int answer = Integer.MAX_VALUE;
+        int[][] memory = new int[A.length][A[0].length];
+        
+        //Copy input array over
+        for(int i = 0; i < A.length; i++)
+        {
+            for(int j = 0; j < A[0].length; j++)
+            {
+                memory[i][j] = A[i][j];
             }
         }
-​
-        int ans = Integer.MAX_VALUE;
-        for (int x: A[0])
-            ans = Math.min(ans, x);
-        return ans;
-    }
-}
+        
+        for(int row = A.length-2; row >= 0; row--)
+        {    
+            for(int column = 0; column < A[0].length; column++)
+            {
+                //Check to see what is the minimum, eitther left, right middle
+                int leftIndex = column - 1;
+                int rightIndex = column + 1;
+               
+                int sum = memory[row+1][column];
+                
+                if(leftIndex >= 0)
+                {
+                    sum = Math.min(sum,  memory[row+1][leftIndex]);
+                }
+                
+                if(rightIndex < A.length  )
+                {
+                    sum = Math.min(sum, memory[row+1][rightIndex]);
+                }
+                
+                
+                memory[row][column] += sum;
+                        
+        }
+        }
+        
