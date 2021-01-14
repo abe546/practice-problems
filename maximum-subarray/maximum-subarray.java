@@ -8,7 +8,13 @@ class Solution {
         {
             int item = nums[i];
             
-            currentSum = Math.max(currentSum+item, item); 
+            if(currentSum + item < item)
+            {
+                currentSum = item;
+            }else
+            {
+                currentSum += item; 
+            }
             
             finalSum = Math.max(finalSum, currentSum); 
         }
