@@ -37,11 +37,12 @@ class Solution {
             int a = i+ijIndex[0]; 
             int b = j+ijIndex[1];
             if(a >=0 && a < matrix.length && b >=0 && b < matrix[0].length && matrix[a][b] > matrix[i][j]){
-            visited[i][j] = Math.max(visited[i][j], explore(matrix, a, b, visited, level+1)); 
+            visited[i][j] = Math.max(visited[i][j], explore(matrix, a, b, visited, level)); 
             }
         }
-        
-        return visited[i][j]+=1; 
+     
+        visited[i][j] +=1;
+        return visited[i][j]; 
         
     }
 }
