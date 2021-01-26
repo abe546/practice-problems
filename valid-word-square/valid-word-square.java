@@ -35,3 +35,21 @@ class Solution {
             words.set(index, word1);
             
             combinations(words, index+1);
+            
+            //Reset : 
+            words.set(index, words.get(i));
+            words.set(i, word1);
+        }
+        
+        if(index == words.size() -1)
+        {
+             List<String> tmp = new LinkedList();
+            for(int i =0; i < words.size(); i++)
+            {
+               tmp.add(words.get(i));
+            }
+            list.add(tmp); 
+​
+        }
+    }
+}
