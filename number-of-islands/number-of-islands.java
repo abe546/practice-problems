@@ -1,26 +1,49 @@
-            int size = list.size(); 
+        }
+      }
+      
+      if(!contains1)
+      {
+        return 0; 
+      }
+      int count =0; 
+      ignore = new boolean[grid.length][grid[0].length]; 
+      
+     
+      
+      for(int i=0; i<grid.length; i++)
+      {
+        for(int j=0; j<grid[0].length; j++)
+        {
+          if(grid[i][j] == '1' && ignore[i][j] == false)
+          {
+              Stack<List<Integer>> stack = new Stack();
+             List<Integer> tmp = new ArrayList(); 
+            tmp.add(i); tmp.add(j); 
+            stack.push(tmp);
+           
             
-            for(int k=0; k<size;k++)
+            while(!stack.isEmpty())
             {
-              int x=list.get(k).get(0); 
-              int y = list.get(k).get(1); 
+                List<Integer> list = stack.pop();
+                
+              int x=list.get(0); 
+              int y = list.get(1); 
               
               ignore[x][y] = true; 
               
-              explore(x, y, grid, list, ignore); 
-              
-              size = list.size(); 
+              explore(x, y, grid, stack, ignore); 
+           
             }
             count++; 
           }
-          list.clear(); 
+        
         }
       }
       
       return count; 
     }
   
-  public void explore(int i, int j, char[][] grid, List<List<Integer>> list, boolean[][] ignore)
+  public void explore(int i, int j, char[][] grid, Stack<List<Integer>> stack, boolean[][] ignore)
   {
     
     
@@ -35,7 +58,7 @@
         {
           List<Integer> tmp = new ArrayList(); 
           tmp.add(x); tmp.add(y); 
-          list.add(tmp); 
+          stack.push(tmp);
           
           ignore[x][y] = true; 
           
