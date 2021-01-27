@@ -1,3 +1,4 @@
+[Discussion Post (created on 26/0/2021 at 22:21)](https://leetcode.com/problems/course-schedule-ii/discuss/1036894/Java-Recursion-Solution-With-Comments)  
 <h2>210. Course Schedule II</h2><h3>Medium</h3><hr><div><p>There are a total of <code>n</code> courses you have to take labelled from <code>0</code> to <code>n - 1</code>.</p>
 
 <p>Some courses may have <code>prerequisites</code>, for example, if&nbsp;<code>prerequisites[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;this means you must take the course <code>b<sub>i</sub></code> before the course <code>a<sub>i</sub></code>.</p>
