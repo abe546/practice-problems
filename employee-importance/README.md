@@ -1,3 +1,4 @@
+[Discussion Post (created on 3/1/2021 at 1:53)](https://leetcode.com/problems/employee-importance/solution/)  
 <h2>690. Employee Importance</h2><h3>Easy</h3><hr><div><p>You are given a data structure of employee information, which includes the employee's <b>unique id</b>, their&nbsp;<b>importance value</b> and their&nbsp;<b>direct</b> subordinates' id.</p>
 
 <p>For example, employee 1 is the leader of employee 2, and employee 2 is the leader of employee 3. They have importance value 15, 10 and 5, respectively. Then employee 1 has a data structure like [1, 15, [2]], and employee 2 has [2, 10, [3]], and employee 3 has [3, 5, []]. Note that although employee 3 is also a subordinate of employee 1, the relationship is <b>not direct</b>.</p>
