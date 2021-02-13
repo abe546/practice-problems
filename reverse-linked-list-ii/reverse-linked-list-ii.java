@@ -74,7 +74,8 @@ class Solution {
             return newLink;
         }
        
-        //We return null to signify that the beforeCurrent is non null and can act as a connection, so we can use origin
+        //We return null to signify that the beforeCurrent is non null and can act as a connection, so we can use origin from before. No need to return a link, we can 
+        //use the original head 
         return null; 
     }
 }
