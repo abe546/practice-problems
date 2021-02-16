@@ -1,3 +1,4 @@
+[Discussion Post (created on 16/1/2021 at 18:19)](https://leetcode.com/problems/critical-connections-in-a-network/submissions/)  
 <h2>1192. Critical Connections in a Network</h2><h3>Hard</h3><hr><div><p>There are&nbsp;<code>n</code> servers numbered from&nbsp;<code>0</code>&nbsp;to&nbsp;<code>n-1</code> connected by&nbsp;undirected server-to-server <code>connections</code> forming a network where <code>connections[i] = [a, b]</code>&nbsp;represents a connection between servers <code>a</code>&nbsp;and <code>b</code>. Any server can reach any other server directly or indirectly through the network.</p>
 
 <p>A <em>critical connection</em>&nbsp;is a connection that, if removed, will make some server unable to reach some other server.</p>
