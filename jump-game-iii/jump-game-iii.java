@@ -44,9 +44,5 @@ class Solution {
         return cache.get(start); 
         
     }
-    
-    public String format(int index, int value)
-    {
-        return String.format("%s:%s", index, value); 
-    }
+ 
 }
