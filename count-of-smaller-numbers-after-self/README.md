@@ -1,3 +1,4 @@
+[Discussion Post (created on 21/1/2021 at 4:11)](https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/?currentPage=1&orderBy=hot&query=)  
 <h2>315. Count of Smaller Numbers After Self</h2><h3>Hard</h3><hr><div><p>You are given an integer array <i>nums</i> and you have to return a new <i>counts</i> array. The <i>counts</i> array has the property where <code>counts[i]</code> is the number of smaller elements to the right of <code>nums[i]</code>.</p>
 
 <p>&nbsp;</p>
