@@ -5,8 +5,7 @@ class Solution {
         {
           return 0; 
         }
-        
-        int count = 0; 
+ 
         int[] memory = new int[nums.length]; 
         
         memory[0] = 1;  
