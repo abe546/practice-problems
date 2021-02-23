@@ -38,14 +38,18 @@ class Solution {
             int x = i + dir[0]; 
             int y = j + dir[1];
             
-            if(x >= 0 && x < matrix.length && y >= 0 && y < matrix[0].length && matrix[x][y] > matrix[i][j])
+            if(x >= 0 && x < matrix.length &&
+               y >= 0 && y < matrix[0].length && 
+               matrix[x][y] > matrix[i][j])
             {  
-                memoryPath[i][j] = Math.max(memoryPath[i][j], traverseMatrix(matrix, x, y, level+1)); 
+                memoryPath[i][j] = Math.
+                    max(memoryPath[i][j], 
+                        traverseMatrix(matrix, x, y, level+1)); 
             
             }
         }
         
-        memoryPath[i][j] += 1; 
+        memoryPath[i][j] +=  1; 
         
         return memoryPath[i][j]; 
     }
