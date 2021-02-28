@@ -34,9 +34,7 @@ class Solution {
         
         int tmpScore = scoreRight; 
         for(int i = cardPoints.length; i < extendedArr.length; i++)
-        {
-            System.out.println("EXTENDED ARR [i] "+extendedArr[i]); 
-            
+        { 
             tmpScore = tmpScore - deque.getFirst();
             tmpScore += extendedArr[i]; 
             deque.removeFirst(); 
