@@ -1,37 +1,30 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
  
-        if(nums == null || nums.length == 0)
-        {
-          return 0; 
-        }
- 
-        int[] memory = new int[nums.length]; 
+    int[] subsequence = new int[nums.length]; 
         
-        memory[0] = 1;  
+    Arrays.fill(subsequence, 1); //Each item occurs at least once
         
-        for(int i = 1; i < nums.length; i++)
+    for(int i = 0; i < nums.length; i++)
+    {
+        for(int j = 0; j < i; j++)
         {
-            int myMemory = 0;
-            
-            for(int j = 0; j < i; j++)
+            if(nums[i] > nums[j])
             {
-                if(nums[i] > nums[j])
-                {
-                    myMemory = Math.max(memory[j], myMemory);
-                }
+                //+1 to count ourselves
+                subsequence[i] = Math.max(subsequence[i], subsequence[j]+1); 
             }
-            
-            memory[i] = myMemory + 1; //The 1 represents self 
         }
+    }
         
-        int max = 0; 
+    int max = 0; 
         
-        for(int item : memory)
-        {
-            max = Math.max(item, max); 
-        }
+    for(int item : subsequence)
+    {
+        max = Math.max(max, item);
+    }
         
-        return max;
+        return max; 
+        
     }
 }
