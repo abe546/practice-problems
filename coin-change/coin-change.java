@@ -3,42 +3,36 @@ class Solution {
        
         if(amount == 0)
         {
-            return 0; 
+            return 0;
         }
         
+        int[] combos = new int[amount+1]; 
+        
+        Arrays.fill(combos, amount+1); 
         Arrays.sort(coins); 
+        combos[0] = 0; 
         
-        int minimumCoins = -1; 
-  
         
-        //Repeatedly try to find the largest item less than amount
-        int amountCopy = amount;
-        int sum = 0;
-        
-        int[] arr = new int[amount+1];
-        Arrays.fill(arr, amount+1);
-        arr[0] = 0; 
-        int count = 1; 
-        while(count <= amount)
+        for(int i = 1; i <= amount; i++)
         {
-            for(int j = 0; j < coins.length; j++){
+            int coin = i; 
             
-            if(coins[j] <= count){
-            arr[count] = Math.min(arr[count], arr[count-coins[j]]+1);
-            }else
+            for(int j = 0; j < coins.length; j++)
             {
-                break;
+               if(coins[j] <= coin)
+               {
+                   combos[i] = Math.min(combos[i], combos[coin-coins[j]]+1);
+               }else{
+                   break; 
+               }
             }
-            }
-            count++;
-        } 
-    
-        
-        if(arr[amount] > amount)
-        {
-            return -1;
         }
         
-        return arr[arr.length-1]; 
+        if(combos[amount] > amount)
+        {
+            return -1; 
+        }
+        
+        return combos[amount]; 
     }
 }
