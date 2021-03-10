@@ -18,9 +18,7 @@ class Solution {
             index = Math.max(index, i); 
         }
     }
-        
-        System.out.println("INDEX : "+index);
-        
+ 
         return false;
         
     }
