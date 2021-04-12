@@ -1,33 +1,20 @@
 class Solution {
     public boolean isPalindrome(String s) {
   
-        s = s.toLowerCase(); 
+        String input = sanitizeString(s); 
+        
+        System.out.println("INPUT : "+input); 
         
         int i = 0; 
-        int j = s.length()-1; 
+        int j = input.length()-1; 
         
-        while(i < j)
+        while( i < input.length() && i < j)
         {
-           if(i < s.length() && isNotAlphaNumeric(s.charAt(i))){
-           while(i < s.length() && isNotAlphaNumeric(s.charAt(i)))
-           {
-               i++;
-           }
-               
-           continue; 
-           }
+            char first = input.charAt(i); 
+            char second = input.charAt(j); 
             
-           if(j > 0 && isNotAlphaNumeric(s.charAt(j))){
-           while(j > 0 && isNotAlphaNumeric(s.charAt(j)))
-           {
-               j--;
-           }
-               
-           continue; 
-           }
-            
-            if(s.charAt(i) != s.charAt(j))
-            {
+            if(first != second)
+            { 
                 return false; 
             }
             
@@ -35,7 +22,31 @@ class Solution {
             j--; 
         }
         
-        return true;
+        return true; 
+    }
+    
+    public String sanitizeString(String input)
+    {
+        if(input == null)
+        {
+            return null; 
+        }
+        
+        input = input.toLowerCase(); 
+        
+        StringBuilder stringBuilder = new StringBuilder(); 
+        
+        for(char item : input.toCharArray())
+        {
+            if(isNotAlphaNumeric(item))
+            {
+                continue; 
+            }
+            
+            stringBuilder.append(item); 
+        }
+        
+        return stringBuilder.toString(); 
     }
     
     public boolean isNotAlphaNumeric(char character)
