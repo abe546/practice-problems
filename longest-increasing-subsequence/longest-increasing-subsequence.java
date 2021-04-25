@@ -1,9 +1,12 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
- 
-        int[] sub = new int[nums.length];
         
-        Arrays.fill(sub, 1);  
+        int[] sub = new int[nums.length]; 
+        
+        //Each number occurrs atleast once itself
+        Arrays.fill(sub, 1); 
+        
+        int max = 1; 
         
         for(int i = 0; i < nums.length; i++)
         {
@@ -11,19 +14,13 @@ class Solution {
             {
                 if(nums[j] < nums[i])
                 {
-                    sub[i] = Math.max(sub[j]+1, sub[i]);
+                    sub[i] = Math.max(sub[i], sub[j]+1);
                 }
+                
+                max = Math.max(sub[i], max);
             }
         }
         
-        int max = 0; 
-        
-        for(int item : sub)
-        {
-            max = Math.max(item, max); 
-        }
-        
-        return max;
-        
+        return max; 
     }
 }
