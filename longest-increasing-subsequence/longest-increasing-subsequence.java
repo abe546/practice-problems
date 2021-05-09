@@ -1,10 +1,11 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
         
-        int[] sub = new int[nums.length]; 
+        int[] lengths = new int[nums.length];
         
-        //Each number occurrs atleast once itself
-        Arrays.fill(sub, 1); 
+        //Each subsequence has a length of 1 as max subsequence
+        //So set all entries to 1
+        Arrays.fill(lengths, 1);
         
         int max = 1; 
         
@@ -14,10 +15,9 @@ class Solution {
             {
                 if(nums[j] < nums[i])
                 {
-                    sub[i] = Math.max(sub[i], sub[j]+1);
+                    lengths[i] = Math.max(lengths[i], lengths[j]+1);
+                    max = Math.max(max, lengths[i]);
                 }
-                
-                max = Math.max(sub[i], max);
             }
         }
         
