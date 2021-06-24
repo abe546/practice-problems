@@ -9,10 +9,16 @@
  * }
  */
 class Solution {
+    /**
+    *Extremely important that this is a class variable. 
+    * We cannot rely on current to be accurate as it is changed and brought back through
+    * method param, must be class variable for that. 
+    **/
+    ListNode current = null;
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         
         ListNode answer = new ListNode(0); 
-        ListNode current = answer; 
+        current = answer; 
         
         int carry = 0; 
         
@@ -34,12 +40,21 @@ class Solution {
             l1 = l1.next;
             l2 = l2.next;
         }
-        System.out.println("CUR 0 : "+current.val); 
-        System.out.println("LIST 0 : ");
-        printList(answer); 
-        
-        ListNode item = l1; 
-        
+ 
+        carry = addToList(l1, carry);
+         
+        carry = addToList(l2, carry);   
+  
+        if(carry > 0)
+        {
+            current.next = new ListNode(carry); 
+        }
+   
+       return answer.next; 
+    }
+    
+    public int addToList(ListNode item, int carry)
+    {
         while(item != null)
         {
              int sum = item.val + carry;
@@ -52,54 +67,18 @@ class Solution {
             }
             
             sum = sum % 10;
-            
-            System.out.println("SUM : "+sum); 
-            
-            current.next = new ListNode(sum);
-            current = current.next;
-            item = item.next;
-        }
-        System.out.println("CUR 1 : "+current.val); 
-        System.out.println("LIST 1 : ");
-        printList(answer); 
-        
-        item = l2; 
-        
-         while(item != null)
-        {
-             int sum = item.val + carry;
-            
-            if(sum >= 10)
-            {
-                carry = 1;
-            }else{
-                carry = 0;
-            }
-            
-            sum = sum % 10;
-            
-            System.out.println("SUM : "+sum); 
+ 
             
             current.next = new ListNode(sum);
             current = current.next;
             item = item.next;
         }
-        System.out.println("CUR 2 : "+current.val); 
-        System.out.println("LIST 2 : ");
-        printList(answer); 
-        
-        if(carry > 0)
-        {
-            current.next = new ListNode(carry); 
-        }
-        System.out.println("CUR 3 : "+current.val); 
-        System.out.println("LIST final : ");
-        printList(answer); 
-        
-       return answer.next; 
+ 
+    
+        return carry;
     }
     
-     public void printList(ListNode head)
+    public void printList(ListNode head)
     {
         System.out.println();
         while(head != null)
