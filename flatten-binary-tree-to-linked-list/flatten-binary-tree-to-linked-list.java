@@ -14,47 +14,49 @@
  * }
  */
 class Solution {
-    private  TreeNode list = new TreeNode(0);
-    public void flatten(TreeNode root) {
-        
-        if(root == null)
-        {
-            return;
-        }
-       list.left = null; 
-        TreeNode head = list; 
-        
-        traverse(root);
-        
-        TreeNode current = head.right.right; 
-        
-        while(current != null)
-        { 
-             
-            root.right = current;
-            root.left = null; 
-            
-            root = root.right; 
-            current = current.right;
-        }
-        
-  
-    }
+    TreeNode list = null;
+    TreeNode current = null; 
     
-    public void traverse(TreeNode root)
+    public void flatten(TreeNode root)
     {
         if(root == null)
         {
             return;
         }
         
-        TreeNode newNode = new TreeNode(root.val); 
- 
-        list.right = newNode;
-        list = list.right;
-        list.left = null; 
+        if(root.right == null && root.left == null)
+        {
+            return; 
+        }
         
-        traverse(root.left); 
-        traverse(root.right);
+        traverse(root);
+        
+        root.right = current.right; 
+        root.left = null; 
+    }
+    
+    public void traverse(TreeNode root) {
+        
+        if(root == null)
+        {
+            return;
+        }
+        
+        if(list == null)
+        {
+            list = new TreeNode(root.val); 
+            list.left = null; 
+            current = list; 
+        }
+        else
+        {
+            list.left = null;
+            list.right = new TreeNode(root.val);
+            list = list.right;
+        }
+        
+        traverse(root.left);
+        traverse(root.right); 
+     
     }
 }
