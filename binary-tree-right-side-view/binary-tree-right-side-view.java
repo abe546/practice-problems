@@ -14,29 +14,35 @@
  * }
  */
 class Solution {
-     List<Integer> nodes = new LinkedList(); 
-    Map<Integer, TreeNode> seen = new HashMap(); 
-    public List<Integer> rightSideView(TreeNode root) {
+    
+    public List<Integer> rightSideView(TreeNode root) {      
+        if(root == null)
+        {
+            return Collections.EMPTY_LIST;
+        }
         
-        traverse(root, 0); 
+        List<Integer> levelList = new LinkedList(); 
+        Map<Integer, Integer> level = new HashMap(); 
         
-        return nodes; 
+        traverse(0, root, level, levelList);
+        
+        return levelList;
     }
     
-     public void traverse(TreeNode root, int level)
-     {
-         if(root == null)
-         {
-             return;
-         }
-         
-         if(seen.get(level) == null)
-         {
-             seen.put(level, root); 
-             nodes.add(root.val); 
-         }
-         
-         traverse(root.right, level+1); 
-         traverse(root.left, level+1); 
-     }
+    public void traverse(int level, TreeNode root, Map<Integer, Integer> levelMap, List<Integer> levelList)
+    {
+        if(root == null)
+        {
+            return;
+        }
+        
+        if(levelMap.get(level) == null)
+        {
+            levelMap.put(level, root.val);
+            levelList.add(root.val);
+        }
+        
+        traverse(level+1, root.right, levelMap, levelList); 
+        traverse(level+1, root.left, levelMap, levelList);
+    }
 }
