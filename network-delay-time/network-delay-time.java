@@ -1,82 +1,91 @@
 class Solution {
-    public int networkDelayTime(int[][] times, int N, int K) {
-        
-        Map<Integer, List<List<Integer>>> graph = new HashMap();
-        Map<Integer, Integer> distance = new HashMap();
-        
-        for(int[] info : times)
-        {
-            int sourceNode = info[0];
-            int target = info[1];
-            int dist = info[2];
-            
-            List<Integer> tmp = new LinkedList();
-            tmp.add(target); 
-            tmp.add(dist);
-            
-            List<List<Integer>> tmpList = graph.getOrDefault(sourceNode, new LinkedList<List<Integer>>());
-            
-            tmpList.add(tmp); 
-            
-            graph.put(sourceNode, tmpList); 
-        }
-        
-        //Source node is K
-        List<Integer> origin = new LinkedList(); 
-        origin.add(K); 
-        origin.add(0); 
-        
-        PriorityQueue<List<Integer>> queue = new PriorityQueue<List<Integer>>(
-        (a,b) ->
-            {
-               int aDist = a.get(1); 
-               int bDist = b.get(1);  
+
+    Map<Integer, LinkedList<LinkedList<Integer>>> graph = new HashMap();
+
+    public int networkDelayTime(int[][] times, int n, int k) {
+
+        createGraph(times);
+         
+        Map<Integer, Integer> distance = new HashMap(); 
+        //Should be size n by end of processes (verify all nodes can be reached)
+              
+        PriorityQueue<Integer[]> queue = new <Integer[]>PriorityQueue(
+            (a,b) -> {
+               //destination and weight (all source node is in relation to 2)
+                Integer[] arr = (Integer[])a;
+                Integer[] barr = (Integer[])b;
                 
-               return aDist - bDist; 
+                return arr[1] - barr[1];
             });
         
-        queue.add(origin); 
-        int answer = 0; 
+        Integer[] root = {k, 0};
+        
+        queue.add(root);
+        int max = -1;
+        
         while(!queue.isEmpty())
         {
-            List<Integer> targetAndDistance = queue.poll(); 
+            Integer[] item = queue.poll(); 
             
-            int target = targetAndDistance.get(0); 
-            int dist = targetAndDistance.get(1);
+            int source = item[0];
+            int time = item[1];
             
-            if(distance.get(target) != null)
-            {
-                continue; 
+            if(distance.get(source) == null){
+            max = Math.max(max, time);
             }
-            answer = Math.max(answer, dist); 
-            distance.put(target, dist); 
             
-            if(graph.containsKey(target))
+            //key is node destination, and value is time to node
+            //In context of root source (k)
+            distance.put(source, time);
+     
+            if(graph.get(source) != null){
+            for(List<Integer> items : graph.get(source))
             {
-                for(List<Integer> info : graph.get(target))
+                if(distance.get(items.get(0)) != null)
                 {
-                    int targetInfo = info.get(0); 
-                    int distInfo = info.get(1); 
-                    
-                    if(distance.get(targetInfo) == null){
-                        List<Integer> tmp = new LinkedList(); 
-                        
-                        tmp.add(targetInfo); 
-                        //Add the distance of the original target
-                        tmp.add(distInfo+dist); 
-                        
-                        queue.add(tmp); 
-                    }
+                    continue;
                 }
+                
+             int dest = items.get(0); 
+             int unit = items.get(1) + time;
+                
+             Integer[] tmpArr = {dest, unit};
+                
+            queue.add(tmpArr);
+            }
             }
         }
-  
+
+        System.out.println("DISTANCE : "+distance); 
         
-        if(distance.size() != N)
+        if(distance.size() != n)
         {
-            return -1; 
+            return -1;
         }
         
-        return answer; 
+        return max; 
     }
+
+    public void createGraph(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+
+            int source = matrix[i][0];
+            int dest = matrix[i][1];
+            int weight = matrix[i][2];
+
+            LinkedList<LinkedList<Integer>> info = 
+                graph.getOrDefault(
+                source, new LinkedList<LinkedList<Integer>>());
+
+            LinkedList<Integer> tmp = new LinkedList(); 
+            
+            tmp.add(dest); 
+            tmp.add(weight);
+
+            info.add(tmp);
+            
+            graph.put(source, info);
+        }
+    }
+
 }
