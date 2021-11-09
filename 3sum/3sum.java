@@ -1,64 +1,77 @@
 class Solution {
-    
-    
-    Map<Integer, Integer> map = new HashMap();
-    Set<List<Integer>> set = new HashSet(); 
-    Set<Integer> ignoreDupe = new HashSet(); 
     public List<List<Integer>> threeSum(int[] nums) {
- 
         
-        for(int i =0; i < nums.length; i++)
-        {
-            map.put(nums[i], i);
-        }
-        
-        
-        for(int i = 0; i < nums.length; i++)
-        {
-            int item = nums[i];
-            if(!ignoreDupe.contains(item)){
-            getThreeSum(nums, -1 * item, i);
-                ignoreDupe.add(item); 
-            }
-        }
-        
+        Set<List<Integer>> answerSet = new HashSet(); 
         List<List<Integer>> answer = new LinkedList(); 
+        Set<Integer> avoidIndex = new HashSet(); 
         
-        for(List<Integer> item : set)
-        {
-            answer.add(item); 
-        }
+        Map<Integer, Set<Integer>> map = new HashMap(); 
         
-        return answer;
-    }
-    
-    public void getThreeSum(int[] nums, int target, int index)
-    {
         for(int i = 0; i < nums.length; i++)
         {
-            if( i == index )
+            Set<Integer> tmp = map.getOrDefault(nums[i], new HashSet<Integer>()); 
+            tmp.add(i); 
+            map.put(nums[i], tmp); 
+        }
+        
+      //  System.out.println("MAP : "+map); 
+        
+        for(int i = 0; i < nums.length; i++)
+        {
+            for(int j = 0; j < nums.length; j++)
             {
-                continue; 
-            }
-            
-            if(ignoreDupe.contains(nums[i]))
-            {
-                continue; 
-            }
-            
-            if(map.get(target - nums[i]) != null && map.get(target-nums[i]) != i && map.get(target-nums[i]) != index)
-            { 
+                if(  avoidIndex.contains(j))
+                {
+                    continue; 
+                }
                 
-                List<Integer> list = new LinkedList();
-                list.add(nums[index]);
-                list.add(nums[i]);
-                list.add(nums[map.get(target-nums[i])]);
-                Collections.sort(list); 
-                set.add(list); 
- 
- 
-             
+                if(i == j)
+                {
+                    continue; 
+                }
+                
+                if(map.get(-1*(nums[i] + nums[j])) != null)
+                {
+                    int complement = -1*(nums[i] + nums[j]);
+                    int size = map.get(-1*(nums[i] + nums[j])).size(); 
+                    
+                    if(nums[i] == complement && nums[j] == complement)
+                    {
+                        if(size < 3)
+                        {
+                            continue;
+                        }
+                    }else if(nums[i] == complement || nums[j] == complement)
+                    {
+                        if(size < 2)
+                        {
+                            continue;
+                        }
+                    }
+                    
+                    List<Integer> tmp = new LinkedList(); 
+                    
+                    tmp.add(nums[i]);
+                    tmp.add(nums[j]);
+                    tmp.add(complement);
+                    
+                    Collections.sort(tmp); 
+                    
+                    avoidIndex.add(i); 
+            
+                    
+                    answerSet.add(tmp); 
+                }
             }
         }
+        
+        
+        for(List<Integer> list : answerSet)
+        {
+            answer.add(list); 
+        }
+        
+        return answer; 
+        
     }
 }
