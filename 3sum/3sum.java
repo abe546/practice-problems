@@ -1,77 +1,69 @@
 class Solution {
+    
     public List<List<Integer>> threeSum(int[] nums) {
-        
-        Set<List<Integer>> answerSet = new HashSet(); 
+          
+        if(nums == null || nums.length == 0){
+            return Collections.EMPTY_LIST;
+        }
+   
         List<List<Integer>> answer = new LinkedList(); 
-        Set<Integer> avoidIndex = new HashSet(); 
         
-        Map<Integer, Set<Integer>> map = new HashMap(); 
+        Arrays.sort(nums); 
         
         for(int i = 0; i < nums.length; i++)
         {
-            Set<Integer> tmp = map.getOrDefault(nums[i], new HashSet<Integer>()); 
-            tmp.add(i); 
-            map.put(nums[i], tmp); 
+            if(nums[i] > 0)
+            {
+                //Intention is to start off with 0 or a negative number
+                continue;
+            }
+            
+            if(i == 0 || nums[i-1] != nums[i])
+            {
+                find3Sum(i, nums, answer);
+            }
         }
         
-      //  System.out.println("MAP : "+map); 
         
-        for(int i = 0; i < nums.length; i++)
+        return answer;
+    }
+    
+    public void find3Sum(int i, int[] nums, List<List<Integer>> answer)
+    {
+        int j = i+1; 
+        int k = nums.length-1;
+        int sum = 0;
+        
+        while(j < nums.length && j < k)
         {
-            for(int j = i+1; j < nums.length; j++)
-            {
-                if(avoidIndex.contains(j))
-                {
-                    continue; 
-                }
-                
-                if(i == j)
-                {
-                    continue; 
-                }
-                
-                if(map.get(-1*(nums[i] + nums[j])) != null)
-                {
-                    int complement = -1*(nums[i] + nums[j]);
-                    int size = map.get(-1*(nums[i] + nums[j])).size(); 
-                    
-                    if(nums[i] == complement && nums[j] == complement)
-                    {
-                        if(size < 3)
-                        {
-                            continue;
-                        }
-                    }else if(nums[i] == complement || nums[j] == complement)
-                    {
-                        if(size < 2)
-                        {
-                            continue;
-                        }
-                    }
-                    
-                    List<Integer> tmp = new LinkedList(); 
-                    
-                    tmp.add(nums[i]);
-                    tmp.add(nums[j]);
-                    tmp.add(complement);
-                    
-                    Collections.sort(tmp); 
-                    
-                    avoidIndex.add(i); 
-                     
+            sum = 0; 
+            sum = nums[i] + nums[j] + nums[k]; 
             
-                    answerSet.add(tmp); 
+            if(sum < 0)
+            {
+                j++;
+            }else if(sum > 0)
+            {
+                k--;
+            }else if(sum == 0)
+            {
+                List<Integer> tmp = new LinkedList(); 
+                
+                tmp.add(nums[i]); 
+                tmp.add(nums[j]);
+                tmp.add(nums[k]);
+                
+                answer.add(tmp); 
+                j++;
+                while(j < nums.length && nums[j] == nums[j-1]){
+                j++;
                 }
             }
         }
         
         
-        for(List<Integer> list : answerSet)
-        {
-            answer.add(list); 
-        }
-        
-        return answer; 
-        
     }
+    
+   
+ 
 }
