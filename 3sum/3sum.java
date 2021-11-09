@@ -18,9 +18,9 @@ class Solution {
         
         for(int i = 0; i < nums.length; i++)
         {
-            for(int j = 0; j < nums.length; j++)
+            for(int j = i+1; j < nums.length; j++)
             {
-                if(  avoidIndex.contains(j))
+                if(avoidIndex.contains(j))
                 {
                     continue; 
                 }
@@ -58,8 +58,8 @@ class Solution {
                     Collections.sort(tmp); 
                     
                     avoidIndex.add(i); 
+                     
             
-                    
                     answerSet.add(tmp); 
                 }
             }
