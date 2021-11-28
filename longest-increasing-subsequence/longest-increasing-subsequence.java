@@ -1,42 +1,21 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
+ 
+        int[] sequence = new int[nums.length];
         
-        if(nums == null && nums.length == 0)
-        {
-            return 0;
-        }
-        
-        //We want to remember the count so far, up to curr index
-        int [] count = new int[nums.length];
-        //We want to set the greatest frequency up to this index point
-        int [] frequency = new int[nums.length];
-        
-        Arrays.fill(frequency, 1); 
-        Arrays.fill(count, 1);
+        Arrays.fill(sequence, 1); 
+        int max = 1; 
         
         for(int i = 0; i < nums.length; i++)
         {
             for(int j = 0; j < i; j++)
             {
                 if(nums[j] < nums[i])
-                {   
-                    if (frequency[i] > frequency[j])
-                    {
-                        continue;
-                    }
-                    else 
-                    {
-                        count[i] += 1; 
-                        frequency[i] = Math.max(frequency[i], frequency[j]+1);
-                    }
+                {
+                    sequence[i] = Math.max(sequence[i], sequence[j]+1);
+                    max = Math.max(sequence[i], max);
                 }
             }
-        }
-        
-        int max = 0; 
-        for(int item : count)
-        {
-            max = Math.max(item, max); 
         }
         
         return max; 
