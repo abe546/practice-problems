@@ -1,6 +1,11 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
- 
+  
+        if(nums == null || nums.length == 0)
+        {
+            return 0;
+        }
+        
         int[] sequence = new int[nums.length];
         
         Arrays.fill(sequence, 1); 
@@ -12,13 +17,12 @@ class Solution {
             {
                 if(nums[j] < nums[i])
                 {
-                    sequence[i] = Math.max(sequence[i], sequence[j]+1);
-                    max = Math.max(sequence[i], max);
+                    sequence[i] = Math.max(sequence[i], sequence[j]+1); 
+                    max = Math.max(max, sequence[i]); 
                 }
             }
         }
         
         return max; 
-        
     }
 }
