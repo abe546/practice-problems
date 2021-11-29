@@ -4,44 +4,34 @@ class Solution {
         String word = s; 
         Set<String> dict = new HashSet(); 
         
-        for(String item : wordDict)
+        for(String words : wordDict)
         {
-            dict.add(item);
+            dict.add(words); 
         }
         
-        boolean[] arr = new boolean[word.length()+1];
- 
+        boolean[] arr = new boolean[word.length()];
         arr[0] = true; 
- 
-        for(int i = 0; i < word.length()+1; i++)
+        
+        for(int i = 0; i < word.length(); i++)
         {
-            for(int j = i; j <= word.length(); j++){
-            String substring = word.substring(i, j);
-
-           // System.out.println("SUBSTRING : "+substring);
-
-                
-                if(dict.contains(substring) && arr[i] )
+            for(int j = i; j < word.length()+1; j++)
             {
- 
-                arr[j] = true && arr[i];
-                System.out.println("J : "+j); 
-               System.out.println("I : "+i); 
-                System.out.println("arr[j] : "+arr[j]); 
-               System.out.println("ARR[j-i] : "+arr[i]); 
+                String substring = word.substring(i, j); 
                 
-                if(i == 0)
+                if(dict.contains(substring) && arr[i])
                 {
-                    arr[i] = true; 
+                    if(j == word.length())
+                    {
+                        return true; 
+                    }
+                    
+                    arr[j] = true; 
                 }
             }
-            }
-            
-            
-            }
+        }
         
-          return arr[arr.length - 1];    
-         
-        }
-        }
+        return false; 
+        
+}
+}
  
