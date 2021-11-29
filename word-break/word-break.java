@@ -1,26 +1,47 @@
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
-  
-    Set<String> dict = new HashSet(); 
+     
+        String word = s; 
+        Set<String> dict = new HashSet(); 
         
-    wordDict.stream().forEach(item -> dict.add(item)); 
-        
-    boolean[] memory = new boolean[s.length()+1];
-    
-    memory[0] = true;     
-        
-    for(int i = 1; i < memory.length; i++)
-    {
-        for(int j = 0; j < i; j++)
+        for(String item : wordDict)
         {
-            if(memory[j] == true && dict.contains(s.substring(j,i)))
-            {
-                memory[i] = true;
-            }
+            dict.add(item);
         }
-    }
         
-    return memory[memory.length-1]; 
+        boolean[] arr = new boolean[word.length()+1];
+ 
+        arr[0] = true; 
+ 
+        for(int i = 0; i < word.length()+1; i++)
+        {
+            for(int j = i; j <= word.length(); j++){
+            String substring = word.substring(i, j);
+
+           // System.out.println("SUBSTRING : "+substring);
+
+                
+                if(dict.contains(substring) && arr[i] )
+            {
+ 
+                arr[j] = true && arr[i];
+                System.out.println("J : "+j); 
+               System.out.println("I : "+i); 
+                System.out.println("arr[j] : "+arr[j]); 
+               System.out.println("ARR[j-i] : "+arr[i]); 
+                
+                if(i == 0)
+                {
+                    arr[i] = true; 
+                }
+            }
+            }
+            
+            
+            }
         
-    }
-}
+          return arr[arr.length - 1];    
+         
+        }
+        }
+ 
