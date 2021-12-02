@@ -1,59 +1,41 @@
 class Solution {
     public int rob(int[] nums) {
-        
-        Map<Integer, Set<Integer>> robIndexToNumsIndex = new HashMap(); 
-        
-        if(nums == null || nums.length == 0)
-        {
-            return 0;
-        }
-        
+
         if(nums.length == 1)
         {
-            return nums[0]; 
+            return nums[0];
         }
         
-         if(nums.length == 2)
+        if(nums.length == 2)
         {
-            return Math.max(nums[0], nums[1]); 
+            return Math.max(nums[0], nums[1]);
         }
         
-        if(nums.length == 3)
+        int[] arr = new int[nums.length-1];
+        int[] arr2 = new int[nums.length-1];
+        
+        int max = -1; 
+ 
+            arr[0] = nums[0];
+            arr[1] = Math.max(nums[1], arr[0]);
+            
+        for(int i = 2; i < nums.length-1; i++)
         {
-            return Math.max(nums[0], Math.max(nums[1],nums[2])); 
+            arr[i] = Math.max(nums[i]+arr[i-2], arr[i-1]);
         }
-        
-        return Math.max(findHousesToRob(getArr(nums, 0, nums.length-1)), findHousesToRob(getArr(nums, 1, nums.length))); 
-        
+ 
+            arr2[0] = nums[1];
+            arr2[1] = Math.max(nums[2], arr2[0]);
+            
+        for(int i = 3; i < nums.length; i++)
+        {
+            arr2[i-1] = Math.max(nums[i]+arr2[i-3], arr2[i-2]);
+        }
+   
+       max = Math.max(arr[arr.length-1], arr2[arr2.length-1]); 
+       
+
+        return max;
     }
     
-    public int findHousesToRob(int[] nums)
-    {   
-        
-        int[] rob = new int[nums.length];
-        
-        rob[0] = nums[0]; 
-        rob[1] = Math.max(nums[0], nums[1]);
-        
-        for(int i = 2; i < nums.length; i++)
-        { 
-            rob[i] = Math.max(rob[i-1], rob[i-2]+nums[i]);
-        }
-        
-        return rob[rob.length-1];
-    }
-    
-    public int[] getArr(int[] nums, int start, int end)
-    {
-        int[] arr = new int[end - start]; 
-        
-        int j = start; 
-        
-        for(int i = 0; i < arr.length; i++)
-        {
-            arr[i] = nums[j++]; 
-        }
-        
-        return arr; 
-    }
 }
