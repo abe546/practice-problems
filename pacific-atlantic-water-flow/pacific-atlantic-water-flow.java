@@ -1,226 +1,171 @@
 class Solution {
     
-    int[][] boundary = {
+    private int[][] boundary = {
         {0,1},
         {1,0},
         {0,-1},
         {-1,0}
     };
-  
-    Set<List<Integer>> pac = new LinkedHashSet(); 
-    Set<List<Integer>> atl = new LinkedHashSet(); 
-    Queue<List<Integer>> pacQ = new ArrayDeque(); 
-    Queue<List<Integer>> atlQ = new ArrayDeque(); 
-    Set<List<Integer>> avoid = new HashSet(); 
-    Set<List<Integer>> both = new HashSet(); 
     
+    /*
+    * Each set, PAC set and ATL set, are a set of coordinates on the matrix. Where the inner list is of
+    size 2, first entry being the row number of the index in the matrix and the second list entry being
+    the column number of the index in the matrix. E.g. {1,2} -> Row 1 Column 2
+    */
+    private Set<List<Integer>> pacSet = new HashSet(); 
+    private Set<List<Integer>> atlSet = new HashSet(); 
+    
+    private Queue<List<Integer>> atlQue = new ArrayDeque(); 
+    private Queue<List<Integer>> pacQue = new ArrayDeque(); 
+    
+    private Set<List<Integer>> avoid = new HashSet(); 
+    private Set<List<Integer>> cache = new HashSet(); 
+     
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
-   
+    
         List<List<Integer>> answer = new LinkedList(); 
         
-        populateColumns(heights);
-        populateRows(heights); 
+        getColumns(heights, pacSet, atlSet, pacQue, atlQue);
+        getRows(heights, pacSet, atlSet, pacQue, atlQue);
         
-        //System.out.println(atl); 
-      //   System.out.println("-");
- //  System.out.println(pac); 
-        
-        populateQueue(pacQ, pac);
-        populateQueue(atlQ, atl);
-        avoid.clear(); 
-        while(!pacQ.isEmpty()){
-               avoid.clear(); 
-            List<Integer> entry = pacQ.poll(); 
-            
-            touchPac(entry.get(0), entry.get(1), heights);
-        }
-   
-        while(!atlQ.isEmpty())
+        while(!pacQue.isEmpty())
         {
-                 avoid.clear(); 
-            List<Integer> entry = atlQ.poll(); 
-            
-            touchAtl(entry.get(0), entry.get(1), heights); 
+            List<Integer> current = pacQue.poll(); 
+            avoid.clear();     
+            //Find related nodes to pacQue items, add to pacSet (not queue, not needed)
+            findRelatedNodes(heights, current, pacSet, cache);
         }
         
+        cache.clear(); 
         
+        while(!atlQue.isEmpty())
+        {
+            List<Integer> current = atlQue.poll(); 
+            avoid.clear();     
+            //Find related nodes to pacQue items, add to pacSet (not queue, not needed)
+            findRelatedNodes(heights, current, atlSet, cache);
+        }
         
-       for(List<Integer> item : pac)
-       {
-           if(atl.contains(item))
-           {
-               answer.add(item); 
-           }
-       }
+
         
-        return answer; 
+        for(List<Integer> coordinate : atlSet)
+        {
+            if(pacSet.contains(coordinate))
+            {
+                answer.add(coordinate); 
+            }
+        }
+        
+        return answer;   
     }
     
-     public boolean touchAtl(int i, int j, int[][] matrix)
+    /*
+    * Given matrix, coordinate, set of coordinates and cache of explored coordinates of ocean (Pacific or Atlantic)
+    Where coordinate is a integer list, where entry 0 is row and entry 1 is column
+    */
+    public void findRelatedNodes(int[][] matrix, List<Integer> coordinate, Set<List<Integer>> set, Set<List<Integer>> cache)
     {
-         if(i < 0 || j < 0 || i >= matrix.length || j >= matrix[0].length){
-            return false; 
+        int i = coordinate.get(0); 
+        int j = coordinate.get(1); 
+                     
+        if(avoid.contains(coordinate))
+        {
+            return;
         }
-      
-        List<Integer> origin = new LinkedList();
-         origin.add(i);
-         origin.add(j); 
- 
-        avoid.add(origin); 
-        atl.add(origin); 
+        
+        if(cache.contains(coordinate))
+        {
+            return;
+        }
+        
+        avoid.add(coordinate); 
+        
+        set.add(coordinate); 
+        cache.add(coordinate); 
         
         for(int[] dir : boundary)
         {
-            int x = i + dir[0];
+            int x = i + dir[0]; 
             int y = j + dir[1]; 
             
-            if(x < matrix.length &&
-              y < matrix[0].length &&
-              x > -1 && y > -1)
+            if(!isInBounds(matrix, x, y))
             {
-                if(matrix[x][y] < matrix[i][j])
-                {
-                    continue; 
-                }
-                
-                List<Integer> tmp = new LinkedList();
-                
-                tmp.add(x); 
-                tmp.add(y); 
-                
-                if(!avoid.contains(tmp) && touchAtl(x, y, matrix))
-                {
-                 List<Integer> tmp2 = new LinkedList(); 
-                
-                tmp2.add(i); 
-                tmp2.add(j); 
-                
-                if(!atl.contains(tmp2))
-                {
-                    atlQ.add(tmp2); 
-                }
-                
-                atl.add(tmp2); 
-                }
-                
+                continue;
             }
             
-        }
-         
-    
-         return false; 
-    }
-    
-    public boolean touchPac(int i, int j, int[][] matrix)
-    {   
-       
-        
-        if(i < 0 || j < 0 || i >= matrix.length || j >= matrix[0].length){
-            return false; 
-        }
-        
-        List<Integer> origin = new LinkedList();
-         origin.add(i);
-         origin.add(j); 
- 
-        
-        avoid.add(origin); 
-        pac.add(origin); 
-        
-        for(int[] dir : boundary)
-        {
-            int x = i + dir[0];
-            int y = j + dir[1]; 
-            
-            if(x < matrix.length &&
-              y < matrix[0].length &&
-              x > -1 && y > -1)
+            if(matrix[x][y] < matrix[i][j])
             {
-              //  System.out.println("X : "+x);
-               // System.out.println("Y : "+y); 
-               // System.out.println("MATRIX LENGTH : "+matrix.length);
-              //  System.out.println("MATRIX[0] LENGTH : "+matrix[0].length); 
-               // System.out.println("I : "+i); 
-              //  System.out.println("J : "+j); 
-                if(matrix[x][y] < matrix[i][j])
-                {
-                    continue; 
-                }
-                
-                List<Integer> tmp = new LinkedList();
-                tmp.add(x); 
-                tmp.add(y); 
-                
-                if(!avoid.contains(tmp) && touchPac(x, y, matrix))
-                {
-                List<Integer> tmp2 = new LinkedList();
-                tmp2.add(i); 
-                tmp2.add(j); 
-                
-                if(!pac.contains(tmp2))
-                {
-                    pacQ.add(tmp2); 
-                }
-                
-                pac.add(tmp2); 
-                }
-                
+                continue; 
             }
-             
+            
+            List<Integer> tmp = new LinkedList();
+            tmp.add(x); 
+            tmp.add(y);
+            
+            findRelatedNodes(matrix, tmp, set, cache); 
+            
         }
- 
         
-        return false; 
     }
     
-    /**
-    ** Given set of integer array, copy entry to queue
-    **/
-    public void populateQueue(Queue<List<Integer>> que, Set<List<Integer>> set)
+    public boolean isInBounds(int[][] matrix, int i, int j)
     {
-        for(List<Integer> item : set)
+        if(i < 0 || i >= matrix.length || j < 0 || j >= matrix[0].length)
         {
-            que.add(item); 
+            return false;
         }
+        
+        return true; 
     }
     
-    
-    public void populateRows(int[][] heights)
+    public void getColumns(int[][] matrix, Set<List<Integer>> pacSet, Set<List<Integer>> atlSet, Queue<List<Integer>> pacQue, Queue<List<Integer>> atlQue)
     {
-        for(int j = 0; j < heights[0].length; j++)
+        int rowPac = 0;
+        int rowAtl = matrix.length-1; 
+        
+        for(int j = 0; j < matrix[0].length; j++)
         {
-            List<Integer> begin = new LinkedList(); 
-            List<Integer> end = new LinkedList(); 
+           List<Integer> pacList = new LinkedList();
+           pacList.add(rowPac);
+           pacList.add(j); 
             
-            begin.add(0); 
-            begin.add(j); 
+           List<Integer> atlList = new LinkedList();
+           atlList.add(rowAtl);
+           atlList.add(j); 
             
-            end.add(heights.length-1);
-            end.add(j);
+           pacSet.add(pacList);
+           atlSet.add(atlList); 
             
-            pac.add(begin); 
-            atl.add(end); 
+           pacQue.add(pacList); 
+           atlQue.add(atlList);
+          
         }
+        
     }
     
-    
-    public void populateColumns(int[][] heights)
+    public void getRows(int[][] matrix, Set<List<Integer>> pacSet, Set<List<Integer>> atlSet, Queue<List<Integer>> pacQue, Queue<List<Integer>> atlQue)
     {
-        for(int i = 0; i < heights.length; i++)
+        int columnPac = 0;
+        int columnAtl = matrix[0].length-1; 
+        
+        for(int i = 0; i < matrix.length; i++)
         {
-            List<Integer> begin = new LinkedList(); 
-            List<Integer> end = new LinkedList(); 
+           List<Integer> pacList = new LinkedList();
+           pacList.add(i);
+           pacList.add(columnPac); 
             
-            begin.add(i); 
-            begin.add(0); 
+           List<Integer> atlList = new LinkedList();
+           atlList.add(i);
+           atlList.add(columnAtl); 
             
-            end.add(i); 
-            end.add(heights[0].length-1);
+           pacSet.add(pacList);
+           atlSet.add(atlList); 
             
-            pac.add(begin); 
-            atl.add(end); 
+           pacQue.add(pacList); 
+           atlQue.add(atlList);
+          
         }
+        
     }
     
- 
 }
