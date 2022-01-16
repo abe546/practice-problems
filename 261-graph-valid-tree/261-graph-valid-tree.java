@@ -1,106 +1,94 @@
 class Solution {
     Map<Integer, Set<Integer>> graph = new HashMap(); 
+    Set<Integer> nodes = new HashSet(); 
     Map<Integer, Integer> cache = new HashMap();
     
     public boolean validTree(int n, int[][] edges) {
-        //A tree is valid if : 
-        // A child has a single parent, not multiple
-        // Every node is conected to some other, not by itself
-        Set<Integer> nodes = new HashSet();
-        
+    
         if(n == 1 && edges.length == 0)
         {
-            return true;
+            return true; 
         }
         
-        for(int i = 0; i < edges.length; i++)
-        {
-            int parent = edges[i][0]; 
-            int child = edges[i][1];
-   
-            
-            Set<Integer> tmp = graph.getOrDefault(parent, new HashSet());
-            tmp.add(child);
-            
-            graph.put(parent, tmp);
-            
-            tmp = graph.getOrDefault(child, new HashSet());
-            tmp.add(parent);
-            
-            graph.put(child, tmp); 
-            
-            
-            
-            nodes.add(child); 
-            nodes.add(parent); 
-        }
+        createGraph(edges);
         
         if(nodes.size() != n)
         {
-            return false;
+            return false; 
         }
         
-        Set<Integer> avoid = new HashSet(); 
+        Set<Integer> avoid = new HashSet();
         
-     
-        
-        for(int item : graph.keySet())
-        {  
+        for(int item : nodes)
+        {
             avoid.clear(); 
-            int result = nodeCount(-1, item, avoid);
+            int count = nodeCount(-1, item, avoid);
             
-            if(result < 0)
-            {
-                return false;
-            }
-            
-            if(result == n)
+            if(count == n)
             {
                 return true;
             }
+            
+            if(count < 0)
+            {
+                return false; 
+            }
         }
         
-        return false; 
+    return false;
     }
-    
-    
     
     public int nodeCount(int parent, int node, Set<Integer> avoid)
     {
-        if(cache.containsKey(node))
-        {
-            return cache.get(node); 
-        }
-        
         if(avoid.contains(node))
-        {  
+        {
             return -1;
         }
         
-        int count = 1;
         avoid.add(node);
-        
+        int count = 1; 
         if(graph.get(node) != null)
-        {            
+        {
             for(int item : graph.get(node))
             {
                 if(item == parent)
                 {
-                    continue; 
+                    continue;
                 }
-                int iter = nodeCount(node, item, avoid);
                 
-                if(iter < 0)
+                int result = nodeCount(node, item, avoid);
+                
+                if(result < 0)
                 {
-                    cache.put(node, iter); 
-                    return iter; 
+                    //Cycle detected
+                    return result;
                 }
                 
-                count += iter;
+                count += result;
             }
         }
         
-        cache.put(node, count); 
         return count; 
+    }
+    
+    public void createGraph(int[][] matrix)
+    {
+        for(int i = 0; i < matrix.length; i++)
+        {
+            int source = matrix[i][0]; 
+            int dest = matrix[i][1]; 
+            
+            Set<Integer> tmp = graph.getOrDefault(source, new HashSet());
+            tmp.add(dest); 
+            graph.put(source, tmp); 
+            
+            tmp = graph.getOrDefault(dest, new HashSet());
+            tmp.add(source); 
+            graph.put(dest, tmp); 
+            
+            nodes.add(source); 
+            nodes.add(dest); 
+            
+        }
     }
 }
