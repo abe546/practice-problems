@@ -67,11 +67,8 @@ class Solution {
     
     public int nodeCount(int parent, int node, Set<Integer> avoid)
     {
-        
-        
         if(avoid.contains(node))
         {  
-            
             return -1;
         }
         
@@ -96,8 +93,6 @@ class Solution {
                 count += iter;
             }
         }
-        
-   
         
         return count; 
     }
