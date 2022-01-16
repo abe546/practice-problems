@@ -40,8 +40,14 @@ class Solution {
     
     public int nodeCount(int parent, int node, Set<Integer> avoid)
     {
+        if(cache.containsKey(node))
+        {
+            return cache.get(node);
+        }
+        
         if(avoid.contains(node))
         {
+            cache.put(node, -1);
             return -1;
         }
         
@@ -60,6 +66,7 @@ class Solution {
                 
                 if(result < 0)
                 {
+                    cache.put(node, result); 
                     //Cycle detected
                     return result;
                 }
@@ -68,6 +75,7 @@ class Solution {
             }
         }
         
+        cache.put(node, count); 
         return count; 
     }
     
