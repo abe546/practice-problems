@@ -1,6 +1,6 @@
 class Solution {
     Map<Integer, Set<Integer>> graph = new HashMap(); 
-    Map<Integer, Set<Integer>> parentMap = new HashMap();
+    Map<Integer, Integer> cache = new HashMap();
     
     public boolean validTree(int n, int[][] edges) {
         //A tree is valid if : 
@@ -67,6 +67,11 @@ class Solution {
     
     public int nodeCount(int parent, int node, Set<Integer> avoid)
     {
+        if(cache.containsKey(node))
+        {
+            return cache.get(node); 
+        }
+        
         if(avoid.contains(node))
         {  
             return -1;
@@ -87,6 +92,7 @@ class Solution {
                 
                 if(iter < 0)
                 {
+                    cache.put(node, iter); 
                     return iter; 
                 }
                 
@@ -94,6 +100,7 @@ class Solution {
             }
         }
         
+        cache.put(node, count); 
         return count; 
     }
 }
