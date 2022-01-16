@@ -17,31 +17,7 @@ class Solution {
         {
             int parent = edges[i][0]; 
             int child = edges[i][1];
-            
-            Set<Integer> avoid = new HashSet();
-            if(parentMap.get(child) != null)
-            {
-                for(int item : parentMap.get(child))
-                {
-                    avoid.clear();
-                    if(related(item, parent, avoid))
-                    {
-                        return false; 
-                    }
-                }
-            }
-            
-            if(parentMap.get(parent) != null)
-            {
-                for(int item : parentMap.get(parent))
-                {
-                    avoid.clear();
-                  if(related(item, child, avoid))
-                  {
-                      return false; 
-                  }
-                }
-            }
+   
             
             Set<Integer> tmp = graph.getOrDefault(parent, new HashSet());
             tmp.add(child);
@@ -53,13 +29,7 @@ class Solution {
             
             graph.put(child, tmp); 
             
-            tmp = parentMap.getOrDefault(child, new HashSet());
-            tmp.add(parent); 
-            parentMap.put(child, tmp);
             
-            tmp = parentMap.getOrDefault(parent, new HashSet());
-            tmp.add(child); 
-            parentMap.put(parent, tmp);
             
             nodes.add(child); 
             nodes.add(parent); 
@@ -77,7 +47,14 @@ class Solution {
         for(int item : graph.keySet())
         {  
             avoid.clear(); 
-            if(nodeCount(item, avoid) == n)
+            int result = nodeCount(-1, item, avoid);
+            
+            if(result < 0)
+            {
+                return false;
+            }
+            
+            if(result == n)
             {
                 return true;
             }
@@ -86,36 +63,16 @@ class Solution {
         return false; 
     }
     
-    public boolean related(int node, int target, Set<Integer> avoid)
-    {
-        if(avoid.contains(node))
-        {
-            return false;
-        }
-        
-        avoid.add(node);
-        
-        if(graph.get(node).contains(target))
-        {
-            return true; 
-        }
-        
-        for(int item : graph.get(node))
-        {
-            if(related(item, target, avoid))
-            {
-                return true; 
-            }
-        }
-      
-        return false; 
-    }
     
-    public int nodeCount(int node, Set<Integer> avoid)
+    
+    public int nodeCount(int parent, int node, Set<Integer> avoid)
     {
+        
+        
         if(avoid.contains(node))
-        {
-            return 0;
+        {  
+            
+            return -1;
         }
         
         int count = 1;
@@ -125,9 +82,22 @@ class Solution {
         {            
             for(int item : graph.get(node))
             {
-                count += nodeCount(item, avoid);
+                if(item == parent)
+                {
+                    continue; 
+                }
+                int iter = nodeCount(node, item, avoid);
+                
+                if(iter < 0)
+                {
+                    return iter; 
+                }
+                
+                count += iter;
             }
         }
+        
+   
         
         return count; 
     }
