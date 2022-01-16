@@ -1,115 +1,70 @@
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
- 
-        TreeMap<Integer, Integer> numberLine = new TreeMap(); 
+   
         Set<Integer> numbers = new HashSet(); 
-        
-        if(intervals.length == 0)
-        {
-            int[][] arr = new int[1][2];
-            arr[0] = newInterval; 
-            
-            return arr;
-        }
-        
-        int small = Integer.MAX_VALUE;
-        int big = intervals[intervals.length-1][1];
-        
-        for(int[] arr : intervals)
-        {
-            if(arr[0] > newInterval[1])
-            {
-                break; 
-            }
-            
-            if(arr[1] < newInterval[0])
-            {
-                continue; 
-            }
-            small = Math.min(arr[0], small); 
-            for(int i = arr[0]; i <= arr[1]; i++)
-            {
-            numbers.add(i); 
-            numberLine.put(i, i); 
-            }
-        }
         
         for(int i = newInterval[0]; i <= newInterval[1]; i++)
         {
-            numbers.add(i);
-             numberLine.put(i, i); 
-        }
- 
-        
-        small = Math.min(newInterval[0], small); 
-        big = Math.max(newInterval[1], big); 
- 
-        int start = small; 
-        int end = 0;
-        
-         List<List<Integer>> newIntervals = new LinkedList(); 
-         
-        while(end < big)
-        {
- 
-            List<Integer> item = new LinkedList();
-            
-            item.add(start);
-            end = start;
-            while(numbers.contains(end))
-            {
-                end++; 
-            }
-            
-            item.add(end-1); 
-            
-            newIntervals.add(item); 
-            
-            Integer val = numberLine.ceilingKey(end);
-            
-            if(val != null)
-            {
-                end = val;
-            }else
-            {
-                break;
-            }
-            
-            start = end; 
+            numbers.add(i); 
         }
         
-        List<List<Integer>> begins = new LinkedList(); 
-        
-        for(int[] arr : intervals)
+        List<Integer[]> list = new LinkedList();
+        int small = Integer.MAX_VALUE;
+        int large = Integer.MIN_VALUE;
+        int index = intervals.length; 
+        for(int i = 0; i < intervals.length; i++)
         {
+            Integer[] arr = new Integer[2];
+            arr[0] = intervals[i][0];
+            arr[1] = intervals[i][1]; 
+          
+            
             if(arr[0] > newInterval[1])
             {
-                List<Integer> tmp = new LinkedList(); 
-                tmp.add(arr[0]); 
-                tmp.add(arr[1]); 
-               newIntervals.add(tmp); 
-            }else if(arr[1] < newInterval[0])
-            {
-                List<Integer> tmp = new LinkedList(); 
-                tmp.add(arr[0]); 
-                tmp.add(arr[1]); 
-               begins.add(tmp); 
+                  index = i; 
+                break; 
             }
+            
+            if(arr[1] < newInterval[0] )
+            {
+                list.add(arr);
+                continue;
+            }
+            
+            small = Math.min(arr[0], small);
+            large = Math.max(arr[1], large);    
+ 
         }
         
-        begins.addAll(newIntervals); 
+        small = Math.min(small, newInterval[0]); 
+        large = Math.max(large, newInterval[1]); 
+        Integer[] arr = new Integer[2];
+        arr[0] = small;
+        arr[1] = large;
+        list.add(arr);
         
-        newIntervals = begins; 
+        for(int i = index; i < intervals.length; i++)
+        {
+            Integer[] arr2 = new Integer[2];
+            arr2[0] = intervals[i][0];
+            arr2[1] = intervals[i][1]; 
+            
+            list.add(arr2); 
+        }
         
-       int[][] arr = new int[newIntervals.size()][2]; 
-       int i = 0; 
-       for(List<Integer> entry : newIntervals)
-       {
-           arr[i][0] = entry.get(0); 
-           arr[i++][1] = entry.get(1);
-       }
+        int[][] answer = new int[list.size()][2];
         
-      return arr;  
+        int iter = 0; 
+        for(Integer[] item : list)
+        {
+            answer[iter][0] = item[0];
+            answer[iter++][1] = item[1];
+        }
+        
+        
+        return answer; 
+        
+        
         
     }
     
