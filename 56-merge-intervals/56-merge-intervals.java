@@ -4,7 +4,7 @@ class Solution {
         
         sortArrayOfArrays(copy);
         
-        List<List<Integer>> stash = new ArrayList(); 
+        List<List<Integer>> stash = new LinkedList(); 
         
         int current = 0; 
         
@@ -39,10 +39,11 @@ class Solution {
         
         int[][] answer = new int[stash.size()][2];
         
-        for(int i = 0; i < stash.size(); i++)
+        int i =0; 
+        for(List<Integer> item : stash)
         {
-            answer[i][0] = stash.get(i).get(0); 
-            answer[i][1] = stash.get(i).get(1); 
+            answer[i][0] = item.get(0); 
+            answer[i++][1] = item.get(1); 
         }
         
         return answer;
