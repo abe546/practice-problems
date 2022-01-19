@@ -1,13 +1,6 @@
 class Solution {
-    public int[][] merge(int[][] intervals) {
+    public int[][] merge(int[][] copy) {
         
-        int[][] copy = new int[intervals.length][intervals[0].length];
-        
-        for(int i = 0; i < intervals.length; i++)
-        {
-            copy[i][0] = intervals[i][0];
-            copy[i][1] = intervals[i][1];
-        }
         
         sortArrayOfArrays(copy);
         
