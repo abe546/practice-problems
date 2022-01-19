@@ -4,7 +4,7 @@ class Solution {
         
         sortArrayOfArrays(copy);
         
-        List<List<Integer>> stash = new LinkedList(); 
+        List<List<Integer>> stash = new ArrayList(); 
         
         int current = 0; 
         
