@@ -1,26 +1,38 @@
 class Solution {
-  class myComparator implements Comparator<int[]> {
-    public int compare(int[] a, int[] b) {
-      return a[0] - b[0];
-    }
-  }
 
   public int eraseOverlapIntervals(int[][] intervals) {
-    if (intervals.length == 0) {
-      return 0;
-    }
-    Arrays.sort(intervals, new myComparator());
-    int   prev = 0, count = 0;
+  
+      //In an interview, ask if its ok, for the sake of item, to alter input
+      sortArrayOfArrays(intervals);
+      
+      int start = intervals[0][0];
+      int end = intervals[0][1];
+      int count = 0; 
+      int index = 0;
+      int iter =  1;
+ 
     for (int i = 1; i < intervals.length; i++) {
-      if (intervals[prev][1] > intervals[i][0]) {
-        if (intervals[prev][1] > intervals[i][1]) {
-          prev = i;
+      if (intervals[index][1] > intervals[i][0]) {
+        if (intervals[index][1] > intervals[i][1]) {
+          index = i;
         }
         count++;
       } else {
-        prev = i;
+        index = i;
       }
     }
-    return count;
+      return count; 
+      
   }
+    
+    
+    public void sortArrayOfArrays(int[][] intervals)
+    {
+        Arrays.sort(intervals,
+                   (int[] a, int[] b)
+                   ->{
+                      return a[0] - b[0]; 
+                   });
+    }
+   
 }
