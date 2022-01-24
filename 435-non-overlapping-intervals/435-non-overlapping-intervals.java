@@ -15,9 +15,9 @@ class Solution {
       {
            int[] next = intervals[i];
           
-          if(intervals[index][1] > next[0])
+          if(end > next[0])
           {
-              if(next[1] < intervals[index][1])
+              if(next[1] < end)
               {
                   index = i;
                   end = intervals[index][1];
@@ -26,6 +26,7 @@ class Solution {
           }else
           {
               index = i; 
+              end = intervals[index][1];
           }
       }
       
