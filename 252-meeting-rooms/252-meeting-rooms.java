@@ -28,7 +28,7 @@ class Solution {
                 return false; 
             }else
             {
-                end = Math.max(end, intervals[j][1]);
+                end =  intervals[j][1];
                 i = j; 
             }
             
