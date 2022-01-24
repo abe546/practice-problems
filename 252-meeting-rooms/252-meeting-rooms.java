@@ -13,26 +13,14 @@ class Solution {
         //We know that array entry [i][0] is less than or equal to [j][0] where i < j
         //This simplifies the overlap check, where we can simply say, if 
         //[i][1] (end) is greater than [j][0] we have overlap
+ 
         
-        int i = 0; 
-        int j = 1; 
-        int start = intervals[0][0];
-        int end = intervals[0][1];
-        
-        while(i < j && i < intervals.length && j < intervals.length)
+        for(int i =0 ; i < intervals.length -1; i++)
         {
-            int[] next = intervals[j];
-            
-            if(end > next[0])
+            if(intervals[i][1] > intervals[i+1][0])
             {
                 return false; 
-            }else
-            {
-                end =  intervals[j][1];
-                i = j; 
             }
-            
-            j++;
         }
         
         return true; 
