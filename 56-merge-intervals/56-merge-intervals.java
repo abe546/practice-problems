@@ -19,8 +19,7 @@ class Solution {
             {
                 int[] next = copy[current];
                 
-                if((end >= next[0] && end <= next[1]) ||
-                   (next[1] >= start && next[1] <= end))
+                if(end >= next[0])
                 {
                     start = Math.min(start, next[0]);
                     end = Math.max(end, next[1]);
