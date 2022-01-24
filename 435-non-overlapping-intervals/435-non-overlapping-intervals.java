@@ -10,17 +10,25 @@ class Solution {
       int count = 0; 
       int index = 0;
       int iter =  1;
- 
-    for (int i = 1; i < intervals.length; i++) {
-      if (intervals[index][1] > intervals[i][0]) {
-        if (intervals[index][1] > intervals[i][1]) {
-          index = i;
-        }
-        count++;
-      } else {
-        index = i;
+     
+      for(int i = 1; i < intervals.length; i++)
+      {
+           int[] next = intervals[i];
+          
+          if(intervals[index][1] > next[0])
+          {
+              if(next[1] < intervals[index][1])
+              {
+                  index = i;
+                  end = intervals[index][1];
+              }
+              count++;
+          }else
+          {
+              index = i; 
+          }
       }
-    }
+      
       return count; 
       
   }
