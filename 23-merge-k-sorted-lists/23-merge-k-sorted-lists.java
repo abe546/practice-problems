@@ -9,45 +9,45 @@
  * }
  */
 class Solution {
+    private final String curr = "CURRENT"; 
+
     public ListNode mergeKLists(ListNode[] lists) {
        
-        ListNode newList = null;
-        ListNode head = null; 
-        
+        Map<String, ListNode> map = new HashMap(); 
+          
         for(ListNode entry : lists)
         {
             ListNode current = entry; 
             
             while(current != null)
             {
-                
-                head = insertNode(head, current);
-                current = current.next; 
-       
+             insertNode(map, current);
+             current = current.next; 
             }
   
         }
         
-        return head; 
+        return map.get(curr); 
     }
     
-    public ListNode insertNode(ListNode head, ListNode item)
+    public ListNode insertNode(Map<String, ListNode> map, ListNode item)
     {
-        ListNode current = head; 
+        ListNode current = map.get(curr); 
         ListNode currItem = new ListNode(item.val);
         
         if(current == null || currItem.val <= current.val)
         {
             currItem.next = current; 
-            head = currItem; 
-            return head;
+        
+            map.put(curr, currItem);
+            return null;
         }
         
         
         if(current.next == null  )
         { 
             current.next = currItem;
-            return current; 
+            return null; 
         }
         
         while(current != null && current.next != null)
@@ -56,7 +56,7 @@ class Solution {
             {
                 currItem.next = current.next; 
                 current.next = currItem;
-                return head;
+                return null;
             }
             
             current = current.next;
@@ -64,10 +64,10 @@ class Solution {
             if(current.next == null)
             {
                 current.next = currItem; 
-                return head;
+                return null;
             }
         }
         
-        return head; 
+        return null; 
     }
 }
