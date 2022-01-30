@@ -9,45 +9,43 @@
  * }
  */
 class Solution {
-    private final String curr = "CURRENT"; 
-
     public ListNode mergeKLists(ListNode[] lists) {
        
-        Map<String, ListNode> map = new HashMap(); 
-          
+        ListNode newList = null;
+        ListNode head = null; 
+        
         for(ListNode entry : lists)
         {
             ListNode current = entry; 
             
             while(current != null)
             {
-             insertNode(map, current);
+             head = insertNode(head, current);
              current = current.next; 
             }
   
         }
         
-        return map.get(curr); 
+        return head; 
     }
     
-    public ListNode insertNode(Map<String, ListNode> map, ListNode item)
+    public ListNode insertNode(ListNode head, ListNode item)
     {
-        ListNode current = map.get(curr); 
+        ListNode current = head; 
         ListNode currItem = new ListNode(item.val);
         
         if(current == null || currItem.val <= current.val)
         {
             currItem.next = current; 
-        
-            map.put(curr, currItem);
-            return null;
+            head = currItem; 
+            return head;
         }
         
         
         if(current.next == null  )
         { 
             current.next = currItem;
-            return null; 
+            return current; 
         }
         
         while(current != null && current.next != null)
@@ -56,7 +54,7 @@ class Solution {
             {
                 currItem.next = current.next; 
                 current.next = currItem;
-                return null;
+                return head;
             }
             
             current = current.next;
@@ -64,10 +62,10 @@ class Solution {
             if(current.next == null)
             {
                 current.next = currItem; 
-                return null;
+                return head;
             }
         }
         
-        return null; 
+        return head; 
     }
 }
