@@ -48,7 +48,7 @@ class Solution {
     
     public void reshape(ListNode current, ListNode reverse)
     {
-        if(reverse == null)
+        if(reverse == null || current == null)
         {
             return; 
         }
