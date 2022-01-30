@@ -10,80 +10,64 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-         if(lists == null || lists.length == 0)
-         {
-             return null; 
-         }
-         
-        //Ask interviewer, can we modify input to speed up implementation
+       
         ListNode newList = null;
-        ListNode head = newList; 
-        ListNode smallestNode = getSmallestNode(lists);
+        ListNode head = null; 
         
-        while(smallestNode != null)
-        { 
-            if(newList == null)
-            {
-                newList = new ListNode();
-                head = newList; 
-            }
+        for(ListNode entry : lists)
+        {
+            ListNode current = entry; 
             
-            newList.val = smallestNode.val;
-        
-            smallestNode = smallestNode.next; 
-            smallestNode = getSmallestNode(lists);
-            
-            if(smallestNode != null)
+            while(current != null)
             {
-                newList.next = new ListNode();
-                newList = newList.next; 
+                
+                head = insertNode(head, current);
+                current = current.next; 
+       
             }
+  
         }
         
         return head; 
     }
     
-    public ListNode getSmallestNode(ListNode[] lists)
+    public ListNode insertNode(ListNode head, ListNode item)
     {
-        ListNode item = null;
-        int min = 0;
+        ListNode current = head; 
+        ListNode currItem = new ListNode(item.val);
         
-        for(ListNode entry : lists)
-        { 
-            if(entry == null)
-            {
-                continue; 
-            }
-            
-            if(item == null)
-            {
-                item = entry;
-                min = entry.val;
-            }else if(min > entry.val)
-            {
-                item = entry;
-                min = entry.val;
-            }
-        }
-        
-        for(int i = 0; i < lists.length; i++)
-        { 
-            ListNode entry = lists[i];
-            
-            if(entry == null)
-            {
-                continue; 
-            }
-            
-            if(min == entry.val)
-            {
-                entry = entry.next; 
-                lists[i] = entry; 
-                break; 
-            }
+        if(current == null || currItem.val <= current.val)
+        {
+            currItem.next = current; 
+            head = currItem; 
+            return head;
         }
         
         
-        return item; 
+        if(current.next == null  )
+        { 
+            current.next = currItem;
+            return current; 
+        }
+        
+        while(current != null && current.next != null)
+        {
+            if(currItem.val < current.next.val)
+            {
+                currItem.next = current.next; 
+                current.next = currItem;
+                return head;
+            }
+            
+            current = current.next;
+            
+            if(current.next == null)
+            {
+                current.next = currItem; 
+                return head;
+            }
+        }
+        
+        return head; 
     }
 }
