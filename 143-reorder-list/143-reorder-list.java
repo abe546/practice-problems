@@ -3,50 +3,63 @@
  * public class ListNode {
  *     int val;
  *     ListNode next;
- *     ListNode(int x) { val = x; }
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
 class Solution {
+    
+    Set<Integer> avoid = new HashSet(); 
     public void reorderList(ListNode head) {
         
-        if(head == null || head.next == null)
+        ListNode reverse = null; 
+        ListNode current = head; 
+  
+        int n = 0; 
+        while(current != null)
         {
-            return;
+            ListNode item = new ListNode(current.val); 
+            
+            item.next = reverse;
+            reverse = item;
+            current = current.next;
+            n++; 
         }
         
-        ListNode curr = head;
-        int size = 0;
-        while(curr != null)
+        current = head; 
+        
+        reshape(current, reverse);
+        current = head; 
+ 
+        
+        while(current != null && n >= 0)
         {
-            size++;
-            curr = curr.next;
-        }
-        curr =head;
-        for(int i=0; i< size; i++)
-        {
-            if(i%2 == 0 && curr != null && curr.next !=null && curr.next.next !=null)
+             n--; 
+            if(n == 0)
             {
-                ListNode node = new ListNode();
-                
-                ListNode fw = curr;
-                ListNode after = curr.next;
-                
-                while(fw.next.next != null)
-                {
-                    fw = fw.next;
-                }
-                
-                node.val = fw.next.val;
-                node.next = after;
-                           
-                fw.next = null;
-                
-                curr.next = node;
+                current.next = null; 
+                break; 
             }
             
-            curr= curr.next;
+          
+    
+            current = current.next; 
+        }
+    }
+    
+    public void reshape(ListNode current, ListNode reverse)
+    {
+        if(reverse == null)
+        {
+            return; 
         }
         
+ 
+        reshape(reverse, current.next);
+        current.next = reverse;
+ 
+             
         
     }
 }
