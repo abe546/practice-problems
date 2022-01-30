@@ -41,9 +41,7 @@ class Solution {
                 current.next = null; 
                 break; 
             }
-            
-          
-    
+        
             current = current.next; 
         }
     }
@@ -55,11 +53,7 @@ class Solution {
             return; 
         }
         
- 
         reshape(reverse, current.next);
         current.next = reverse;
- 
-             
-        
     }
 }
