@@ -20,7 +20,14 @@ class Solution {
             
             while(current != null)
             {
-             head = insertNode(head, current);
+                if(head == null)
+                {
+                    head = new ListNode(current.val);
+                    current = current.next; 
+                    continue; 
+                }
+                
+             insertNode(head, current);
              current = current.next; 
             }
   
@@ -37,15 +44,20 @@ class Solution {
         if(current == null || currItem.val <= current.val)
         {
             currItem.next = current; 
-            head = currItem; 
-            return head;
+    
+            ListNode tml = new ListNode(head.val);
+            head.val = currItem.val;
+            tml.next = current.next; 
+            head.next = tml;
+           
+            return null;
         }
         
         
         if(current.next == null  )
         { 
             current.next = currItem;
-            return current; 
+            return null; 
         }
         
         while(current != null && current.next != null)
@@ -54,7 +66,7 @@ class Solution {
             {
                 currItem.next = current.next; 
                 current.next = currItem;
-                return head;
+                return null;
             }
             
             current = current.next;
@@ -62,10 +74,10 @@ class Solution {
             if(current.next == null)
             {
                 current.next = currItem; 
-                return head;
+                return null;
             }
         }
         
-        return head; 
+        return null; 
     }
 }
