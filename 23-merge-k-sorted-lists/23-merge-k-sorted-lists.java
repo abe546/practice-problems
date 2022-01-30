@@ -45,7 +45,7 @@ class Solution {
         {
             currItem.next = current; 
     
-            ListNode tml = new ListNode(head.val);
+            ListNode tml =  new ListNode(current.val);
             head.val = currItem.val;
             tml.next = current.next; 
             head.next = tml;
