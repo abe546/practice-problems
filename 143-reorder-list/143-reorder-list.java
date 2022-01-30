@@ -3,63 +3,50 @@
  * public class ListNode {
  *     int val;
  *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ *     ListNode(int x) { val = x; }
  * }
  */
 class Solution {
-    
-    Set<Integer> avoid = new HashSet(); 
     public void reorderList(ListNode head) {
         
-        ListNode reverse = null; 
-        ListNode current = head; 
-  
-        int n = 0; 
-        while(current != null)
+        if(head == null || head.next == null)
         {
-            ListNode item = new ListNode(current.val); 
-            
-            item.next = reverse;
-            reverse = item;
-            current = current.next;
-            n++; 
+            return;
         }
         
-        current = head; 
-        
-        reshape(current, reverse);
-        current = head; 
- 
-        
-        while(current != null && n >= 0)
+        ListNode curr = head;
+        int size = 0;
+        while(curr != null)
         {
-   n--; 
-            if(n == 0)
+            size++;
+            curr = curr.next;
+        }
+        curr =head;
+        for(int i=0; i< size; i++)
+        {
+            if(i%2 == 0 && curr != null && curr.next !=null && curr.next.next !=null)
             {
-                current.next = null; 
-                break; 
+                ListNode node = new ListNode();
+                
+                ListNode fw = curr;
+                ListNode after = curr.next;
+                
+                while(fw.next.next != null)
+                {
+                    fw = fw.next;
+                }
+                
+                node.val = fw.next.val;
+                node.next = after;
+                           
+                fw.next = null;
+                
+                curr.next = node;
             }
             
-          
-    
-            current = current.next; 
-        }
-    }
-    
-    public void reshape(ListNode current, ListNode reverse)
-    {
-        if(reverse == null)
-        {
-            return; 
+            curr= curr.next;
         }
         
- 
-        reshape(reverse, current.next);
-        current.next = reverse;
- 
-             
         
     }
 }
