@@ -48,7 +48,7 @@ class Solution {
                 int x = dir[0] + i;
                 int y = dir[1] + j;
                 
-                if(x < matrix.length && y < matrix[0].length && x >= 0 && y >= 0)
+                if(x < matrix.length && y < matrix[0].length && x >= 0 && y >= 0 && ignore[x][y] != 1)
                 {
                     if(explore(x, y, matrix, word, index+1))
                     {
