@@ -5,7 +5,7 @@ class Solution {
         
         int left = 0; 
         int right = matrix[0].length-1;
-        int up = 1;
+        int up = 0;
         int down = matrix.length-1;
         
         int area = matrix.length * matrix[0].length;
@@ -13,25 +13,34 @@ class Solution {
         while(answer.size() < area)
         {
             for(int j = left; j <= right; j++)
-            {
-                if(answer.size() != area)
-                answer.add(matrix[left][j]);
+            { 
+                answer.add(matrix[up][j]);
             }
             
-            for(int i = up; i <= down; i++ )
-            { if(answer.size() != area)
+            for(int i = up+1; i <= down; i++ )
+            {  
               answer.add(matrix[i][right]);  
             }
             
-            for(int i = right-1; i >= left; i--)
-            {   if(answer.size() != area)
+            if (up != down) {
+                // Traverse from right to left.
+               for(int i = right-1; i >= left; i--)
+            {   
                 answer.add(matrix[down][i]);
             }
             
-            for(int i = down -1; i >= up; i--)
-            {   if(answer.size() != area)
+            }
+            
+            
+            if (left != right) {
+                // Traverse upwards.
+                 for(int i = down -1; i > up; i--)
+            {   
                 answer.add(matrix[i][left]);
             }
+            }
+           
+          
             
             left++;
             up++;
