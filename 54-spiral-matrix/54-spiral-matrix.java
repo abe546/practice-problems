@@ -3,50 +3,20 @@ class Solution {
         
          List<Integer> answer = new LinkedList();
         
-        int left = 0; 
-        int right = matrix[0].length-1;
-        int up = 0;
-        int down = matrix.length-1;
-        
-        int area = matrix.length * matrix[0].length;
-        
-        while(answer.size() < area)
+        if(matrix == null || matrix.length < 1)
         {
-            for(int j = left; j <= right; j++)
-            { 
-                answer.add(matrix[up][j]);
-            }
+             return Collections.EMPTY_LIST;
+        }
+        
+        getTopRow(matrix, answer);
+        
+        int[][] arr = rotateMatrixExceptTop(matrix);
+       
+        while(arr != null && arr.length >= 1)
+        {
+            getTopRow(arr, answer);
             
-            for(int i = up+1; i <= down; i++ )
-            {  
-              answer.add(matrix[i][right]);  
-            }
-            
-            if (up != down) {
-                // Traverse from right to left.
-               for(int i = right-1; i >= left; i--)
-            {   
-                answer.add(matrix[down][i]);
-            }
-            
-            }
-            
-            
-            if (left != right) {
-                // Traverse upwards.
-                 for(int i = down -1; i > up; i--)
-            {   
-                answer.add(matrix[i][left]);
-            }
-            }
-           
-          
-            
-            left++;
-            up++;
-            down--;
-            right--; 
- 
+            arr = rotateMatrixExceptTop(arr);
         }
         
         return answer; 
