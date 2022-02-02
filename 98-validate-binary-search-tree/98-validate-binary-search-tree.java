@@ -20,15 +20,6 @@ class Solution {
             return true;
         }
         
-        if(root.left != null && root.val <= root.left.val)
-        {
-            return false;
-        }
-        
-        if(root.right != null && root.val >= root.right.val)
-        {
-            return false;
-        }
         
         return isValidBST(root.left) && 
                isValidBST(root.right) &&
