@@ -15,45 +15,81 @@
  */
 class Solution {
     public boolean isValidBST(TreeNode root) {
+        
         if(root == null)
         {
             return true;
         }
         
+         Stack<TreeNode> stack = new Stack();
+        stack.add(root);
         
-        return isValidBST(root.left) && 
-               isValidBST(root.right) &&
-               isLessThanAll(root.right, root.val) &&
-               isGreaterThanAll(root.left, root.val);
+        while(!stack.isEmpty())
+        {
+            TreeNode current = stack.pop();
+            
+            if(current == null)
+            {
+                continue;
+            }
+            
+            //Check left subtree
+            List<TreeNode> entries = getSubTree(current.left);
+            
+            for(TreeNode item : entries)
+            {
+                if(current.val <= item.val)
+                {
+                    return false; 
+                }
+            }
+            
+            //Check right sub tree
+            entries = getSubTree(current.right);
+            
+            for(TreeNode item : entries)
+            {
+                if(current.val >= item.val)
+                {
+                    return false; 
+                }
+            }
+            
+            stack.add(current.left);
+            stack.add(current.right); 
+        }
+        
+        return true; 
     }
     
-    public boolean isGreaterThanAll(TreeNode root, int value)
+    public List<TreeNode> getSubTree(TreeNode root)
     {
+        Stack<TreeNode> stack = new Stack();
+        
         if(root == null)
         {
-            return true;
-        }
-                
-        if(value <= root.val)
-        { 
-            return false;
+            return stack;
         }
         
-        return isGreaterThanAll(root.left, value) && isGreaterThanAll(root.right, value);
+        List<TreeNode> items = new ArrayList(); 
+        
+        stack.add(root); 
+        
+        while(!stack.isEmpty()){
+            TreeNode item = stack.pop();
+            
+            if(item == null)
+            {
+                continue;
+            }
+            
+            items.add(item);
+            stack.add(item.left);
+            stack.add(item.right);
+        }
+        
+        return items; 
     }
     
-    public boolean isLessThanAll(TreeNode root, int value)
-    {
-        if(root == null)
-        {
-            return true;
-        }
-        
-        if(value >= root.val)
-        {
-            return false;
-        }
-        
-        return isLessThanAll(root.left, value) && isLessThanAll(root.right, value); 
-    }
+   
 }
