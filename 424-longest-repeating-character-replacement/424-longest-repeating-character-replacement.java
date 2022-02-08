@@ -26,14 +26,9 @@ class Solution {
                 leftItem = s.charAt(left); 
                 size = i - left;
             }
-        
-            int count = 0; 
-            for(int j = left; j <= i; j++)
-            {
-                count++; 
-            }
+ 
             
-            result = Math.max(result, count); 
+            result = Math.max(result, ++size); 
         }
         
         return result; 
