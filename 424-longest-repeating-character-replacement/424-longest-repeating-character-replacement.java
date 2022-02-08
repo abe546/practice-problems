@@ -26,7 +26,7 @@ class Solution {
                 leftItem = s.charAt(left); 
                 size = i - left;
             }
-            
+        
             result = Math.max(result, ++size); 
         }
         
