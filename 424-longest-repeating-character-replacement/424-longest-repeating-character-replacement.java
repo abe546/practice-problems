@@ -7,30 +7,30 @@ class Solution {
         int left = 0; 
         int max = 0; 
         int result = 0; 
-        
         for(int i = 0; i < s.length(); i++)
         {
-            char item = s.charAt(i);
+            char rightItem = s.charAt(i); 
+            char leftItem = s.charAt(left);
             
-            int count = map.getOrDefault(item,0)+1;
-            map.put(item, count); 
-            max = Math.max(max, count); 
-            int size = (i - left + 1); 
-            while( size - max > k)
+            map.put(rightItem, map.getOrDefault(rightItem, 0)+1);
+            
+            max = Math.max(map.get(rightItem), max); 
+            
+            int size = i - left;
+            
+            while( size - max >= k)
             {
-                map.put(s.charAt(left), map.get(s.charAt(left))-1);
-                left++; 
-                size = (i - left + 1);
+                map.put(leftItem, map.get(leftItem)-1);
+                
+                left++;
+                leftItem = s.charAt(left); 
+                size = i - left;
             }
             
-            //System.out.println("SIZE : "+size); 
-            
-            result = Math.max(result, size); 
+            result = Math.max(result, ++size); 
         }
         
-        //System.out.println("MAP : "+map); 
-        
-      return result;
+        return result; 
     }
 }
     
