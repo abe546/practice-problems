@@ -27,7 +27,13 @@ class Solution {
                 size = i - left;
             }
         
-            result = Math.max(result, ++size); 
+            int count = 0; 
+            for(int j = left; j <= i; j++)
+            {
+                count++; 
+            }
+            
+            result = Math.max(result, count); 
         }
         
         return result; 
