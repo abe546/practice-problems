@@ -38,7 +38,6 @@ class Solution {
         
         if(graph.get(node) == null)
         {
-            list.add(node);
             //no children
             return true; 
         }
@@ -53,7 +52,7 @@ class Solution {
             }
         }
         list.add(node); 
-        memory.remove(node); 
+ 
         map.put(node, true);
         
         return true; 
