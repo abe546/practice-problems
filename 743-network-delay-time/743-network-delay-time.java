@@ -1,7 +1,7 @@
 
 class Solution {
    
-    Map<Integer, Set<ArrayList<Integer>>> graph = new HashMap();
+    Map<Integer, Set<List<Integer>>> graph = new HashMap();
     Set<Integer> nodes = new HashSet(); 
     Set<Integer> avoid = new HashSet(); 
     public int networkDelayTime(int[][] times, int n, int k) {
@@ -12,7 +12,7 @@ class Solution {
             return a.get(1) - b.get(1);
         };
         
-        PriorityQueue<ArrayList<Integer>> que = new PriorityQueue<>(customCompare);
+        PriorityQueue<List<Integer>> que = new PriorityQueue<>(customCompare);
         
         createGraph(times);
         
@@ -42,7 +42,7 @@ class Solution {
  
             if(graph.get(current.get(0)) != null)
             {
-                for(ArrayList<Integer> item : graph.get(current.get(0)))
+                for(List<Integer> item : graph.get(current.get(0)))
                 {
                      
                     item.set(1, item.get(1) + current.get(1));
@@ -69,7 +69,7 @@ class Solution {
             int dest = matrix[i][1];
             int time = matrix[i][2];
             
-            Set<ArrayList<Integer>> tmp = graph.getOrDefault(source, new HashSet<ArrayList<Integer>>());
+            Set<List<Integer>> tmp = graph.getOrDefault(source, new HashSet<List<Integer>>());
             
             ArrayList<Integer> item = new ArrayList();
             item.add(dest); 
