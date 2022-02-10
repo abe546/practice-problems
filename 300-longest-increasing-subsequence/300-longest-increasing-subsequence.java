@@ -20,12 +20,12 @@ class Solution {
     {
         int current = nums[i];
         
-        for(int j = 0; j < i; j++)
+        for(int j = i+1; j < nums.length; j++)
         {
-            if(current > nums[j])
+            if(current < nums[j])
             {
-                frequency.set(i, Math.max(1 + frequency.get(j), frequency.get(i)));
-                max = Math.max(frequency.get(i), max);
+                frequency.set(j, Math.max(1 + frequency.get(i), frequency.get(j)));
+                max = Math.max(frequency.get(j), max);
             }
         }
     }
