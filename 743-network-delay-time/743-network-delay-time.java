@@ -6,7 +6,7 @@ class Solution {
     Set<Integer> avoid = new HashSet(); 
     public int networkDelayTime(int[][] times, int n, int k) {
  
-        Comparator<ArrayList<Integer>> customCompare = 
+        Comparator<List<Integer>> customCompare = 
             (a,b) ->
         {
             return a.get(1) - b.get(1);
