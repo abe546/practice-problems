@@ -25,8 +25,6 @@ class Solution {
  
         getComponent(node, component);
             
-        
-        
         setOfSets.add(component); 
         }
  
