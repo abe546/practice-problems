@@ -17,8 +17,7 @@ class Solution {
             if(!allowed(items[0], memory, graph)){
                 return false; 
             }
-            
-            System.out.println("LIST : "+list); 
+ 
         }
     
     return true;     
