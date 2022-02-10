@@ -39,9 +39,7 @@ class Solution {
             if(current.get(1) != 0){
             max = Math.max(current.get(1), max);
             }
-            
-            System.out.println(current.get(0)); 
-            
+ 
             if(graph.get(current.get(0)) != null)
             {
                 for(ArrayList<Integer> item : graph.get(current.get(0)))
