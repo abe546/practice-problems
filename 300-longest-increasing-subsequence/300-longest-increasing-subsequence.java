@@ -1,10 +1,7 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
   
-        if(nums == null || nums.length == 0)
-        {
-            return 0;
-        }
+   
         
     ArrayList<Integer> frequency = new ArrayList();
     
