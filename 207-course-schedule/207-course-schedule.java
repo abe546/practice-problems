@@ -51,7 +51,7 @@ class Solution {
                 return false; 
             }
         }
-        list.add(node); 
+  
  
         map.put(node, true);
         
