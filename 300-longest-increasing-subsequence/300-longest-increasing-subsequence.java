@@ -1,28 +1,22 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
-  
-    ArrayList<Integer> frequency = new ArrayList();
-    
-        for(int item : nums)
+ 
+        int[] sequence = new int[nums.length];
+        
+        Arrays.fill(sequence, 1); 
+        int max = 1; 
+        
+        for(int i = 0; i < nums.length; i++)
         {
-            frequency.add(1);
-        }
-        
-    int max = 1; 
-        
-    for(int i = 0; i < nums.length; i++)
-    {
-        int current = nums[i];
-        
-        for(int j = i+1; j < nums.length; j++)
-        {
-            if(current < nums[j])
+            for(int j = 0; j < i; j++)
             {
-                frequency.set(j, Math.max(1 + frequency.get(i), frequency.get(j)));
-                max = Math.max(frequency.get(j), max);
+                if(nums[j] < nums[i])
+                {
+                    sequence[i] = Math.max(sequence[i] , sequence[j]+1);
+                    max = Math.max(sequence[i], max);
+                }
             }
         }
-    }
         
         return max; 
         
