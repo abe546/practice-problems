@@ -10,7 +10,7 @@ class Trie {
     
     public void insert(String word) {
         Trie current = this; 
-        for(int i = 0; i < word.toCharArray().length; i++)
+        for(int i = 0; i < word.length(); i++)
         {
             char item = word.charAt(i); 
  
