@@ -12,8 +12,10 @@ class Trie {
         
         Trie current = this; 
         
-        for(char item : word.toCharArray())
+        for(int i = 0; i < word.length(); i++)
         {
+            char item = word.charAt(i); 
+            
             Trie entry = current.fieldMap.getOrDefault(item, new Trie());
             current.fieldMap.put(item, entry);
             
@@ -27,8 +29,10 @@ class Trie {
         
         Trie current = this; 
         
-        for(char item : word.toCharArray())
+        for(int i = 0; i < word.length(); i++)
         {
+            
+            char item = word.charAt(i); 
             if(current.fieldMap.get(item) == null)
             {
                 return false; 
@@ -44,8 +48,10 @@ class Trie {
 
         Trie current = this; 
         
-        for(char item : prefix.toCharArray())
+        for(int i = 0; i < prefix.length(); i++)
         {
+            char item = prefix.charAt(i); 
+            
             if(current.fieldMap.get(item) == null)
             {
                 return false; 
