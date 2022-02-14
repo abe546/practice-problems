@@ -2,10 +2,12 @@ class Trie {
  
     private Map<Character, Trie> fieldMap;
     private boolean endOfWord; 
+    private Set<String> words;
     
     public Trie() {
         fieldMap = new HashMap(); 
         endOfWord = false; 
+        words = new HashSet(); 
     }
     
     public void insert(String word) {
@@ -19,9 +21,11 @@ class Trie {
             Trie entry = current.fieldMap.getOrDefault(item, new Trie());
             current.fieldMap.put(item, entry);
             
+            current.words.add(word); 
+            
             current = current.fieldMap.get(item); 
         }
-        
+        current.words.add(word); 
         current.endOfWord = true; 
     }
     
@@ -59,6 +63,8 @@ class Trie {
             
             current = current.fieldMap.get(item); 
         }
+        
+        
         
         return true; 
     }
