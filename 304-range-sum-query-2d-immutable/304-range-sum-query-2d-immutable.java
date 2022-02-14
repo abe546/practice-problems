@@ -1,55 +1,84 @@
 class NumMatrix {
-private Map<String, Integer> map;
-private int[][] sumMatrix;
+
+    private int[][] sumMatrix = null; 
+    private int m = 0; 
+    private int n = 0; 
     
-  public NumMatrix(int[][] matrix) {
-    //214 ms using map
-    if(matrix == null || matrix.length == 0)
-    {
-        return;
-    }
- 
-      sumMatrix = new int[matrix.length][matrix[0].length];
-      
-      //Map will consist of sum of cells from left to right (columns)
-      for(int i = 0; i < matrix.length; i++)
-      {
-          int sum = 0; 
-          
-          for(int j = 0; j < matrix[0].length; j++)
-          {
-              sum+=matrix[i][j];
-              sumMatrix[i][j] = sum;
-          }
-      }
-      
-    }
-      
- 
- 
-public int sumRegion(int row1, int col1, int row2, int col2) {
-    int sum = 0;
+    private Map<String, Integer> cache = new HashMap(); 
     
-    for(int i = row1; i <= row2; i++)
-    { 
-            if(col1-1 < sumMatrix[0].length && col1-1 >= 0)
-            {
-                sum -= sumMatrix[i][col1-1];
-            }
+    public NumMatrix(int[][] matrix) {
+        int sum = 0; 
+        m = matrix.length;
+        n = matrix[0].length; 
         
-        sum+= sumMatrix[i][col2];
- 
+        sumMatrix = new int[m][n];
+        
+        for(int i = 0; i < m; i++)
+        {
+            for(int j = 0; j < n; j++)
+            {
+                sum += matrix[i][j];
+                
+                sumMatrix[i][j] = sum;
+            }
+        }
+       
     }
     
-    return sum;
+    public int sumRegion(int row1, int col1, int row2, int col2) {
+     int sum = 0; 
+        String key = key(key(row1,col1), key(row2,col2));
+        if(cache.get(key) != null)
+        {
+            return cache.get(key); 
+        }
+        
+        for(int i = row1; i <= row2; i++)
+        {
+            int currentRow = i; 
+            int currentCol = col2;
+            int diff = getDiff(currentRow, col1);
+            //System.out.println("DIFF : "+diff); 
+            sum += 
+                sumMatrix[currentRow][currentCol]
+                - 
+                diff;
+        }
+        
+        cache.put(key, sum);
+        
+        return sum; 
+    }
+    
+    public int getDiff(int row, int col)
+    {
+        int diff = 0;
+        
+        if(col >= 1)
+        {
+            diff = sumMatrix[row][col-1];
+            
+            return  diff;
+        }else if(row >= 1)
+        {
+            diff = sumMatrix[row-1][n-1];
+            
+            return diff;
+        }
+        
+        return diff; 
+    }
+    
+    public String key(int row, int column)
+    {
+        return String.format("%s:%s", row, column);
+    }
+    
+    public String key(String key1, String key2)
+    {
+       return String.format("%s:%s", key1, key2);
+    }
 }
-
-public String getKey(int i, int j)
-{
-    return String.format("%s:%s",i,j);
-}
-}
-
 
 /**
  * Your NumMatrix object will be instantiated and called as such:
