@@ -31,7 +31,7 @@ class Solution {
               wordMap.put(current, count);
      
  
-          if(subMap.containsKey(current) && wordMap.get(current).intValue() == subMap.get(current).intValue())
+          if(subMap.containsKey(current) && wordMap.get(current).equals(subMap.get(current)) )
           { 
               items++;
           }
@@ -62,7 +62,7 @@ class Solution {
                   wordMap.put(leftChar, 
                              wordMap.get(leftChar)-1);
                   
-                   if(subMap.containsKey(leftChar) && wordMap.get(leftChar) < subMap.get(leftChar))
+                   if(subMap.containsKey(leftChar) && wordMap.get(leftChar).intValue() < subMap.get(leftChar).intValue())
                   {
                        items--; 
         
