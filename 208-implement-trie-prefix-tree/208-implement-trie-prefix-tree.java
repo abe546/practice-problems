@@ -13,6 +13,7 @@ class Trie {
     public void insert(String word) {
         
         Trie current = this; 
+        Trie head = current; 
         
         for(int i = 0; i < word.length(); i++)
         {
@@ -26,6 +27,7 @@ class Trie {
             current = current.fieldMap.get(item); 
         }
         current.words.add(word); 
+        head.words.clear(); 
         current.endOfWord = true; 
     }
     
@@ -44,27 +46,27 @@ class Trie {
             
             current = current.fieldMap.get(item); 
         }
-        
+
         return current.endOfWord; 
     }
     
     public boolean startsWith(String prefix) { 
-
+ 
         Trie current = this; 
-        
+ 
         for(int i = 0; i < prefix.length(); i++)
         {
             char item = prefix.charAt(i); 
-            
+ 
             if(current.fieldMap.get(item) == null)
             {
                 return false; 
             }
-            
+             
             current = current.fieldMap.get(item); 
         }
-        
-        
+ 
+         
         
         return true; 
     }
