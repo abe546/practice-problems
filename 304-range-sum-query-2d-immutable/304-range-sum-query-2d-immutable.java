@@ -28,12 +28,7 @@ class NumMatrix {
     
     public int sumRegion(int row1, int col1, int row2, int col2) {
      int sum = 0; 
-        String key = key(key(row1,col1), key(row2,col2));
-        if(cache.get(key) != null)
-        {
-            return cache.get(key); 
-        }
-        
+ 
         for(int i = row1; i <= row2; i++)
         {
             int currentRow = i; 
@@ -56,15 +51,7 @@ class NumMatrix {
         return sum; 
     }
         
-    public String key(int row, int column)
-    {
-        return String.format("%s:%s", row, column);
-    }
-    
-    public String key(String key1, String key2)
-    {
-       return String.format("%s:%s", key1, key2);
-    }
+ 
 }
 
 /**
