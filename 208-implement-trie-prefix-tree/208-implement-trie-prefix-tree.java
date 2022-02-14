@@ -16,9 +16,9 @@ class Trie {
             {
                 curr.map.put(word.charAt(i), new Trie());
             }
-            if(i<word.toCharArray().length){
+     
             curr = curr.map.get(word.charAt(i));
-            }
+  
         }
         
         curr.endOfWord = true; //Stamp the last char of this word for examination later
