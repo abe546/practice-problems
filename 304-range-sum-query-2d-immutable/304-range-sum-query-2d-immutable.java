@@ -15,6 +15,7 @@ class NumMatrix {
         
         for(int i = 0; i < m; i++)
         {
+            sum = 0; 
             for(int j = 0; j < n; j++)
             {
                 sum += matrix[i][j];
@@ -37,7 +38,12 @@ class NumMatrix {
         {
             int currentRow = i; 
             int currentCol = col2;
-            int diff = getDiff(currentRow, col1);
+            int diff = 0;
+            
+            if(col1 - 1 >= 0)
+            {
+                diff = sumMatrix[currentRow][col1-1];
+            }
             //System.out.println("DIFF : "+diff); 
             sum += 
                 sumMatrix[currentRow][currentCol]
@@ -49,26 +55,7 @@ class NumMatrix {
         
         return sum; 
     }
-    
-    public int getDiff(int row, int col)
-    {
-        int diff = 0;
         
-        if(col >= 1)
-        {
-            diff = sumMatrix[row][col-1];
-            
-            return  diff;
-        }else if(row >= 1)
-        {
-            diff = sumMatrix[row-1][n-1];
-            
-            return diff;
-        }
-        
-        return diff; 
-    }
-    
     public String key(int row, int column)
     {
         return String.format("%s:%s", row, column);
