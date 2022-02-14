@@ -1,65 +1,61 @@
 class Trie {
-
-    private Map<Character, Trie> map;
-    private boolean endOfWord = false; 
+ 
+    private Map<Character, Trie> fieldMap;
+    private boolean endOfWord;
     
     public Trie() {
- map = new HashMap(); 
+        fieldMap = new HashMap(); 
         endOfWord = false; 
     }
     
     public void insert(String word) {
         Trie current = this; 
-        for(int i = 0; i < word.length(); i++)
-        {
-            char item = word.charAt(i); 
- 
-            
         
-            if(current.map.get(item) == null)
+        for(char item : word.toCharArray())
+        {
+            if(current.fieldMap.get(item) == null)
             {
-                current.map.put(item, new Trie()); 
+                current.fieldMap.put(item, new Trie()); 
             }
             
-            current = current.map.get(item); 
+            current = current.fieldMap.get(item);
         }
         
         current.endOfWord = true; 
     }
     
     public boolean search(String word) {
-        
-        Trie current = this;
+        Trie current = this; 
         
         for(char item : word.toCharArray())
         {
-            if(current.map.get(item) == null)
+             if(current.fieldMap.get(item) == null)
             {
                 return false; 
             }
-            
-            current = current.map.get(item);
+            current = current.fieldMap.get(item);
+    
         }
         
-        return current.endOfWord;
+        return current.endOfWord; 
     }
     
-    public boolean startsWith(String prefix) {
+    public boolean startsWith(String prefix) { 
+        Trie current = this; 
         
-        Trie current = this;
-    
         for(char item : prefix.toCharArray())
         {
-            if(current.map.get(item) == null)
+             if(current.fieldMap.get(item) == null)
             {
                 return false; 
             }
             
-            current = current.map.get(item);
+            current = current.fieldMap.get(item);
+            
+           
         }
         
-        return true;
-        
+        return true; 
     }
 }
 
