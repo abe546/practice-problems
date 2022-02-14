@@ -29,6 +29,7 @@ class Solution {
           int count = wordMap.getOrDefault(current, 0); 
           count++; 
               wordMap.put(current, count);
+     
  
           if(subMap.containsKey(current) && wordMap.get(current).intValue() == subMap.get(current).intValue())
           { 
