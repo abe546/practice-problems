@@ -1,27 +1,30 @@
 class Trie {
 
-    private Map<Character, Trie> map; 
+    private Map<Character, Trie> map;
     private boolean endOfWord = false; 
     
     public Trie() {
  map = new HashMap(); 
+        endOfWord = false; 
     }
     
     public void insert(String word) {
-        Trie curr = this;
+        Trie current = this; 
+        for(int i = 0; i < word.length(); i++)
+        {
+            char item = word.charAt(i); 
+ 
+            
         
-        for(int i=0; i<word.toCharArray().length; i++)
-        {             
-            if(curr.map.get(word.charAt(i)) == null)
+            if(current.map.get(item) == null)
             {
-                curr.map.put(word.charAt(i), new Trie());
+                current.map.put(item, new Trie()); 
             }
-     
-            curr = curr.map.get(word.charAt(i));
-  
+            
+            current = current.map.get(item); 
         }
         
-        curr.endOfWord = true; //Stamp the last char of this word for examination later
+        current.endOfWord = true; 
     }
     
     public boolean search(String word) {
