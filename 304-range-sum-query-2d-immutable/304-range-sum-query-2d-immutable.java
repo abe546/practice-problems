@@ -51,7 +51,7 @@ class NumMatrix {
                 diff;
         }
         
-        cache.put(key, sum);
+   
         
         return sum; 
     }
