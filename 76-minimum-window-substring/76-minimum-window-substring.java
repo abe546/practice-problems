@@ -1,86 +1,78 @@
 class Solution {
   public String minWindow(String s, String t) {
- 
-      if (s.length() == 0 || t.length() == 0) {
+      Map<Character, Integer> charCount = new HashMap(); 
+      Map<Character, Integer> compare = new HashMap(); 
+      
+      //Base case if S is less length than T return empty string
+      if(s == null && t != null)
+      {
           return "";
       }
       
-      Map<Character, Integer> subMap = new HashMap(); 
-      Map<Character, Integer> wordMap = new HashMap(); 
-      
-      for(char item : t.toCharArray())
+      if(t != null && s.length() < t.length())
       {
-          subMap.put(item, 
-                    subMap.getOrDefault(item, 0)+1);
+          return "";
       }
       
-      int unique = subMap.size(); 
-      int items = 0; 
+      int uniqueChars = 0;
       
-      int left = 0; 
-      int right = 0; 
-      int bound = 0; 
-      int begin = 0; 
-      int end = 0; 
-      
-      while( right < s.length())
+      for(int i = 0; i < t.length(); i++)
       {
-          char current = s.charAt(right); 
-          int count = wordMap.getOrDefault(current, 0); 
-          count++; 
-              wordMap.put(current, count);
-     
- 
-          if(subMap.containsKey(current) && wordMap.get(current).equals(subMap.get(current)) )
-          { 
-              items++;
+          if(!compare.containsKey(t.charAt(i)))
+          {
+              uniqueChars++;
           }
- 
           
-          while( left <= right && items == unique)
-          { 
-
-              char leftChar = s.charAt(left); 
-              
-              if(bound == 0)
+          compare.put(t.charAt(i),
+                     compare.getOrDefault(t.charAt(i),0)+1);
+      }
+      
+      int leftP = 0;
+      int min = -1;
+      String subString = "";
+      int requirement = 0; 
+            
+      for(int i = 0; i < s.length(); i++)
+      {
+          char current = s.charAt(i);
+          
+          int currCount = charCount.getOrDefault(current,0);
+          currCount++;
+          charCount.put(current, currCount);
+          
+          if(charCount.get(current).equals(compare.get(current)))
+          {
+              requirement++; 
+          }
+          
+          if(requirement == uniqueChars)
+          {   
+              for(int j = leftP; j < s.length(); j++)
               {
-                  bound = right - left + 1; 
-                  begin = left; 
-                  end = right+1;
-              }else
-              {
-
-                if(bound > right - left + 1)
-                {
-                    bound = right - left + 1; 
-                    begin = left;
-                    end = right+1; 
-                }
-              }
-     
-     
-                  wordMap.put(leftChar, 
-                             wordMap.get(leftChar)-1);
+                  int size = i - j + 1; 
                   
-                   if(subMap.containsKey(leftChar) && wordMap.get(leftChar).intValue() < subMap.get(leftChar).intValue())
+                  if(min == -1 || min > size)
                   {
-                       items--; 
-        
+                      min = size; 
+                      subString = s.substring(j, i+1); 
                   }
-           
+                 
+                  charCount.put(s.charAt(j), 
+                           charCount.get(s.charAt(j))-1); 
+ 
+                  //TODO MAKE A POINT ABOUT JAVA OBJECTS
+                  if(charCount.get(s.charAt(j)).intValue() < compare.getOrDefault(s.charAt(j), 0).intValue()){
+                      leftP = j+1;
+                      requirement--;
+                      break;
+                  }
+                  
+                  leftP = j; 
               
-               left++;
+              }
           }
-          
-          right++;
       }
       
-      if(bound != 0)
-      {
-          return s.substring(begin, end);
-      }
-      
-      return s.substring(begin, end); 
-      
+      return subString; 
   }
 }
