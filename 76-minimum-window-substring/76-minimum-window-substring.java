@@ -68,7 +68,6 @@ class Solution {
                   }
                   
                   leftP = j; 
-              
               }
           }
       }
