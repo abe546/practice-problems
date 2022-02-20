@@ -6,15 +6,23 @@ class Solution {
             return false; 
         }
         
-        char[] arr = s.toCharArray();
-        char[] arr2 = t.toCharArray();
-        
-        Arrays.sort(arr); 
-        Arrays.sort(arr2); 
+        Map<Character, Integer> map1 = new HashMap(); 
+        Map<Character, Integer> map2 = new HashMap(); 
         
         for(int i = 0; i < s.length(); i++)
         {
-            if(arr[i] != arr2[i])
+            map1.put(s.charAt(i), 
+                    map1.getOrDefault(s.charAt(i), 0)+1); 
+            
+            map2.put(t.charAt(i), 
+                    map2.getOrDefault(t.charAt(i), 0)+1); 
+        }
+       
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+        
+        for(char entry : alphabet.toCharArray())
+        {
+            if(map1.getOrDefault(entry, 0).intValue() != map2.getOrDefault(entry, 0).intValue())
             {
                 return false; 
             }
