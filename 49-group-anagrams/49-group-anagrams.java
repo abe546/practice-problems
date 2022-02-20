@@ -1,56 +1,23 @@
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
         
-        Arrays.sort(strs, (a,b) ->
-                    {
-                       return a.length() - b.length(); 
-                    });
-        
-        String[] arr = new String[strs.length];
- 
-        //For every String in array, sort based on chars
-        int k = 0; 
-        for(String entry : strs)
+        Map<String, List<String>> bank = new HashMap(); 
+        List<List<String>> answer = new LinkedList(); 
+        for(int i = 0; i < strs.length; i++)
         {
-            char[] item = entry.toCharArray(); 
-            Arrays.sort(item); 
+            char[] tmp = strs[i].toCharArray();
+            Arrays.sort(tmp); 
+            String current = new String(tmp);
             
-            arr[k++] = new String(item); 
-        }
-       
-        List<List<String>> answer = new ArrayList(); 
-        Set<Integer> avoid = new HashSet(); 
-        for(int i = 0; i < arr.length; i++)
-        {
-            if(avoid.contains(i))
-            {
-                continue; 
-            }
-            
-            List<String> part = new ArrayList(); 
-            String current = strs[i]; 
-            
-            part.add(current); 
-            avoid.add(i); 
-            
-            for(int j = 0; j < arr.length; j++)
-            {
-                if(j == i || avoid.contains(j))
-                {
-                    continue; 
-                }
-                
-                if(arr[i].equals(arr[j]))
-                {
-                    part.add(strs[j]);
-                    avoid.add(j); 
-                }
-            }
-            
-            answer.add(part); 
+            List<String> list = bank.getOrDefault(current, new ArrayList<String>());
+            list.add(strs[i]);
+            bank.put(current, list); 
         }
         
-       
+        for(String key : bank.keySet())
+        {
+            answer.add(bank.get(key));
+        }
         
         return answer; 
     }
