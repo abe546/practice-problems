@@ -1,21 +1,37 @@
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-        if (strs.length == 0) return new ArrayList();
-        Map<String, List> ans = new HashMap<String, List>();
-        int[] count = new int[26];
-        for (String s : strs) {
-            Arrays.fill(count, 0);
-            for (char c : s.toCharArray()) count[c - 'a']++;
-
-            StringBuilder sb = new StringBuilder("");
-            for (int i = 0; i < 26; i++) {
-                sb.append('#');
-                sb.append(count[i]);
-            }
-            String key = sb.toString();
-            if (!ans.containsKey(key)) ans.put(key, new ArrayList());
-            ans.get(key).add(s);
+ 
+        String[] sorted = new String[strs.length];
+        
+        for(int i = 0; i < strs.length; i++)
+        {
+            char[] arr =  strs[i].toCharArray();
+            
+            Arrays.sort(arr); 
+            
+            sorted[i] = new String(arr);
         }
-        return new ArrayList(ans.values());
+        
+        Map<String, List<String>> bank = new HashMap(); 
+        
+        for(int i = 0; i < strs.length; i++)
+        {
+            List<String> entries = bank.getOrDefault(
+            sorted[i], new ArrayList<String>());
+            
+            entries.add(strs[i]);
+            
+            bank.put(sorted[i], entries); 
+        }
+        
+        List<List<String>> answer = new ArrayList(); 
+        
+        for(String key : bank.keySet())
+        {
+            answer.add(bank.get(key));
+        }
+        
+        return answer; 
+        
     }
 }
