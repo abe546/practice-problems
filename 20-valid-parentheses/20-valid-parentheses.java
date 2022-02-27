@@ -6,7 +6,8 @@ class Solution {
     private Set<Character> leftParens = new HashSet(); 
     private Set<Character> rightParens = new HashSet();
     private Stack<Character> stack = new Stack(); 
-    private Map<Character, Character> keyMap = new HashMap(); 
+    private Map<Character, Character> keyMap = new HashMap();
+    
     public boolean isValid(String s) {
  
         if(s == null && s.length() == 0)
