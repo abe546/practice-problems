@@ -11,6 +11,19 @@ class Solution {
             }
         }
         
-        return sb.toString().toLowerCase().equals(sb.reverse().toString().toLowerCase());         
+        String newItem = sb.toString().toLowerCase();
+        
+        for(int i = 0; i < sb.length(); i++)
+        {
+            char current = newItem.charAt(i);
+            char compare = newItem.charAt(sb.length()-1-i);
+            
+            if(current != compare)
+            {
+                return false; 
+            }
+        }
+       
+        return true; 
     }
 }
