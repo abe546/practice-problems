@@ -1,18 +1,30 @@
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
+ 
+        String[] sorted = new String[strs.length];
         
-        Map<String, List<String>> bank = new HashMap(); 
-        List<List<String>> answer = new LinkedList(); 
         for(int i = 0; i < strs.length; i++)
         {
-            char[] tmp = strs[i].toCharArray();
-            Arrays.sort(tmp); 
-            String current = new String(tmp);
+            char[] arr =  strs[i].toCharArray();
             
-            List<String> list = bank.getOrDefault(current, new ArrayList<String>());
-            list.add(strs[i]);
-            bank.put(current, list); 
+            Arrays.sort(arr); 
+            
+            sorted[i] = new String(arr);
         }
+        
+        Map<String, List<String>> bank = new HashMap(); 
+        
+        for(int i = 0; i < strs.length; i++)
+        {
+            List<String> entries = bank.getOrDefault(
+            sorted[i], new ArrayList<String>());
+            
+            entries.add(strs[i]);
+            
+            bank.put(sorted[i], entries); 
+        }
+        
+        List<List<String>> answer = new ArrayList(); 
         
         for(String key : bank.keySet())
         {
@@ -20,5 +32,6 @@ class Solution {
         }
         
         return answer; 
+        
     }
 }
