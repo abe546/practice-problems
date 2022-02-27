@@ -3,7 +3,8 @@ class Solution {
         
         StringBuilder sb = new StringBuilder(); 
         
-        for(char entry : s.toCharArray())
+        
+        for(char entry : s.toLowerCase().toCharArray())
         {
             if(Character.isLetter(entry) || Character.isDigit(entry))
             {
