@@ -26,8 +26,41 @@ class Solution {
             return level;
         }
         
-        level = Math.max(level, Math.max(findDepth(root.left, level+1), findDepth(root.right, level+1)));
-        
+ 
+        Stack<Envelope> stack = new Stack(); 
+ 
+        stack.add(new Envelope(root, ++level));
+       
+        while(!stack.isEmpty())
+        {
+            Envelope unpack = stack.pop(); 
+            
+            if(unpack.item == null)
+            {
+                continue; 
+            }
+                        
+            int currLevel = unpack.level; 
+            TreeNode currNode = unpack.item;
+            
+            level = Math.max(level, currLevel); 
+            
+            stack.add(new Envelope(currNode.left, currLevel+1)); 
+            stack.add(new Envelope(currNode.right, currLevel+1));             
+        }
+ 
         return level; 
+    }
+    
+    class Envelope 
+    {
+        TreeNode item;
+        int level = 0;
+        
+        public Envelope(TreeNode item, int level)
+        {
+            this.item = item;
+            this.level = level; 
+        }
     }
 }
