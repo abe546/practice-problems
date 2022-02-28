@@ -15,9 +15,7 @@ class Solution {
         
         for(int i = 0; i < arr.length; i++)
         {
-             
-     
-            
+              
             int[] resultA = palindrome(i, i, arr); 
  
             int[] resultB = palindrome(i, i+1, arr); 
@@ -55,9 +53,7 @@ class Solution {
             left--;
             right++;
         }
-        
- 
-        
+
         return answer;
     }
 }
