@@ -1,4 +1,5 @@
 class Solution {
+ 
     public String longestPalindrome(String s) {
     
     
@@ -14,19 +15,25 @@ class Solution {
         
         for(int i = 0; i < arr.length; i++)
         {
+             
+     
+            
             int[] resultA = palindrome(i, i, arr); 
+ 
             int[] resultB = palindrome(i, i+1, arr); 
             
             if(end - start < resultA[1] - resultA[0])
             {
                 end = resultA[1]; 
                 start = resultA[0];
+   
             }
             
             if(end - start < resultB[1] - resultB[0])
             {
                 end = resultB[1]; 
                 start = resultB[0]; 
+ 
             }
         }
         
@@ -44,10 +51,12 @@ class Solution {
         {
             answer[0] = left;
             answer[1] = right;
-            
+    
             left--;
             right++;
         }
+        
+ 
         
         return answer;
     }
