@@ -14,30 +14,35 @@
  * }
  */
 class Solution {
-    private int max = Integer.MIN_VALUE;
  
-    public int maxPathSum(TreeNode root) {
+ 
+    private int max = Integer.MIN_VALUE;
     
-        getMaxPath(root); 
+    public int maxPathSum(TreeNode root) {
         
-        return max;
+        
+       getMaxPath(root); 
+    
+       return max;
     }
     
     public int getMaxPath(TreeNode root)
     {
-            
         if(root == null)
         {
-            return 0;
+            return 0; 
         }
         
-        int pathSum = root.val; 
+        int current = root.val; 
         
-        int left = Math.max(getMaxPath(root.left),0);
-        int right = Math.max(getMaxPath(root.right),0);
-      
-        max = Math.max(max, pathSum + left + right);
- 
-        return pathSum + Math.max(left, right); 
+        int leftPath = Math.max(getMaxPath(root.left), 0);
+        int rightPath = Math.max(getMaxPath(root.right), 0);
+        
+        //We take max possible at current level of pseudo root + left child + right child
+        max = Math.max(max, current + leftPath + rightPath); 
+        
+        return current + Math.max(leftPath, rightPath); 
     }
+    
+  
 }
