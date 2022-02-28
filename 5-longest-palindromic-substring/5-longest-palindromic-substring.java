@@ -51,11 +51,7 @@ class Solution {
                   answer[1] =  right++;
    
         }
-        
-  System.out.println("S " +answer[0]);
-        System.out.println("E "+answer[1]); 
- 
-        
+                
         return answer;
     }
 }
