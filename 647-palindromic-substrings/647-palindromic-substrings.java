@@ -9,7 +9,7 @@ class Solution {
         }
         
         char[] arr = s.toCharArray();
-        int count = 0;
+   
         
         ArrayList<Integer> init = new ArrayList();
         init.add(0);
@@ -22,6 +22,8 @@ class Solution {
             palindrome(i, i, arr); 
             palindrome(i, i+1, arr); 
         }
+        
+    
         
         return   set.size(); 
     }
