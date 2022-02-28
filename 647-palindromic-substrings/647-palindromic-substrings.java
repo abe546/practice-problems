@@ -1,38 +1,49 @@
 class Solution {
+   //Set of start and end times (index 0 is start, index 1 is end)
+   private Set<List<Integer>> set = new HashSet(); 
     public int countSubstrings(String s) {
-        
-        int count =0;
-        
-        for(int i=0; i<s.length(); i++)
+      
+        if(s.length() <= 1)
         {
-            for(int j=i+1; j<=s.length(); j++){
-            if( isPalindrome(s.substring(i,j) ))
-            {
-                count++; 
-            }
-            }
-         }
+            return 1;
+        }
+        
+        char[] arr = s.toCharArray();
+   
+        
+        ArrayList<Integer> init = new ArrayList();
+        init.add(0);
+        init.add(0);
+        
+        set.add(init);
+        
+        for(int i = 0; i < arr.length; i++)
+        {
+            palindrome(i, i, arr); 
+            palindrome(i, i+1, arr); 
+        }
+        
     
         
-        return count; 
-        
+        return   set.size(); 
     }
- 
-    public boolean isPalindrome(String word)
+    
+    /**
+    * Find all possible palindromes from point given. Iterate left and right, until arr[left] != arr[right]
+    */
+    public void palindrome(int left, int right, char[] arr)
     {        
-        int i=0;
-        int j=word.length()-1;
-        
-        while(i<j)
-        {             
-                if(word.charAt(i) != word.charAt(j))
-                {
-                    return false; 
-                }
-            i++;
-            j--;
-        
+        while(left >= 0 && right < arr.length && arr[left] == arr[right])
+        {
+            ArrayList<Integer> tmp = new ArrayList();
+            
+            tmp.add(left);
+            tmp.add(right);
+            
+            set.add(tmp);
+            
+            left--;
+            right++;
         }
-        return true; 
     }
 }
