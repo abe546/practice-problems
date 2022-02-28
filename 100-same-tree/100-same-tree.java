@@ -25,11 +25,40 @@ class Solution {
             return false; 
         }
         
-        if(p.val != q.val)
+        
+        Stack<TreeNode> pStack = new Stack(); 
+        Stack<TreeNode> qStack = new Stack();
+        
+        pStack.add(p); 
+        qStack.add(q); 
+        
+        while(!pStack.isEmpty() && !qStack.isEmpty())
+        {
+          TreeNode pExamine = pStack.pop(); 
+          TreeNode qExamine = qStack.pop(); 
+            
+          if( pExamine == null && qExamine == null)
+        {
+            continue;
+        }
+        
+        if(pExamine == null || qExamine == null)
         {
             return false; 
         }
+            
+        if(pExamine.val != qExamine.val)
+        {
+            return false; 
+        }
+            
+        pStack.add(pExamine.left);
+        pStack.add(pExamine.right); 
+        qStack.add(qExamine.left); 
+        qStack.add(qExamine.right); 
+            
+        }
         
-        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right); 
+        return pStack.isEmpty() && qStack.isEmpty();
     }
 }
