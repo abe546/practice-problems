@@ -2,7 +2,7 @@ import java.util.Base64;
 
 public class Codec {
 
-    private static final String HASH_KEY = ":UNIQUE-DELIM:";
+    private static final String HASH_KEY = ""+(char)257;
     
     // Encodes a list of strings to a single string.
     public String encode(List<String> strs) {
