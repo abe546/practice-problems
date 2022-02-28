@@ -12,10 +12,10 @@ class Solution {
         int count = 0; 
         for(int i = 0; i < arr.length; i++)
         {
-            for(int j = i+1; j <= arr.length; j++)
+            for(int j = i; j < arr.length; j++)
             {
                 StringBuilder sb = new StringBuilder(); 
-                String tmp = s.substring(i,j);
+                String tmp = s.substring(i,j+1);
                 sb.append(tmp);
                 
                 if(isPalindrome(tmp, sb))
