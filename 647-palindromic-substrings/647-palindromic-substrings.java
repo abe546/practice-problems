@@ -9,23 +9,30 @@ class Solution {
         }
         
         char[] arr = s.toCharArray();
-   
-        
-        ArrayList<Integer> init = new ArrayList();
-        init.add(0);
-        init.add(0);
-        
-        set.add(init);
-        
+        int count = 0; 
         for(int i = 0; i < arr.length; i++)
         {
-            palindrome(i, i, arr); 
-            palindrome(i, i+1, arr); 
+            for(int j = i+1; j <= arr.length; j++)
+            {
+                StringBuilder sb = new StringBuilder(); 
+                String tmp = s.substring(i,j);
+                sb.append(tmp);
+                
+                if(isPalindrome(tmp, sb))
+                {
+                    count++;
+                }
+            }
         }
         
-    
-        
-        return   set.size(); 
+        return count; 
+    }
+    /**
+    * Given a String and a StringBuilder return true if they're a palindrome of each other
+    */
+    public boolean isPalindrome(String origin, StringBuilder compare)
+    {
+        return origin.equals(compare.reverse().toString()); 
     }
     
     /**
