@@ -20,15 +20,14 @@ class Solution {
             return root;
         }
         
-        invertTree(root.left);
-        invertTree(root.right);
+        invertTree(root.left); 
+        invertTree(root.right); 
         
-        TreeNode tmp = root.left;
+        TreeNode tmp = root.right; 
         
-        root.left = root.right;
-        root.right = tmp;
+        root.right = root.left; 
+        root.left = tmp; 
         
-        return root;
-            
+        return root;             
     }
 }
