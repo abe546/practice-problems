@@ -1,64 +1,61 @@
 class Solution {
     public String longestPalindrome(String s) {
-     
-        if(s.length() < 2)
+    
+        if(s.length() <= 1)
         {
-            return s; 
+            return s;
         }
         
-        String longest = ""+s.charAt(0);
-  
+        char[] arr = s.toLowerCase().toCharArray();
+        
         int start = 0; 
         int end = 0; 
-        for(int i = 0; i < s.length(); i++)
-        { 
-   
-                 int iter = i;
-                int iterR = i;
-                while(iter >= 0 && iterR < s.length() && s.charAt(iter) == s.charAt(iterR))
-                { 
-                    iter--;
-                    iterR++;
-   
-                }
- 
-            if(end - start < iterR - iter - 1)
+        
+        for(int i = 0; i < arr.length; i++)
+        {
+            int[] result = findPalindrome( i, i, arr);            
+           int[] result2 = findPalindrome( i, i+1, arr);
+            
+            int len1 = result[1] - result[0];
+            int len2 = result2[1] - result2[0];
+            int ansLen = end - start ; 
+            
+            if(ansLen < len1)
             {
-                int len = iterR - iter - 1;
-               start = i - (len - 1) / 2;
-            end = i + len / 2;
+                start = result[0];
+                end = result[1];
+                
             }
- 
-        }
- 
-                for(int i = 0; i < s.length(); i++)
-        { 
-                    
-       
-                int iter = i;
-                int iterR = i+1;
- 
- 
-                while(iter >= 0 && iterR < s.length() && s.charAt(iter) == s.charAt(iterR))
-                {
-             
-                    iter--;
-                    iterR++;
-    
-                }
- 
-     
-                 if(end - start < iterR - iter - 1)
+            
+            if(ansLen < len2)
             {
-                      int len = iterR - iter - 1;
-                start = i - (len - 1) / 2;
-            end = i + len / 2;
-            }    
-                    
+                 start = result2[0];
+                end = result2[1];
+            }
+            
+        
+            
         }
         
+        return s.substring(start, end+1); 
+    }
+    
+    public int[] findPalindrome( int left, int right, char[] arr)
+    {
+         int[] answer = {0,0};
+ 
         
-
-        return s.substring(start, end+1);
+        while( left >= 0 &&  right < arr.length && arr[left] == arr[right])
+        {
+                 answer[0] =  left--;
+                  answer[1] =  right++;
+   
+        }
+        
+  System.out.println("S " +answer[0]);
+        System.out.println("E "+answer[1]); 
+ 
+        
+        return answer;
     }
 }
