@@ -1,6 +1,6 @@
 class Solution {
    //Set of start and end times (index 0 is start, index 1 is end)
-   private Set<List<Integer>> set = new HashSet(); 
+ 
     public int countSubstrings(String s) {
       
         if(s.length() <= 1)
@@ -35,22 +35,5 @@ class Solution {
         return origin.equals(compare.reverse().toString()); 
     }
     
-    /**
-    * Find all possible palindromes from point given. Iterate left and right, until arr[left] != arr[right]
-    */
-    public void palindrome(int left, int right, char[] arr)
-    {        
-        while(left >= 0 && right < arr.length && arr[left] == arr[right])
-        {
-            ArrayList<Integer> tmp = new ArrayList();
-            
-            tmp.add(left);
-            tmp.add(right);
-            
-            set.add(tmp);
-            
-            left--;
-            right++;
-        }
-    }
+ 
 }
