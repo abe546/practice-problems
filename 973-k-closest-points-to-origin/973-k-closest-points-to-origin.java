@@ -4,7 +4,7 @@ class Solution {
         GeoPoint origin = new GeoPoint(0,0);
         
         PriorityQueue<GeoPoint> que = new PriorityQueue<>(
-            (a,b) ->
+            (GeoPoint a, GeoPoint b) ->
             {
                return getDistance(origin, a) - getDistance(origin, b); 
             });
