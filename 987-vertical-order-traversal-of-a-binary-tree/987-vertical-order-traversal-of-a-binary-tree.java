@@ -1,95 +1,67 @@
-import java.awt.*;
-import java.util.TreeMap;
-
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
- * int val;
- * TreeNode left;
- * TreeNode right;
- * TreeNode() {}
- * TreeNode(int val) { this.val = val; }
- * TreeNode(int val, TreeNode left, TreeNode right) {
- * this.val = val;
- * this.left = left;
- * this.right = right;
- * }
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
  * }
  */
 class Solution {
-    Map<TreeNode, Point> nodeToPoint = new HashMap();
-    Map<Integer, List<TreeNode>> treeMap = new TreeMap();
-
+    Map<Integer, List<TreeNode>> map = new HashMap();
+    Map<TreeNode, Integer> nodeToRow = new HashMap(); 
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-
-        List<List<Integer>> packageList = new LinkedList(); 
+        traverse(root, 0, 0);
         
-        assignPoints(root, new Point(0,0)); 
-        traverse(root, treeMap); 
-        
-        for(List<TreeNode> innerList : treeMap.values())
+        List<List<Integer>> answer = new ArrayList(); 
+        Set<Integer> sortedKeys = new TreeSet(map.keySet());
+        for(int col : sortedKeys)
         {
-            Collections.sort(innerList, (a,b) ->
+            List<TreeNode> tmp = map.get(col);
+            
+            Collections.sort(tmp, (a,b) ->
                              {
-                                 if(nodeToPoint.get(a).x == nodeToPoint.get(b).x)
+                                 int diff = nodeToRow.get(a).intValue() - nodeToRow.get(b).intValue();
+                                 
+                                 if(diff == 0)
                                  {
-                                     return a.val - b.val; 
+                                     return a.val - b.val;
                                  }
                                  
-                                return nodeToPoint.get(a).x - nodeToPoint.get(b).x;  
+                                 return diff;
                              });
-            
-            List<Integer> innerPackage = new LinkedList(); 
-            
-            for(TreeNode item : innerList)
+           List<Integer> nodeValues = new ArrayList();
+            for(TreeNode node : tmp)
             {
-                innerPackage.add(item.val);
+                nodeValues.add(node.val);
             }
             
-            packageList.add(innerPackage); 
-            
-            
+            answer.add(nodeValues); 
         }
         
-        return packageList; 
-      
+        return answer; 
     }
     
-    /**
-    * Traverse the tree and for every column i keep track of nodes in said column (using list to categorize values)
-    */
-    public void traverse(TreeNode root, Map<Integer, List<TreeNode>> treeMap)
+    public void traverse(TreeNode root, int row, int col)
     {
         if(root == null)
         {
             return;
         }
+        nodeToRow.put(root, row);
+        List<TreeNode> tmp = map.getOrDefault(col, new ArrayList<TreeNode>());
         
-        List<TreeNode> getInfo = treeMap.getOrDefault(nodeToPoint.get(root).y, new LinkedList()); 
-        getInfo.add(root);
+        tmp.add(root);
         
-        treeMap.put(nodeToPoint.get(root).y, getInfo); 
+        map.put(col, tmp);
         
-        traverse(root.left, treeMap); 
-        traverse(root.right, treeMap); 
-        
+        traverse(root.left, row+1, col-1);
+        traverse(root.right, row+1, col+1);
     }
-    
-    /**
-    * Go through tree and assign respective point (x,y) to each node using 
-    hashmap to store the relationship
-    */
-    public void assignPoints(TreeNode root, Point point)
-    {
-        if(root == null)
-        {
-            return;
-        }
-        
-        nodeToPoint.put(root, point); 
-        
-        assignPoints(root.left, new Point(point.x+1, point.y-1));
-        assignPoints(root.right, new Point(point.x+1, point.y+1));
-    }
-
 }
