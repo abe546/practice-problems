@@ -4,63 +4,69 @@
  *     int val;
  *     TreeNode left;
  *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
+ *     TreeNode(int x) { val = x; }
  * }
  */
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
+        TreeNode heightItem = root;
+        int height = findHeight(heightItem);
+        
+        List<List<Integer>> list = new LinkedList();
+
+        for(int i=0; i<height;i++)
+        {
+            LinkedList<Integer> singleList = new LinkedList();
+            printLevel(root,i, singleList);
+            
+            list.add(singleList);
+        }
+        
+        return list;
+    }
     
-        Stack<TreeNode> stack = new Stack<>();
-        
-        Map<Integer, List<Integer>> map = new HashMap(); 
-        Map<TreeNode, Integer> levelMap = new HashMap(); 
-        
-        stack.add(root); 
-        levelMap.put(root, 0); 
-        int limit = 0; 
-        while(!stack.isEmpty())
+    public Integer printLevel(TreeNode root, int level, List list)
+    {
+        if(root == null)
         {
-            TreeNode current = stack.pop(); 
-            
-            if(current == null)
-            {
-                continue;
-            }
-            
-            int level = levelMap.get(current);
-            
-            limit = Math.max(limit, level); 
-            
-            List<Integer> tmp = map.getOrDefault(level, new ArrayList<Integer>());
-            
-            tmp.add(current.val);
-            
-            map.put(level, tmp); 
-            
-            level++;
-            
-            stack.add(current.right); 
-            stack.add(current.left); 
-       
-            levelMap.put(current.left, level); 
-            levelMap.put(current.right, level); 
- 
-        }
- 
-        List<List<Integer>> answer = new LinkedList(); 
-        
-        for(int i = 0; i <= limit; i++)
-        {
-            if(map.get(i) != null)
-            answer.add(map.get(i)); 
+            return null;
         }
         
-        return answer; 
+        if(level == 0)
+        {
+            list.add(root.val);
+            return root.val;
+        }
+        
+        if(level>0)
+        {
+            printLevel(root.left, level-1, list);
+            printLevel(root.right, level-1, list);
+        }
+        
+        return null;
+    }
+    
+    public int findHeight(TreeNode root)
+    {
+        if(root == null)
+        {
+            return 0;
+        }
+        
+        if(root.right == null && root.left == null)
+        {
+            return 1;
+        }
+        
+        int sizeLeft = 1+findHeight(root.left);
+        int sizeRight = 1+findHeight(root.right);
+        
+        if(sizeRight > sizeLeft)
+        {
+            return sizeRight;
+        }
+        
+        return sizeLeft;
     }
 }
