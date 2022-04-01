@@ -59,30 +59,35 @@ public class Codec {
         data = new String(Base64.getDecoder().decode(data), StandardCharsets.UTF_8);
         System.out.println("DATA : "+data); 
         String[] entries = data.split("\\s+");
-        List<String> list = new LinkedList(); 
+        Queue<Integer> queue = new LinkedList(); 
         for(int i = 0; i < entries.length; i++)
         { 
-            list.add(entries[i]);
+            if(entries[i].equals("null"))
+            {
+                queue.add(null);
+                continue; 
+            }
+            queue.add(Integer.valueOf(entries[i]));
            // System.out.println("CLONE : "+list.get(i)); 
         }
         
-        TreeNode answer = construct(list);
+        TreeNode answer = construct(queue);
         
         return answer; 
     }
     
-    public TreeNode construct( List<String> list)
+    public TreeNode construct( Queue<Integer> que)
     {
-         if(list.get(0).equals("null"))
+        Integer value = que.poll(); 
+        
+         if(value == null)
          {
-             list.remove(0);
              return null;
          }
         
-        TreeNode item = new TreeNode(Integer.valueOf(list.get(0)));
-        list.remove(0); 
-        item.left = construct( list); 
-        item.right = construct( list);
+        TreeNode item = new TreeNode(value);
+        item.left = construct(que); 
+        item.right = construct(que);
         
         return item;
     }
