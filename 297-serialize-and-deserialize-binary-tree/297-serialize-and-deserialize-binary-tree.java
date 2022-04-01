@@ -34,7 +34,6 @@ public class Codec {
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-   
         String[] entries = data.split("-");
         List<String> list = new LinkedList(); 
         for(int i = 0; i < entries.length; i++)
@@ -43,8 +42,6 @@ public class Codec {
             list.add(new String(Base64.getDecoder().decode(item), StandardCharsets.UTF_8));
            // System.out.println("CLONE : "+list.get(i)); 
         }
-        
-        System.out.println("LIST : "+list); 
         
         TreeNode answer = construct(list.get(0), list);
         
