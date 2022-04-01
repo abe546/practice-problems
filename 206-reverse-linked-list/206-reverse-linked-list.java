@@ -12,24 +12,20 @@ class Solution {
     // 1 -> 2 -> 3 -> 4
     // 4 -> 3 -> 2 -> 1
     public ListNode reverseList(ListNode head) {
- 
-        ListNode newList = null;
-        ListNode current = new ListNode(); 
+  
+        ListNode current = head; 
         
-        current = head; 
+        ListNode newPointer = null;
         
         while(current != null)
         {
-            int value = current.val; 
+            ListNode next = new ListNode(current.val);
             
-            ListNode item = new ListNode(value);
-            
-            item.next = newList;
-            newList = item; 
+            next.next = newPointer; 
+            newPointer = next; 
             current = current.next; 
         }
         
-        return newList; 
-        
+        return newPointer;
     }
 }
