@@ -43,12 +43,12 @@ public class Codec {
            // System.out.println("CLONE : "+list.get(i)); 
         }
         
-        TreeNode answer = construct(list.get(0), list);
+        TreeNode answer = construct(list);
         
         return answer; 
     }
     
-    public TreeNode construct(String root, List<String> list)
+    public TreeNode construct( List<String> list)
     {
          if(list.get(0).equals("null"))
          {
@@ -58,8 +58,8 @@ public class Codec {
         
         TreeNode item = new TreeNode(Integer.valueOf(list.get(0)));
         list.remove(0); 
-        item.left = construct(list.get(0), list); 
-        item.right = construct(list.get(0), list);
+        item.left = construct( list); 
+        item.right = construct( list);
         
         return item;
     }
