@@ -9,11 +9,7 @@ class Solution {
         // If for some reaosn, by end of problem we only know of n-k (k being 1 or larger)
         
         createGraph(times);
-        
-        if(uniqueNodes.size() != n)
-        {
-            return -1; 
-        }
+      
          
         // MIN HEAP
         PriorityQueue<List<Integer>> heap = new PriorityQueue<>(
