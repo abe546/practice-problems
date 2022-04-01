@@ -77,19 +77,19 @@ public class Codec {
     }
     
     public TreeNode construct( Queue<Integer> que)
-    {
-        Integer value = que.poll(); 
+    { 
+        Integer current = que.poll(); 
         
-         if(value == null)
-         {
-             return null;
-         }
+        if(current == null)
+        {
+            return null; 
+        }
         
-        TreeNode item = new TreeNode(value);
-        item.left = construct(que); 
-        item.right = construct(que);
+        TreeNode head = new TreeNode(current); 
+        head.left = construct(que); 
+        head.right = construct(que); 
         
-        return item;
+        return head; 
     }
 }
 
