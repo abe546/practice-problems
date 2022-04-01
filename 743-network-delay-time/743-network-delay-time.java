@@ -2,7 +2,7 @@
 class Solution {
  
     Set<Integer> uniqueNodes = new HashSet(); 
-    Map<Integer, Set<List<Integer>>> graph = new HashMap(); 
+    Map<Integer, Set<ArrayList<Integer>>> graph = new HashMap(); 
     Map<Integer, Integer> distanceFromNode = new HashMap(); 
     public int networkDelayTime(int[][] times, int n, int k) {
   
@@ -12,14 +12,14 @@ class Solution {
       
          
         // MIN HEAP
-        PriorityQueue<List<Integer>> heap = new PriorityQueue<>(
+        PriorityQueue<ArrayList<Integer>> heap = new PriorityQueue<>(
         (a,b) ->
             {
               return a.get(1) - b.get(1);    
             }
         );
         
-        List<Integer> origin = new ArrayList<>();
+        ArrayList<Integer> origin = new ArrayList<>();
         origin.add(k); 
         origin.add(0); 
         
@@ -29,7 +29,7 @@ class Solution {
         
         while(!heap.isEmpty())
         {
-            List<Integer> current = heap.poll(); 
+            ArrayList<Integer> current = heap.poll(); 
             
             int node = current.get(0); 
             int distance = current.get(1); 
@@ -45,7 +45,7 @@ class Solution {
             
             if(graph.get(node) != null)
             {
-                for(List<Integer> list : graph.get(node))
+                for(ArrayList<Integer> list : graph.get(node))
                 {
                     int newNode = list.get(0); 
                     int newDistance = list.get(1) + distance; 
@@ -55,7 +55,7 @@ class Solution {
                         continue; 
                     }
                     
-                    List<Integer> newEntry = new ArrayList<>(); 
+                    ArrayList<Integer> newEntry = new ArrayList<>(); 
                     
                     newEntry.add(newNode); 
                     newEntry.add(newDistance); 
@@ -82,10 +82,10 @@ class Solution {
             int dest = arr[1]; 
             int time = arr[2]; 
             
-            Set<List<Integer>> tmp = 
-                graph.getOrDefault(source, new HashSet<List<Integer>>());
+            Set<ArrayList<Integer>> tmp = 
+                graph.getOrDefault(source, new HashSet<ArrayList<Integer>>());
             
-            List<Integer> newList = new ArrayList<>(); 
+            ArrayList<Integer> newList = new ArrayList<>(); 
             newList.add(dest); 
             newList.add(time);
             tmp.add(newList); 
