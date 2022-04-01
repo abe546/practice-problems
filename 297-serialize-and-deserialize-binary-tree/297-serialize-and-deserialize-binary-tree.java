@@ -25,18 +25,39 @@ public class Codec {
     
     public String packageString(TreeNode root)
     {
+        StringBuilder sb = new StringBuilder(); 
+         
         if(root == null)
         {
             return "null";
         }
+        
+        Stack<TreeNode> stack = new Stack<>(); 
+        
+        stack.add(root); 
+        
+        while(!stack.isEmpty()){
+            TreeNode value = stack.pop(); 
+            
+            if(value == null)
+            {
+                sb.append("null "); 
+                continue; 
+            }
+            
+            sb.append(value.val + " "); 
+            
+            stack.add(value.right); 
+            stack.add(value.left); 
+        }
              
-        return String.format("%s %s %s", root.val, packageString(root.left), packageString(root.right));
+        return sb.toString(); 
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
         data = new String(Base64.getDecoder().decode(data), StandardCharsets.UTF_8);
-       // System.out.println("DATA : "+data); 
+        System.out.println("DATA : "+data); 
         String[] entries = data.split("\\s+");
         List<String> list = new LinkedList(); 
         for(int i = 0; i < entries.length; i++)
