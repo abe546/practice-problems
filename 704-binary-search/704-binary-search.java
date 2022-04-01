@@ -7,7 +7,7 @@ class Solution {
             
         while(start <= end && end >= 0 && start < nums.length)
         {
-            middle = (end - start+1)/2 + start;
+            middle = (end - start)/2 + start;
             
             if(nums[middle] > target)
             {
