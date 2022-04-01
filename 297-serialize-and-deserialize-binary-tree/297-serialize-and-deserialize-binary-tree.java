@@ -18,7 +18,7 @@ public class Codec {
     public String serialize(TreeNode root) {
         String answer = packageString(root); 
         
-        System.out.println("ANSWER : "+answer); 
+        //System.out.println("ANSWER : "+answer); 
         
         return Base64.getEncoder().encodeToString(answer.getBytes(StandardCharsets.UTF_8));
     }
@@ -36,7 +36,7 @@ public class Codec {
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
         data = new String(Base64.getDecoder().decode(data), StandardCharsets.UTF_8);
-        System.out.println("DATA : "+data); 
+       // System.out.println("DATA : "+data); 
         String[] entries = data.split("\\s+");
         List<String> list = new LinkedList(); 
         for(int i = 0; i < entries.length; i++)
