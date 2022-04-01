@@ -1,83 +1,105 @@
 
 class Solution {
-   
-    Map<Integer, Set<List<Integer>>> graph = new HashMap();
-    Set<Integer> nodes = new HashSet(); 
-    Set<Integer> avoid = new HashSet(); 
-    public int networkDelayTime(int[][] times, int n, int k) {
  
-        Comparator<List<Integer>> customCompare = 
-            (a,b) ->
-        {
-            return a.get(1) - b.get(1);
-        };
-        
-        PriorityQueue<List<Integer>> que = new PriorityQueue<>(customCompare);
+    Set<Integer> uniqueNodes = new HashSet(); 
+    Map<Integer, Set<List<Integer>>> graph = new HashMap(); 
+    Map<Integer, Integer> distanceFromNode = new HashMap(); 
+    public int networkDelayTime(int[][] times, int n, int k) {
+  
+        // If for some reaosn, by end of problem we only know of n-k (k being 1 or larger)
         
         createGraph(times);
         
-        //List<Integer> represents x distance from y
-        //We are specifically focused on x = k for all 
-        ArrayList<Integer> init = new ArrayList();
-        init.add(k); 
-        init.add(0); 
-        que.add(init); 
-    
-        int max = -1;
- 
-        while(!que.isEmpty())
+        if(uniqueNodes.size() != n)
         {
-            List<Integer> current = que.poll(); 
-            
-            if(avoid.contains(current.get(0)))
+            return -1; 
+        }
+         
+        // MIN HEAP
+        PriorityQueue<List<Integer>> heap = new PriorityQueue<>(
+        (a,b) ->
             {
-                continue;
+              return a.get(1) - b.get(1);    
+            }
+        );
+        
+        List<Integer> origin = new ArrayList<>();
+        origin.add(k); 
+        origin.add(0); 
+        
+        heap.add(origin); 
+        
+        int max = 0; 
+        
+        while(!heap.isEmpty())
+        {
+            List<Integer> current = heap.poll(); 
+            
+            int node = current.get(0); 
+            int distance = current.get(1); 
+            
+            if(distanceFromNode.containsKey(node))
+            {
+                continue; 
             }
             
-            avoid.add(current.get(0));
-            nodes.add(current.get(0)); 
-            if(current.get(1) != 0){
-            max = Math.max(current.get(1), max);
-            }
- 
-            if(graph.get(current.get(0)) != null)
+            distanceFromNode.put(node, distance); 
+            
+            max = Math.max(max, distance); 
+            
+            if(graph.get(node) != null)
             {
-                for(List<Integer> item : graph.get(current.get(0)))
+                for(List<Integer> list : graph.get(node))
                 {
-                     
-                    item.set(1, item.get(1) + current.get(1));
+                    int newNode = list.get(0); 
+                    int newDistance = list.get(1) + distance; 
                     
-                    que.add(item);
+                    if(distanceFromNode.containsKey(newNode))
+                    {
+                        continue; 
+                    }
+                    
+                    List<Integer> newEntry = new ArrayList<>(); 
+                    
+                    newEntry.add(newNode); 
+                    newEntry.add(newDistance); 
+                    
+                    heap.add(newEntry); 
                 }
             }
         }
         
-        if(nodes.size() < n)
+        if(distanceFromNode.size() < n)
         {
             return -1; 
         }
         
-    return max; 
-       
+        return max; 
+        
     } 
     
-    public void createGraph(int[][] matrix)
+    public void createGraph(int[][] times)
     {
-        for(int i = 0; i < matrix.length; i++)
+        for(int[] arr : times)
         {
-            int source = matrix[i][0];
-            int dest = matrix[i][1];
-            int time = matrix[i][2];
+            int source = arr[0]; 
+            int dest = arr[1]; 
+            int time = arr[2]; 
             
-            Set<List<Integer>> tmp = graph.getOrDefault(source, new HashSet<List<Integer>>());
+            Set<List<Integer>> tmp = 
+                graph.getOrDefault(source, new HashSet<List<Integer>>());
             
-            ArrayList<Integer> item = new ArrayList();
-            item.add(dest); 
-            item.add(time); 
+            List<Integer> newList = new ArrayList<>(); 
+            newList.add(dest); 
+            newList.add(time);
+            tmp.add(newList); 
             
-            tmp.add(item);
-            graph.put(source, tmp);
- 
+            graph.put(source, tmp); 
+            
+            uniqueNodes.add(source); 
+            uniqueNodes.add(dest); 
         }
     }
+    
+   
 }
