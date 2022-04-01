@@ -57,7 +57,7 @@ public class Codec {
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
         data = new String(Base64.getDecoder().decode(data), StandardCharsets.UTF_8);
-        System.out.println("DATA : "+data); 
+      //  System.out.println("DATA : "+data); 
         String[] entries = data.split("\\s+");
         Queue<Integer> queue = new LinkedList(); 
         for(int i = 0; i < entries.length; i++)
