@@ -16,30 +16,32 @@ public class Codec {
     
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
+        String answer = packageString(root); 
         
+        System.out.println("ANSWER : "+answer); 
+        
+        return Base64.getEncoder().encodeToString(answer.getBytes(StandardCharsets.UTF_8));
+    }
+    
+    public String packageString(TreeNode root)
+    {
         if(root == null)
         {
-            byte[] item = new String("null").getBytes(StandardCharsets.UTF_8);
-            
-            return Base64.getEncoder().encodeToString(item);
+            return "null";
         }
-        
-        byte[] byteItem  = new String(String.valueOf(root.val)).getBytes(StandardCharsets.UTF_8);
-            
-            String actualItem = Base64.getEncoder().encodeToString(byteItem);
-   
-        
-        return String.format("%s-%s-%s", actualItem, serialize(root.left), serialize(root.right));
+             
+        return String.format("%s %s %s", root.val, packageString(root.left), packageString(root.right));
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        String[] entries = data.split("-");
+        data = new String(Base64.getDecoder().decode(data), StandardCharsets.UTF_8);
+        System.out.println("DATA : "+data); 
+        String[] entries = data.split("\\s+");
         List<String> list = new LinkedList(); 
         for(int i = 0; i < entries.length; i++)
-        {
-            String item = entries[i];
-            list.add(new String(Base64.getDecoder().decode(item), StandardCharsets.UTF_8));
+        { 
+            list.add(entries[i]);
            // System.out.println("CLONE : "+list.get(i)); 
         }
         
