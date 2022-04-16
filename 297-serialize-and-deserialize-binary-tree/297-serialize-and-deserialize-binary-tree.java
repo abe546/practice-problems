@@ -20,7 +20,6 @@ public class Codec {
         String packagedString = packageString(root);
         
         Base64.Encoder encoder = Base64.getEncoder();
-    
         
         return encoder.encodeToString(packagedString.getBytes());
     }
