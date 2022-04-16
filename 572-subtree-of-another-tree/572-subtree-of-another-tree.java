@@ -36,7 +36,7 @@ class Solution {
             
             if(current.val == subRoot.val)
             {
-            if(isParent(current, subRoot))
+            if(isSubTree(current, subRoot))
             {
                 return true; 
             }
@@ -50,29 +50,29 @@ class Solution {
         return false; 
     }
     
-    public boolean isParent(TreeNode root, TreeNode subRoot)
+   public boolean isSubTree(TreeNode root, TreeNode subRoot)
     {
-        if(subRoot == null && root == null)
-        {
+        boolean flag = false; 
+        
+        if(root == null && subRoot == null)
+        { 
+            flag = true;
             return true; 
         }
         
-        if(subRoot == null || root == null)
-        {
+        if(root != null && subRoot != null && root.val == subRoot.val)
+        { 
+            flag = true; 
+        }
+        
+        if(flag != true || ((root == null && subRoot != null) || (root != null && subRoot == null)))
+        { 
             return false; 
         }
+ 
+        flag = isSubTree(root.left, subRoot.left) && isSubTree(root.right, subRoot.right);
         
-        boolean flag = false; 
-        
-        if(subRoot.val == root.val)
-        {
-            flag = true;
-        }else
-        {
-            return false;
-        }
-        
-        return flag && isParent(root.left, subRoot.left) && isParent(root.right, subRoot.right); 
+        return flag; 
     }
      
 }
