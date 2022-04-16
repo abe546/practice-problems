@@ -47,8 +47,9 @@ public class Codec {
             
             sb.append(value.val + " "); 
             
+                       stack.add(value.left); 
             stack.add(value.right); 
-            stack.add(value.left); 
+ 
         }
              
         return sb.toString(); 
@@ -86,8 +87,9 @@ public class Codec {
         }
         
         TreeNode head = new TreeNode(current); 
-        head.left = construct(que); 
+     
         head.right = construct(que); 
+           head.left = construct(que); 
         
         return head; 
     }
