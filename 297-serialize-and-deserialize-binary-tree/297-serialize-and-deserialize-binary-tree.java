@@ -20,8 +20,7 @@ public class Codec {
         String packagedString = packageString(root);
         
         Base64.Encoder encoder = Base64.getEncoder();
-        
-        System.out.println("PACAKAGE : "+packagedString); 
+    
         
         return encoder.encodeToString(packagedString.getBytes());
     }
@@ -74,8 +73,7 @@ public class Codec {
         Base64.Decoder decoder = Base64.getDecoder();
         
         String unpacked = new String(decoder.decode(data));
-        
-        System.out.println("UNPACKED : "+unpacked); 
+ 
         
         Queue<Integer> que = new LinkedList(); 
         
