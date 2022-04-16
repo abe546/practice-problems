@@ -11,74 +11,92 @@ import java.util.Base64;
  * }
  */
 public class Codec {
-
-    int curr = 0; 
+ 
+    private static final String DELIMETER = ":"; 
+    private static final String NULL = "null";
     
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-        String answer = packageString(root); 
+        String packagedString = packageString(root);
         
-        //System.out.println("ANSWER : "+answer); 
+        Base64.Encoder encoder = Base64.getEncoder();
         
-        return Base64.getEncoder().encodeToString(answer.getBytes(StandardCharsets.UTF_8));
+        System.out.println("PACAKAGE : "+packagedString); 
+        
+        return encoder.encodeToString(packagedString.getBytes());
     }
     
+    // Convert tree to String format. Traverse in order, use space as delimeter
     public String packageString(TreeNode root)
     {
-        StringBuilder sb = new StringBuilder(); 
-         
         if(root == null)
         {
-            return "null";
+            return NULL; 
         }
         
-        Stack<TreeNode> stack = new Stack<>(); 
+        Stack<TreeNode> stack = new Stack(); 
+        StringBuilder sb = new StringBuilder(); 
         
-        stack.add(root); 
+        stack.add(root);
         
-        while(!stack.isEmpty()){
-            TreeNode value = stack.pop(); 
+        while(!stack.isEmpty())
+        {
+            TreeNode current = stack.pop(); 
             
-            if(value == null)
+            sb.append(formatEntry(current));
+            
+            if(current == null)
             {
-                sb.append("null "); 
-                continue; 
+                continue;
             }
             
-            sb.append(value.val + " "); 
-            
-                       stack.add(value.left); 
-            stack.add(value.right); 
- 
+            stack.add(current.right); 
+            stack.add(current.left); 
         }
-             
-        return sb.toString(); 
+        
+        return sb.toString().substring(0, sb.length()-1);
     }
+    
+    public String formatEntry(TreeNode item)
+    {
+        if(item == null)
+        {
+            return String.format("%s%s", NULL, DELIMETER);
+        }
+        
+        return String.format("%s%s", item.val, DELIMETER); 
+    }
+ 
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        data = new String(Base64.getDecoder().decode(data), StandardCharsets.UTF_8);
-      //  System.out.println("DATA : "+data); 
-        String[] entries = data.split("\\s+");
-        Queue<Integer> queue = new LinkedList(); 
-        for(int i = 0; i < entries.length; i++)
-        { 
-            if(entries[i].equals("null"))
-            {
-                queue.add(null);
-                continue; 
-            }
-            queue.add(Integer.valueOf(entries[i]));
-           // System.out.println("CLONE : "+list.get(i)); 
+        
+        Base64.Decoder decoder = Base64.getDecoder();
+        
+        String unpacked = new String(decoder.decode(data));
+        
+        System.out.println("UNPACKED : "+unpacked); 
+        
+        Queue<Integer> que = new LinkedList(); 
+        
+        for(String item : unpacked.split(DELIMETER))
+        {
+           if(item.equals(NULL))
+           {
+               que.add(null);
+               continue;
+           }
+            
+           que.add(Integer.valueOf(item)); 
         }
         
-        TreeNode answer = construct(queue);
+        TreeNode root = construct(que); 
         
-        return answer; 
+      return root; 
     }
     
-    public TreeNode construct( Queue<Integer> que)
-    { 
+    public TreeNode construct(Queue<Integer> que)
+    {
         Integer current = que.poll(); 
         
         if(current == null)
@@ -86,13 +104,13 @@ public class Codec {
             return null; 
         }
         
-        TreeNode head = new TreeNode(current); 
-     
-        head.right = construct(que); 
-           head.left = construct(que); 
+        TreeNode item = new TreeNode(current); 
+        item.left = construct(que); 
+        item.right = construct(que); 
         
-        return head; 
+        return item; 
     }
+ 
 }
 
 // Your Codec object will be instantiated and called as such:
