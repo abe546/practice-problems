@@ -14,63 +14,70 @@
  * }
  */
 class Solution {
-    Queue<TreeNode> que = new LinkedList(); 
+ 
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
-      
-       findHead(root, subRoot); 
         
-        while(!que.isEmpty())
+        if(root == subRoot && root == null)
         {
-            if(isSubTree(que.poll(), subRoot))
+            return true; 
+        }
+        
+        Queue<TreeNode> possibleParent = new LinkedList(); 
+        Stack<TreeNode> stack = new Stack(); 
+        stack.add(root); 
+        
+        while(!stack.isEmpty())
+        {
+            TreeNode current = stack.pop(); 
+            
+            if(current == null)
+            {
+                continue; 
+            }
+            
+            if(current.val == subRoot.val)
+            {
+              possibleParent.add(current); 
+            }
+            
+            stack.add(current.right); 
+            stack.add(current.left); 
+        }
+        
+        for(TreeNode item : possibleParent)
+        {
+            if(isParent(item, subRoot))
             {
                 return true; 
             }
         }
         
-        return false;
-        
+        return false; 
     }
     
-    public boolean isSubTree(TreeNode root, TreeNode subRoot)
+    public boolean isParent(TreeNode root, TreeNode subRoot)
     {
-        boolean flag = false; 
-        
-        if(root == null && subRoot == null)
-        { 
-            flag = true;
+        if(subRoot == null && root == null)
+        {
             return true; 
         }
         
-        if(root != null && subRoot != null && root.val == subRoot.val)
-        { 
-            flag = true; 
-        }
-        
-        if(flag != true || ((root == null && subRoot != null) || (root != null && subRoot == null)))
-        { 
+        if(subRoot == null || root == null)
+        {
             return false; 
         }
- 
-        flag = isSubTree(root.left, subRoot.left) && isSubTree(root.right, subRoot.right);
         
-        return flag; 
-    }
-    
-    public void findHead(TreeNode root, TreeNode target)
-    {        
-        if(root == null)
+        boolean flag = false; 
+        
+        if(subRoot.val == root.val)
         {
-            return;
+            flag = true;
+        }else
+        {
+            return false;
         }
         
-         if(target.val == root.val)
-        { 
-            que.add(root); 
-        }
-        
-       findHead(root.left, target); 
-  
-        findHead(root.right, target); 
- 
+        return flag && isParent(root.left, subRoot.left) && isParent(root.right, subRoot.right); 
     }
+     
 }
