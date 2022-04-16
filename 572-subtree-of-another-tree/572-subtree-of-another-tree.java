@@ -21,8 +21,7 @@ class Solution {
         {
             return true; 
         }
-        
-        Queue<TreeNode> possibleParent = new LinkedList(); 
+ 
         Stack<TreeNode> stack = new Stack(); 
         stack.add(root); 
         
@@ -37,20 +36,16 @@ class Solution {
             
             if(current.val == subRoot.val)
             {
-              possibleParent.add(current); 
+            if(isParent(current, subRoot))
+            {
+                return true; 
+            }
             }
             
             stack.add(current.right); 
             stack.add(current.left); 
         }
-        
-        for(TreeNode item : possibleParent)
-        {
-            if(isParent(item, subRoot))
-            {
-                return true; 
-            }
-        }
+    
         
         return false; 
     }
