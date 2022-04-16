@@ -51,8 +51,6 @@ class Solution {
             return false; 
         }
  
-        
-        
         flag = isSubTree(root.left, subRoot.left) && isSubTree(root.right, subRoot.right);
         
         return flag; 
