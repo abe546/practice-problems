@@ -14,44 +14,45 @@
  * }
  */
 class Solution {
-   Queue<TreeNode> que = new LinkedList(); 
+ 
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
         
         if(root == subRoot && root == null)
         {
             return true; 
         }
-  
         
-        findHead(root, subRoot); 
-    
-         while(!que.isEmpty())
+        Queue<TreeNode> possibleParent = new LinkedList(); 
+        Stack<TreeNode> stack = new Stack(); 
+        stack.add(root); 
+        
+        while(!stack.isEmpty())
         {
-            if(isParent(que.poll(), subRoot))
+            TreeNode current = stack.pop(); 
+            
+            if(current == null)
+            {
+                continue; 
+            }
+            
+            if(current.val == subRoot.val)
+            {
+              possibleParent.add(current); 
+            }
+            
+            stack.add(current.right); 
+            stack.add(current.left); 
+        }
+        
+        for(TreeNode item : possibleParent)
+        {
+            if(isParent(item, subRoot))
             {
                 return true; 
             }
         }
         
         return false; 
-    }
-    
-    public void findHead(TreeNode root, TreeNode target)
-    {        
-        if(root == null)
-        {
-            return;
-        }
-        
-         if(target.val == root.val)
-        { 
-            que.add(root); 
-        }
-        
-       findHead(root.left, target); 
-  
-        findHead(root.right, target); 
- 
     }
     
     public boolean isParent(TreeNode root, TreeNode subRoot)
