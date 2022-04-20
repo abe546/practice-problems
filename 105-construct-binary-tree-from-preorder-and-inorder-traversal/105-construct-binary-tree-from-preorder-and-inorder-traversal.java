@@ -17,13 +17,17 @@ class Solution {
  
     HashMap<Integer, Integer> inorderIndex = new HashMap(); 
     Queue<Integer> nodes = new LinkedList(); 
-    Set<Integer> exist = new HashSet(); 
+    TreeMap<Integer, Integer> exist = new TreeMap(); 
+    private int[] inOrder;
     public TreeNode buildTree(int[] preorder, int[] inorder) {
         
+        inOrder = new int[inorder.length];
         for(int i = 0; i < inorder.length; i++)
         {
             inorderIndex.put(inorder[i], i); 
             nodes.add(preorder[i]); 
+            inOrder[i] = inorder[i]; 
+            
         }
         
         TreeNode root = construct(nodes);
@@ -43,7 +47,7 @@ class Solution {
             return null; 
         }
         
-        exist.add(current); 
+        exist.put(inorderIndex.get(current), inorderIndex.get(current)); 
         
         TreeNode root = new TreeNode(current);
         
@@ -80,12 +84,20 @@ class Solution {
         {
             return false; 
         }
-        
-        for(int item : exist)
-        {
-            if(inorderIndex.get(item) > inorderIndex.get(root.val) &&
-               inorderIndex.get(item) < inorderIndex.get(candidate))
-            {
+  
+        Integer index = exist.ceilingKey(inorderIndex.get(root.val)+1);
+
+System.out.println("INDEX : "+index); 
+        if(index != null){
+             Integer item = inOrder[index]; 
+     System.out.println("ITEM : "+item);
+            System.out.println("PRE : "+inOrder[index]); 
+            if(item != null && item != candidate &&
+               index <
+               inorderIndex.get(candidate))
+            {        
+       System.out.println("ROOT : "+root.val); 
+        System.out.println("CANDIDATE : "+candidate); 
                 return false; 
             }
         }
