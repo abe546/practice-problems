@@ -27,39 +27,12 @@ class Solution {
         }
         
         TreeNode root = construct(nodes);
-        
-        preorder(root);
+ 
         
         return root; 
     }
     
-    public void preorder(TreeNode root)
-    {
-        if(root == null)
-        {
-            return;
-        }
-        
-        Integer left = null; 
-        Integer right = null; 
-        
-        if(root.left != null)
-        {
-            left = root.left.val;
-        }
-        
-        if(root.right != null)
-        {
-            right = root.right.val; 
-        }
-        
-        System.out.println(
-        String.format("root:%s l:%s r:%s", root.val, left, right)
-        );
-  
-        preorder(root.left); 
-        preorder(root.right); 
-    }
+   
     
     public TreeNode construct(Queue<Integer> que)
     {
