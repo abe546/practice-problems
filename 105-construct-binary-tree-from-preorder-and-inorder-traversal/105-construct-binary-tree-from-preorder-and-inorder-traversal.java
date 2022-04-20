@@ -86,18 +86,15 @@ class Solution {
         }
   
         Integer index = exist.ceilingKey(inorderIndex.get(root.val)+1);
-
-System.out.println("INDEX : "+index); 
+ 
         if(index != null){
              Integer item = inOrder[index]; 
-     System.out.println("ITEM : "+item);
-            System.out.println("PRE : "+inOrder[index]); 
+ 
             if(item != null && item != candidate &&
                index <
                inorderIndex.get(candidate))
             {        
-       System.out.println("ROOT : "+root.val); 
-        System.out.println("CANDIDATE : "+candidate); 
+ 
                 return false; 
             }
         }
