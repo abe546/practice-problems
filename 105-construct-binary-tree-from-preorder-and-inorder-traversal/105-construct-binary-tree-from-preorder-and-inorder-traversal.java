@@ -19,8 +19,7 @@ class Solution {
         // select the preorder_index element as the root and increment it
         int rootValue = preorder[preorderIndex++];
         TreeNode root = new TreeNode(rootValue);
- 
-        
+
         // build left and right subtree
         // excluding inorderIndexMap[rootValue] element because it's the root
         root.left = arrayToTree(preorder, left, inorderIndexMap.get(rootValue) - 1);
