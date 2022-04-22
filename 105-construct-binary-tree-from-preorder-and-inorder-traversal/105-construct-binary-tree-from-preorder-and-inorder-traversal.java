@@ -16,91 +16,92 @@
 class Solution {
  
     HashMap<Integer, Integer> inorderIndex = new HashMap(); 
-    Queue<Integer> nodes = new LinkedList(); 
     TreeMap<Integer, Integer> exist = new TreeMap(); 
-    private int[] inOrder;
     public TreeNode buildTree(int[] preorder, int[] inorder) {
+    
+        Queue<Integer> nodes = new LinkedList(); 
         
-        inOrder = new int[inorder.length];
         for(int i = 0; i < inorder.length; i++)
         {
             inorderIndex.put(inorder[i], i); 
             nodes.add(preorder[i]); 
-            inOrder[i] = inorder[i]; 
-            
         }
         
-        TreeNode root = construct(nodes);
- 
-        
-        return root; 
+        return construct(nodes, inorder);
     }
     
-   
-    
-    public TreeNode construct(Queue<Integer> que)
+    public TreeNode construct(Queue<Integer> que, int[] inorder)
     {
         Integer current = que.poll(); 
         
         if(current == null)
         {
-            return null; 
+            return null;
         }
         
-        exist.put(inorderIndex.get(current), inorderIndex.get(current)); 
+        TreeNode root = new TreeNode(current.intValue());
         
-        TreeNode root = new TreeNode(current);
+           exist.put(inorderIndex.get(root.val), root.val); 
         
         root.left = null; 
         root.right = null; 
         
-        if(!que.isEmpty() && canBeLeftChild(root, que.peek()))
+        if(canBeLeftChild(que.peek(), root, inorder))
         {
-            root.left = construct(que); 
+            root.left = construct(que, inorder);
         }
         
-        if(!que.isEmpty() && canBeRightChild(root, que.peek()))
+        if(canBeRightChild(que.peek(), root, inorder))
         {
-            root.right = construct(que); 
+            root.right = construct(que, inorder);
         }
         
         return root; 
-    
     }
     
-    public boolean canBeLeftChild(TreeNode root, Integer candidate)
+    public boolean canBeLeftChild(Integer candidate, TreeNode root, int[] inorder)
     {
-        if(inorderIndex.get(root.val) < inorderIndex.get(candidate))
+        if(candidate == null)
         {
             return false; 
         }
         
-        return true; 
-    }
-    
-    public boolean canBeRightChild(TreeNode root, Integer candidate)
-    {
-        if(inorderIndex.get(root.val) > inorderIndex.get(candidate))
+        int rootIndex = inorderIndex.get(root.val); 
+        int candidateIndex = inorderIndex.get(candidate.intValue());
+        
+        if(candidateIndex > rootIndex)
         {
             return false; 
         }
-  
-        Integer index = exist.ceilingKey(inorderIndex.get(root.val)+1);
- 
-        if(index != null){
-             Integer item = inOrder[index]; 
- 
-            if(item != null && item != candidate &&
-               index <
-               inorderIndex.get(candidate))
-            {        
- 
-                return false; 
-            }
-        }
+        
         
         return true; 
     }
     
- 
+    public boolean canBeRightChild(Integer candidate, TreeNode root, int[] inorder)
+    {
+         if(candidate == null)
+        {
+            return false; 
+        }
+        
+        int rootIndex = inorderIndex.get(root.val); 
+        int candidateIndex = inorderIndex.get(candidate.intValue()); 
+        
+        if(rootIndex > candidateIndex)
+        {
+            return false; 
+        }
+        
+        Integer indexOfNext = exist.ceilingKey(rootIndex+1);
+        
+        if(indexOfNext != null && indexOfNext != candidateIndex && indexOfNext < candidateIndex)
+        {
+            //System.out.println(String.format("root %s cand %s exist %s", root.val, candidateIndex, indexOfNext)); 
+            return false; 
+        }
+        
+     
+        return true; 
+    }
 }
