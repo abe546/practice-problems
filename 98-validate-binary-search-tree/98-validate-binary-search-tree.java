@@ -1,95 +1,39 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
 class Solution {
-    public boolean isValidBST(TreeNode root) {
-        
-        if(root == null)
-        {
-            return true;
-        }
-        
-         Stack<TreeNode> stack = new Stack();
+
+    private Stack<TreeNode> stack = new Stack();
+    private Stack<Integer> upperLimits = new Stack();
+    private Stack<Integer> lowerLimits = new Stack();
+
+    public void update(TreeNode root, Integer low, Integer high) {
         stack.add(root);
-        
-        while(!stack.isEmpty())
-        {
-            TreeNode current = stack.pop();
-            
-            if(current == null)
-            {
-                continue;
-            }
-            
-            //Check left subtree
-            List<TreeNode> entries = getSubTree(current.left);
-            
-            for(TreeNode item : entries)
-            {
-                if(current.val <= item.val)
-                {
-                    return false; 
-                }
-            }
-            
-            //Check right sub tree
-            entries = getSubTree(current.right);
-            
-            for(TreeNode item : entries)
-            {
-                if(current.val >= item.val)
-                {
-                    return false; 
-                }
-            }
-            
-            stack.add(current.left);
-            stack.add(current.right); 
-        }
-        
-        return true; 
+        lowerLimits.add(low);
+        upperLimits.add(high);
     }
-    
-    public List<TreeNode> getSubTree(TreeNode root)
-    {
-        Stack<TreeNode> stack = new Stack();
-        
-        if(root == null)
-        {
-            return stack;
-        }
-        
-        List<TreeNode> items = new ArrayList(); 
-        
-        stack.add(root); 
-        
-        while(!stack.isEmpty()){
-            TreeNode item = stack.pop();
+
+    public boolean isValidBST(TreeNode root) {
+        Integer low = null, high = null, val;
+        update(root, low, high);
+
+        while (!stack.isEmpty()) {
+            root = stack.pop();
             
-            if(item == null)
-            {
-                continue;
+            System.out.println("LOW : "+lowerLimits); 
+            System.out.println("HIGH : "+upperLimits); 
+            
+            low = lowerLimits.pop();
+            high = upperLimits.pop();
+ 
+            if (root == null) continue;
+            val = root.val;
+            if (low != null && val <= low) {
+                return false;
             }
-            
-            items.add(item);
-            stack.add(item.left);
-            stack.add(item.right);
+            if (high != null && val >= high) {
+                return false;
+            }
+            update(root.right, val, high);
+            update(root.left, low, val);
         }
-        
-        return items; 
+        return true;
     }
-    
-   
 }
