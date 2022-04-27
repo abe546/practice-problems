@@ -7,32 +7,52 @@ class Solution {
             return true; 
         }
         
-        TreeNode leftGrandParent = null; 
-        TreeNode rightGrandParent = null; 
+        Stack<TreeNode> leftGrandParent = new Stack<>(); 
+        Stack<TreeNode> rightGrandParent = new Stack<>(); 
+        Stack<TreeNode> stack = new Stack<>(); 
         
-        return validate(root, leftGrandParent, rightGrandParent);
+        stack.add(root); 
+        
+        while(!stack.isEmpty())
+        {
+            TreeNode current = stack.pop(); 
+            TreeNode leftAncestor = null; 
+            
+            if(!leftGrandParent.isEmpty()){
+                leftAncestor = leftGrandParent.pop(); 
+            } 
+            TreeNode rightAncestor = null; 
+            
+            if(!rightGrandParent.isEmpty())
+            {
+                rightAncestor = rightGrandParent.pop(); 
+            }
+            
+            if(current == null)
+            {
+                continue; 
+            }
+            
+            if(leftAncestor != null && current.val >= leftAncestor.val)
+            {
+                return false; 
+            }
+            
+            if(rightAncestor != null && current.val <= rightAncestor.val)
+            {
+                return false; 
+            }
+            
+            stack.add(current.right); 
+            rightGrandParent.add(current); 
+            leftGrandParent.add(leftAncestor); 
+            
+            stack.add(current.left); 
+            rightGrandParent.add(rightAncestor); 
+            leftGrandParent.add(current); 
+        }
+        
+        return true; 
     }
-    
-    public boolean validate(TreeNode root, TreeNode leftGrandParent, TreeNode rightGrandParent)
-    {
-        if(root == null)
-        {
-            return true; 
-        }
-        
-        if(leftGrandParent != null && root.val >= leftGrandParent.val)
-        {
-            return false; 
-        }
-        
-        if(rightGrandParent != null && root.val <= rightGrandParent.val)
-        {
-            return false; 
-        }
-        
-        return  
-            validate(root.left, root, rightGrandParent)
-            &&
-            validate(root.right, leftGrandParent, root); 
-    }
+  
 }
