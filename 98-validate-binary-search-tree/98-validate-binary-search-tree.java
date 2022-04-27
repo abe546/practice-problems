@@ -16,9 +16,7 @@ class Solution {
 
         while (!stack.isEmpty()) {
             root = stack.pop();
-            
-            System.out.println("LOW : "+lowerLimits); 
-            System.out.println("HIGH : "+upperLimits); 
+       
             
             low = lowerLimits.pop();
             high = upperLimits.pop();
