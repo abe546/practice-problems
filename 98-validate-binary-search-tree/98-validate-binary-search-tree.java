@@ -1,38 +1,38 @@
 class Solution {
 
-    private Deque<TreeNode> stack = new LinkedList();
-    private Deque<Integer> upperLimits = new LinkedList();
-    private Deque<Integer> lowerLimits = new LinkedList();
-
-    public void update(TreeNode root, Integer low, Integer high) {
-        stack.add(root);
-        lowerLimits.add(low);
-        upperLimits.add(high);
-    }
-
     public boolean isValidBST(TreeNode root) {
-        Integer low = null, high = null, val;
-        update(root, low, high);
-
-        while (!stack.isEmpty()) {
-            root = stack.poll();
- 
-            
-            low = lowerLimits.poll();
-            high = upperLimits.poll();
- 
-            
-            if (root == null) continue;
-            val = root.val;
-            if (low != null && val <= low) {
-                return false;
-            }
-            if (high != null && val >= high) {
-                return false;
-            }
-            update(root.right, val, high);
-            update(root.left, low, val);
+     
+        if(root == null)
+        {
+            return true; 
         }
-        return true;
+        
+        TreeNode leftGrandParent = null; 
+        TreeNode rightGrandParent = null; 
+        
+        return validate(root, leftGrandParent, rightGrandParent);
+    }
+    
+    public boolean validate(TreeNode root, TreeNode leftGrandParent, TreeNode rightGrandParent)
+    {
+        if(root == null)
+        {
+            return true; 
+        }
+        
+        if(leftGrandParent != null && root.val >= leftGrandParent.val)
+        {
+            return false; 
+        }
+        
+        if(rightGrandParent != null && root.val <= rightGrandParent.val)
+        {
+            return false; 
+        }
+        
+        return  
+            validate(root.left, root, rightGrandParent)
+            &&
+            validate(root.right, leftGrandParent, root); 
     }
 }
