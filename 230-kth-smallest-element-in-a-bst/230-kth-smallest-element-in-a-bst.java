@@ -15,25 +15,33 @@
  */
 class Solution {
     public int kthSmallest(TreeNode root, int k) {
-        ArrayList<Integer> list = new ArrayList<>(); 
+      
+        int limit = k-1; // Make it 0 indexed
         
-        traverse(root, list);
+        Stack<TreeNode> stack = new Stack<>(); 
         
-        Collections.sort(list); 
-        
-        return list.get(k-1); 
-    }
-    
-    public void traverse(TreeNode root, ArrayList<Integer> list)
-    {
-        if(root == null)
+        TreeNode pointer = root; 
+        do{
+        while(pointer != null)
         {
-            return;
+            stack.add(pointer);
+            pointer = pointer.left; 
         }
         
-        list.add(root.val); 
+        TreeNode current = stack.pop(); 
         
-        traverse(root.left, list); 
-        traverse(root.right, list); 
+        if(limit == 0)
+        {
+            return current.val;
+        }else
+        {
+            limit--;
+            pointer = current.right; 
+            
+        }
+        }while(!stack.isEmpty() || pointer != null);
+        
+        return root.val; 
     }
+    
 }
