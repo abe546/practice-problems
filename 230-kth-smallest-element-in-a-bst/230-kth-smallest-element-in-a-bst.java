@@ -39,7 +39,7 @@ class Solution {
             pointer = current.right; 
             
         }
-        }while(!stack.isEmpty() || pointer != null);
+        }while(k > 0);
         
         return root.val; 
     }
