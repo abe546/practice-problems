@@ -1,77 +1,77 @@
 class Trie {
  
-    private Map<Character, Trie> fieldMap;
-    private boolean endOfWord; 
-    private Set<String> words;
+    private boolean endOfWord;
+    private Map<Character, Trie> mappings =  new HashMap<>();;
     
-    public Trie() {
-        fieldMap = new HashMap(); 
-        endOfWord = false; 
-        words = new HashSet(); 
+    public Trie()
+    { 
     }
     
     public void insert(String word) {
         
         Trie current = this; 
-        Trie head = current; 
         
-        for(int i = 0; i < word.length(); i++)
-        {
-            char item = word.charAt(i); 
+        char[] arr = word.toCharArray(); 
+        
+        for(char item : arr)
+        {            
+            Trie entry = current.mappings.get(item);
             
-            Trie entry = current.fieldMap.getOrDefault(item, new Trie());
-            current.fieldMap.put(item, entry);
+            if(entry == null)
+            {
+                entry = new Trie(); 
+                current.mappings.put(item, entry); 
+            }
             
-            current.words.add(word); 
-            
-            current = current.fieldMap.get(item); 
+            current = entry; 
         }
-        current.words.add(word); 
-        head.words.clear(); 
+        
         current.endOfWord = true; 
+ 
+        
     }
     
-    public boolean search(String word) {
+    public boolean search(String word) {  
         
         Trie current = this; 
         
-        for(int i = 0; i < word.length(); i++)
+        char[] arr = word.toCharArray();
+        
+        for(char item : arr)
         {
+            Trie entry = current.mappings.get(item);
             
-            char item = word.charAt(i); 
-            if(current.fieldMap.get(item) == null)
+            if(entry == null)
             {
-                return false; 
+                return false;
             }
             
-            current = current.fieldMap.get(item); 
+            current = entry; 
         }
-
-        return current.endOfWord; 
+        
+        return current.endOfWord;
     }
     
-    public boolean startsWith(String prefix) { 
- 
+    public boolean startsWith(String prefix)
+    {
         Trie current = this; 
- 
-        for(int i = 0; i < prefix.length(); i++)
+        
+        char[] arr = prefix.toCharArray();
+        
+        for(char item : arr)
         {
-            char item = prefix.charAt(i); 
- 
-            if(current.fieldMap.get(item) == null)
+            Trie entry = current.mappings.get(item);
+            
+            if(entry == null)
             {
-                return false; 
+                return false;
             }
-             
-            current = current.fieldMap.get(item); 
+            
+            current = entry; 
         }
- 
-         
         
         return true; 
     }
-        
- 
 }
 
 /**
