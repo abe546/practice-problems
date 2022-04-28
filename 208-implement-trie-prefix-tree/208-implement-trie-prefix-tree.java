@@ -27,8 +27,6 @@ class Trie {
         }
         
         current.endOfWord = true; 
- 
-        
     }
     
     public boolean search(String word) {  
