@@ -12,36 +12,25 @@ class Solution {
     Map<TreeNode, TreeNode> parentMap = new HashMap(); 
     Set<TreeNode> set = new HashSet();
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        
-        if((p.val < root.val && q.val > root.val) || (p.val > root.val && q.val < root.val))
-        {
-            return root; 
-        }
-        
-        traverse(root, null); 
-        
-        TreeNode pointer = p;
-                
-        while(pointer != null)
-        {
-            set.add(pointer); 
-            
-            pointer = parentMap.get(pointer); 
-        }
-        
-        pointer = q;
+       
+        TreeNode pointer = root; 
         
         while(pointer != null)
         {
-            if(set.contains(pointer))
+            if(q.val > pointer.val && p.val > pointer.val)
             {
-                return pointer;
+                pointer = pointer.right;
+            }else if(q.val < pointer.val && p.val < pointer.val)
+            {
+                pointer = pointer.left;
+            }else
+            {
+                return pointer; 
             }
-            
-            pointer = parentMap.get(pointer);
         }
         
-        return root;    
+        return pointer;
+        
     }
     
     public void traverse(TreeNode root, TreeNode parent)
