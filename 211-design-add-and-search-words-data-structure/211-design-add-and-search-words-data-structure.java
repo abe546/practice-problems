@@ -67,9 +67,6 @@ class WordDictionary {
         return current.endOfWord;
     }
     
-     
-    
-     
 }
 
 /**
