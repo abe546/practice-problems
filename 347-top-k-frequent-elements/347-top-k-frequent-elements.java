@@ -17,7 +17,7 @@ class Solution {
           
                 if(aValue > bValue)
                 {
-                    return -1;
+                    return -1000;
                 }else if(bValue > aValue)
                 {
                     return 1;
