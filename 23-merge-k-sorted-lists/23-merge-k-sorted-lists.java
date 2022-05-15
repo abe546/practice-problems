@@ -10,74 +10,55 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-       
-        ListNode newList = null;
-        ListNode head = null; 
         
-        for(ListNode entry : lists)
+       ListNode[] copy = new ListNode[lists.length];
+        
+        for(int i = 0; i < lists.length; i++)
         {
-            ListNode current = entry; 
+            copy[i] = lists[i]; 
+        }
+        
+       ListNode currentSmallest = null;
+       int smallestIndex = 0;
+       ListNode answerList = new ListNode(0); 
+       ListNode head = answerList; 
+        
+       if(lists == null || lists.length == 0)
+       {
+           return null; 
+       } 
+    
+        boolean explore = false; 
+        
+        do{ 
+        explore = false;     
+        currentSmallest = null;
+        smallestIndex = 0; 
             
-            while(current != null)
+        for(int i = 0; i < copy.length; i++)
+        {
+            ListNode current = copy[i]; 
+                        
+            if(current != null)
             {
-                if(head == null)
-                {
-                    head = new ListNode(current.val);
-                    current = current.next; 
-                    continue; 
+                explore = true; 
+                if(currentSmallest == null || currentSmallest.val >= current.val){
+                    currentSmallest = current;
+                    smallestIndex = i; 
                 }
-                
-             insertNode(head, current);
-             current = current.next; 
             }
-  
         }
         
-        return head; 
-    }
-    
-    public ListNode insertNode(ListNode head, ListNode item)
-    {
-        ListNode current = head; 
-        ListNode currItem = new ListNode(item.val);
+        if(explore){
+        answerList.next = new ListNode(currentSmallest.val); 
+        answerList = answerList.next; 
         
-        if(current == null || currItem.val <= current.val)
-        {
-            currItem.next = current; 
-    
-            ListNode tml =  new ListNode(current.val);
-            head.val = currItem.val;
-            tml.next = current.next; 
-            head.next = tml;
-           
-            return null;
-        }
-        
-        
-        if(current.next == null  )
-        { 
-            current.next = currItem;
-            return null; 
-        }
-        
-        while(current != null && current.next != null)
-        {
-            if(currItem.val < current.next.val)
-            {
-                currItem.next = current.next; 
-                current.next = currItem;
-                return null;
-            }
+        copy[smallestIndex] = currentSmallest.next; 
             
-            current = current.next;
-            
-            if(current.next == null)
-            {
-                current.next = currItem; 
-                return null;
-            }
         }
+            
+        }while (explore == true);
         
-        return null; 
+        return head.next; 
     }
 }
