@@ -12,10 +12,19 @@ class Solution {
             new PriorityQueue<>(
         (a,b) ->
             {
-                return 
-                    numberCount.get(b).intValue()
-                    - 
-                    numberCount.get(a).intValue();
+                int aValue = numberCount.get(a).intValue(); 
+                int bValue = numberCount.get(b).intValue(); 
+          
+                if(aValue > bValue)
+                {
+                    return -1;
+                }else if(bValue > aValue)
+                {
+                    return 1;
+                }
+                
+                return 0;
+                
             }
         );
         
