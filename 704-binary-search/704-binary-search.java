@@ -3,7 +3,7 @@ class Solution {
         
         int start = 0; 
         int end = nums.length-1;
-        int middle = (end - start+1)/2 + start;
+        int middle = (end - start)/2 + start;
             
         while(start <= end && end >= 0 && start < nums.length)
         {
