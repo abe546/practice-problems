@@ -13,31 +13,25 @@ class Solution {
     
     public int getImportance(List<Employee> employees, int id) {
         
-        int importance = 0; 
-        Employee pointer = null; 
-        for(Employee employee : employees)
+        Map<Integer, Employee> idToEmployee = new HashMap(); 
+        
+        for(Employee emp : employees)
         {
-            if(employee.id == id)
-            {
-                pointer = employee;
-            }
-            
-            map.put(employee.id, employee);
+            idToEmployee.put(emp.id, emp);
         }
         
-        
-        return getImportance(pointer);
+        return importance(id, idToEmployee);
     }
     
-    public int getImportance(Employee employee)
+    public int importance(int id, Map<Integer, Employee> map)
     {
-        int importance = employee.importance;
+        int currentId = id;
+        Employee currentEmployee = map.get(id);
+        int importance =  currentEmployee.importance;
         
-        for(int employeeId : employee.subordinates)
+        for(int sub : currentEmployee.subordinates)
         {
-            if(map.get(employeeId) != null){
-            importance += getImportance(map.get(employeeId));
-            }
+            importance+= importance(sub, map);
         }
         
         return importance;
