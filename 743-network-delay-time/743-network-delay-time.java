@@ -1,101 +1,105 @@
 
 class Solution {
  
-    Set<Integer> uniqueNodes = new HashSet(); 
-    Map<Integer, Set<ArrayList<Integer>>> graph = new HashMap(); 
-    Map<Integer, Integer> distanceFromNode = new HashMap(); 
-    public int networkDelayTime(int[][] times, int n, int k) {
-  
-        // If for some reaosn, by end of problem we only know of n-k (k being 1 or larger)
+    Map<Integer, Set<DestinationTime>> sourceToDest = new HashMap(); 
+    Map<Integer, Integer> minDistanceToK = new HashMap(); 
+    public int networkDelayTime(int[][] times, int n, int k) {     
         
         createGraph(times);
-      
-         
-        // MIN HEAP
-        PriorityQueue<ArrayList<Integer>> heap = new PriorityQueue<>(
-        (a,b) ->
-            {
-              return a.get(1) - b.get(1);    
-            }
-        );
         
-        ArrayList<Integer> origin = new ArrayList<>();
-        origin.add(k); 
-        origin.add(0); 
+        System.out.println(sourceToDest); 
         
-        heap.add(origin); 
+        PriorityQueue<DestinationTime> que = 
+            new PriorityQueue<>(
+        (a,b)
+        -> {
+           return a.time - b.time; 
+        });
         
-        int max = 0; 
+        que.add(new DestinationTime(k, 0));
         
-        while(!heap.isEmpty())
+        int maxOfMins = -1;
+        
+        while(!que.isEmpty())
         {
-            ArrayList<Integer> current = heap.poll(); 
+            DestinationTime item = que.poll(); 
             
-            int node = current.get(0); 
-            int distance = current.get(1); 
-            
-            if(distanceFromNode.containsKey(node))
+            if(minDistanceToK.get(item.destination) != null)
             {
-                continue; 
+                continue;
             }
             
-            distanceFromNode.put(node, distance); 
+            minDistanceToK.put(item.destination, item.time); 
             
-            max = Math.max(max, distance); 
-            
-            if(graph.get(node) != null)
+            if(item.destination != k)
             {
-                for(ArrayList<Integer> list : graph.get(node))
+                maxOfMins = Math.max(maxOfMins, item.time); 
+            }
+            
+            if(sourceToDest.get(item.destination) != null)
+            {
+                for(DestinationTime entry : sourceToDest.get(item.destination))
                 {
-                    int newNode = list.get(0); 
-                    int newDistance = list.get(1) + distance; 
-                    
-                    if(distanceFromNode.containsKey(newNode))
+                    if(minDistanceToK.get(entry.destination) !=null)
                     {
-                        continue; 
+                        continue;
                     }
                     
-                    ArrayList<Integer> newEntry = new ArrayList<>(); 
-                    
-                    newEntry.add(newNode); 
-                    newEntry.add(newDistance); 
-                    
-                    heap.add(newEntry); 
+                    DestinationTime newItem = new DestinationTime(
+                        entry.destination,
+                        entry.time + item.time);
+                    que.add(newItem); 
                 }
             }
         }
         
-        if(distanceFromNode.size() < n)
+        if(minDistanceToK.size() < n)
         {
             return -1; 
         }
         
-        return max; 
+        return maxOfMins; 
         
     } 
     
+    // Create graph of source to dest + time.
     public void createGraph(int[][] times)
     {
-        for(int[] arr : times)
+        for(int i = 0; i < times.length; i++)
         {
-            int source = arr[0]; 
-            int dest = arr[1]; 
-            int time = arr[2]; 
+            int source = times[i][0]; 
+            int dest = times[i][1];
+            int time = times[i][2];
             
-            Set<ArrayList<Integer>> tmp = 
-                graph.getOrDefault(source, new HashSet<ArrayList<Integer>>());
+            Set<DestinationTime> tmp = sourceToDest
+                .getOrDefault(
+                source,
+                new HashSet<>());
             
-            ArrayList<Integer> newList = new ArrayList<>(); 
-            newList.add(dest); 
-            newList.add(time);
-            tmp.add(newList); 
+            DestinationTime newItem = new DestinationTime(dest, time);
             
-            graph.put(source, tmp); 
+            tmp.add(newItem);
             
-            uniqueNodes.add(source); 
-            uniqueNodes.add(dest); 
+            sourceToDest.put(source, tmp); 
+
         }
     }
     
+    class DestinationTime {
+        int destination;
+        int time;
+        
+        public DestinationTime(int destination, int time)
+        {
+            this.destination = destination;
+            this.time = time;
+        }
+        
+        public String toString()
+        {
+            return String.format("[%s, %s]", destination, time); 
+        }
+    }
+   
    
 }
