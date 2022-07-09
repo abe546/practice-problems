@@ -12,20 +12,20 @@ class Solution {
     // 1 -> 2 -> 3 -> 4
     // 4 -> 3 -> 2 -> 1
     public ListNode reverseList(ListNode head) {
-  
-        ListNode current = head; 
+     ListNode current = head; 
+     ListNode previous = null;
         
-        ListNode newPointer = null;
-        
-        while(current != null)
-        {
-            ListNode next = new ListNode(current.val);
-            
-            next.next = newPointer; 
-            newPointer = next; 
-            current = current.next; 
-        }
-        
-        return newPointer;
+     while(current != null)
+     {
+         ListNode newItem = new ListNode(current.val); 
+         
+         newItem.next = previous; 
+         previous = newItem; 
+         
+         current = current.next; 
+     }
+    
+    return previous; 
     }
+    
 }
