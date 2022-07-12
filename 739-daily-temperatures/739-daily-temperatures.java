@@ -11,13 +11,21 @@ class Solution {
             // Define as zero by default
             answers[i] = 0;
     
-            for(int j = i; j < temperatures.length; j++)
+            for(Integer entry : temps.keySet())
             {  
-                 if(temperatures[j] > current)
-                 {
-                     answers[i] = j - i; 
-                     break; 
-                 }
+                
+                if(entry.intValue() > temperatures[i])
+                { 
+                    if(answers[i] == 0)
+                    {
+                        answers[i] = temps.get(entry.intValue()) - i;
+                    }
+               
+                    
+                    answers[i] = Math.min(
+                        temps.get(entry.intValue()) - i, answers[i]);
+               
+                }
             }
             
         }
