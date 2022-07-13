@@ -1,7 +1,7 @@
 class Solution {
     
     private     Map<Integer, Boolean> map = new HashMap(); 
-    private List<Integer> list = new LinkedList(); 
+ 
     public boolean canFinish(int numCourses, int[][] prerequisites) {
      
     Map<Integer, Set<Integer>> graph = new HashMap();  
@@ -13,7 +13,7 @@ class Solution {
         
         for(int[] items : prerequisites)
         {
-            list.clear(); 
+     
             if(!allowed(items[0], memory, graph)){
                 return false; 
             }
