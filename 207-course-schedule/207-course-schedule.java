@@ -51,7 +51,7 @@ class Solution {
             {                
                 if(!possibleToComplete(child))
                 {
-                    cache.put(child, false);
+                    cache.put(course, false);
                     return false; 
                 }
             }
