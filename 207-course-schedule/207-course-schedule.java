@@ -1,68 +1,65 @@
 class Solution {
- 
-    private Map<Integer, Set<Integer>> graph = new HashMap<>();    
-    private Set<Integer> cycle = new HashSet<>(); 
-    private Map<Integer, Boolean> visited = new HashMap(); 
+    Set<Integer> history = new HashSet<>(); 
+    Map<Integer, Set<Integer>> courses = new HashMap(); 
+    Set<Integer> uniqueCourses = new HashSet<>(); 
+    Map<Integer, Boolean> cache = new HashMap<>(); 
     public boolean canFinish(int numCourses, int[][] prerequisites) {
- 
         
-       populateGraph(prerequisites);
-         
-       for(int node : graph.keySet())
-       {
-           cycle.clear(); 
-           if(allowed(node) != true)
-           {
-               return false; 
-           }
-       }
+    for(int i = 0; i < prerequisites.length; i++)
+    {
+        int start = prerequisites[i][0]; 
+        int end = prerequisites[i][1]; 
         
-       return true;  
+        Set<Integer> tmp = courses.getOrDefault(start, new HashSet<>()); 
+        
+        tmp.add(end); 
+        
+        courses.put(start, tmp); 
+        uniqueCourses.add(start); 
     }
     
-    public boolean allowed(int node)
-    {   
-        if(visited.get(node) != null)
+    for(int course : uniqueCourses)
+    {
+        history.clear(); 
+        if(possibleToComplete(course) != true)
         {
-            return visited.get(node); 
+            return false; 
         }
+    }
         
-        if(graph.get(node) != null)
-        {               
-        cycle.add(node); 
-        
-        for(int child : graph.get(node))
-        {
-            if(cycle.contains(child))
-            { 
-                visited.put(node, false); 
-                return false; 
-            }
-            
-            if(allowed(child) != true)
-            {
-                visited.put(node, false); 
-                return false; 
-            }
-        }
-        
-        cycle.remove(node); 
-        }
-        visited.put(node, true); 
         return true; 
     }
     
-    public void populateGraph(int[][] matrix)
+    public boolean possibleToComplete(int course)
     {
-        for(int i = 0; i < matrix.length; i++)
+        if(cache.containsKey(course))
         {
-            int source = matrix[i][0];
-            int destination = matrix[i][1]; 
-            
-            Set<Integer> nodes = graph.getOrDefault(source, new HashSet<>());    
-            nodes.add(destination); 
-            
-            graph.put(source, nodes); 
+            return cache.get(course); 
         }
+        
+        if(history.contains(course))
+        {
+            cache.put(course, false); 
+            return false; 
+        }
+        
+        history.add(course); 
+        
+        if(courses.get(course) != null)
+        {
+            for(int child : courses.get(course))
+            {                
+                if(!possibleToComplete(child))
+                {
+                    cache.put(child, false);
+                    return false; 
+                }
+            }
+        }
+        
+        history.remove(course); 
+        cache.put(course, true); 
+        return true; 
     }
+        
 }
