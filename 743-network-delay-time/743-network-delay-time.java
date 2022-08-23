@@ -1,105 +1,98 @@
-
 class Solution {
- 
-    Map<Integer, Set<DestinationTime>> sourceToDest = new HashMap(); 
-    Map<Integer, Integer> minDistanceToK = new HashMap(); 
-    public int networkDelayTime(int[][] times, int n, int k) {     
+    Map<Integer, Set<ArrayList<Integer>>> graph = new HashMap<>(); 
+    Set<Integer> nodes = new HashSet<>(); 
+    Map<Integer, Integer> minDistance = new HashMap<>(); 
+    
+    public int networkDelayTime(int[][] times, int n, int k) {
+        // Create the graph in a map
+        // Create the heap
+        // Then allocate K as start node, then explore
         
         createGraph(times);
         
-        System.out.println(sourceToDest); 
+        // Min queue based on time of points
+        PriorityQueue<ArrayList<Integer>> que = new PriorityQueue<>(
+        (a,b) ->
+            {
+                return a.get(1) - b.get(1); 
+            }
+        );
         
-        PriorityQueue<DestinationTime> que = 
-            new PriorityQueue<>(
-        (a,b)
-        -> {
-           return a.time - b.time; 
-        });
+        // Place source node
+        ArrayList<Integer> source = new ArrayList<>(); 
+        source.add(k); 
+        source.add(0); 
+        int max = -1; 
         
-        que.add(new DestinationTime(k, 0));
-        
-        int maxOfMins = -1;
-        
+        que.add(source); 
         while(!que.isEmpty())
         {
-            DestinationTime item = que.poll(); 
+            ArrayList<Integer> pair = que.poll(); 
+            int node = pair.get(0); 
+            int time = pair.get(1); 
             
-            if(minDistanceToK.get(item.destination) != null)
+            if(minDistance.containsKey(node))
             {
                 continue;
             }
             
-            minDistanceToK.put(item.destination, item.time); 
+            minDistance.put(node, time); 
             
-            if(item.destination != k)
+            if(time != 0 && max < time)
             {
-                maxOfMins = Math.max(maxOfMins, item.time); 
+                max = time; 
             }
             
-            if(sourceToDest.get(item.destination) != null)
+            if(graph.get(node) != null)
             {
-                for(DestinationTime entry : sourceToDest.get(item.destination))
+                for(ArrayList<Integer> item : graph.get(node))
                 {
-                    if(minDistanceToK.get(entry.destination) !=null)
-                    {
-                        continue;
+                    int newNode = item.get(0); 
+                    int newTime = item.get(1) + time;
+                    if(!minDistance.containsKey(newNode)){
+                        ArrayList<Integer> newItem = new ArrayList<>(); 
+                        
+                        newItem.add(newNode); 
+                        newItem.add(newTime); 
+                        
+                        que.add(newItem); 
                     }
-                    
-                    DestinationTime newItem = new DestinationTime(
-                        entry.destination,
-                        entry.time + item.time);
-                    que.add(newItem); 
                 }
             }
         }
-        
-        if(minDistanceToK.size() < n)
+      
+        if(minDistance.size() != n)
         {
             return -1; 
         }
         
-        return maxOfMins; 
+        return max; 
         
-    } 
+    }
     
-    // Create graph of source to dest + time.
-    public void createGraph(int[][] times)
+    // Create graph, and note ALL nodes (to and from)
+    public void createGraph(int[][] matrix)
     {
-        for(int i = 0; i < times.length; i++)
-        {
-            int source = times[i][0]; 
-            int dest = times[i][1];
-            int time = times[i][2];
+        for(int i = 0; i < matrix.length; i++)
+        { 
+            int start = matrix[i][0];
+            int target = matrix[i][1];
+            int time = matrix[i][2];
             
-            Set<DestinationTime> tmp = sourceToDest
-                .getOrDefault(
-                source,
-                new HashSet<>());
+            Set<ArrayList<Integer>> tmp = 
+                graph.getOrDefault(start, new HashSet<>());
             
-            DestinationTime newItem = new DestinationTime(dest, time);
+            ArrayList<Integer> tmpList = new ArrayList<>();
             
-            tmp.add(newItem);
+            tmpList.add(target); 
+            tmpList.add(time); 
             
-            sourceToDest.put(source, tmp); 
-
+            tmp.add(tmpList); 
+            
+            graph.put(start, tmp); 
+            nodes.add(start); 
+            nodes.add(target); 
+ 
         }
     }
-    
-    class DestinationTime {
-        int destination;
-        int time;
-        
-        public DestinationTime(int destination, int time)
-        {
-            this.destination = destination;
-            this.time = time;
-        }
-        
-        public String toString()
-        {
-            return String.format("[%s, %s]", destination, time); 
-        }
-    }
-   
-   
 }
